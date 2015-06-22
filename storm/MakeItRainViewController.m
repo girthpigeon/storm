@@ -56,6 +56,17 @@ BOOL _reassignIncomingImage = YES;
     [m_coinsArray  addObject:[UIImage imageNamed:@"Coin25.png"]];
 }
 
+- (void)panWasRecognized:(UIPanGestureRecognizer *)panner {
+    UIView *draggedView = panner.view;
+    CGPoint offset = [panner translationInView:draggedView.superview];
+    CGPoint center = draggedView.center;
+    draggedView.center = CGPointMake(center.x + offset.x, center.y + offset.y);
+    
+    // Reset translation to zero so on the next `panWasRecognized:` message, the
+    // translation will just be the additional movement of the touch since now.
+    [panner setTranslation:CGPointZero inView:draggedView.superview];
+}
+
 -(void)horizontalSwipeRecognized:(UIPanGestureRecognizer *)swipe
 {
     CGFloat distance = 0;
@@ -103,23 +114,21 @@ BOOL _reassignIncomingImage = YES;
         }
         else
         {
-            
+            [self resetImages];
         }
-        //[self resetImages];
         _reassignIncomingImage = YES;
         return;
     }
     
     CGPoint velocity = [swipe velocityInView:self.view];
-    
-    if(velocity.x < 0)//left
+    if(velocity.x < -100)//left
     {
         self.m_nextCoinImageView.frame = CGRectMake(self.m_nextCoinImageView.frame.origin.x - distance, self.m_nextCoinImageView.frame.origin.y, self.m_nextCoinImageView.bounds.size.width, self.m_nextCoinImageView.bounds.size.height);
         
         self.m_currentCoinImageView.frame = CGRectMake(self.m_currentCoinImageView.frame.origin.x - distance, self.m_currentCoinImageView.frame.origin.y, self.m_currentCoinImageView.bounds.size.width, self.m_currentCoinImageView.bounds.size.height);
             _direction  = LEFT;
     }
-    else//right
+    else if (velocity.x > 100)//right
     {
         self.m_nextCoinImageView.frame = CGRectMake(self.m_nextCoinImageView.frame.origin.x + distance, self.m_nextCoinImageView.frame.origin.y, self.m_nextCoinImageView.bounds.size.width, self.m_nextCoinImageView.bounds.size.height);
         
@@ -133,30 +142,14 @@ BOOL _reassignIncomingImage = YES;
         {
             distance = -distance;
         }
-    }else
+    }
+    else
     {
         if(stopLocation.x < _startLocation.x +5) //adjust to avoid snapping
         {
             distance = -distance;
         }
     }
-    
-    //[self slideIncomingImageDistance:distance];
-}
-
--(void)slideIncomingImageDistance:(float)distance
-{
-    CGRect incomingImageCrop;
-    if(_direction == LEFT) //start on the right side
-    {
-        incomingImageCrop = CGRectMake(_startLocation.x - distance, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
-    }
-    else//start on the left side
-    {
-        incomingImageCrop = CGRectMake(_startLocation.x + distance , self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
-    }
-    
-    [self applyMask:incomingImageCrop];
 }
 
 -(void)reassignImageViews
@@ -228,48 +221,20 @@ BOOL _reassignIncomingImage = YES;
   }
 }
 
-//left is forward right is back
--(void)reassignIncomingImageLeft:(BOOL)left
+-(void)resetImages
 {
-    if(left == YES)
+    if (_activeImage == NEXT)
     {
-        m_currentCoinIndex++;
-    }else
-    {
-        m_currentCoinIndex--;
+        // queue up the next image
+        self.m_currentCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+        self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
     }
-    
-    int arrayCount = [m_coinsArray count];
-    
-    if (m_currentCoinIndex >= arrayCount)
+    else
     {
-        m_currentCoinIndex = 0;
+        self.m_currentCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+        self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
     }
-    
-    if (m_currentCoinIndex < 0)
-    {
-        m_currentCoinIndex = arrayCount - 1;
-    }
-    
-}
 
-//apply mask to filter UIImageView
--(void)applyMask:(CGRect)maskRect
-{
-    // Create a mask layer and the frame to determine what will be visible in the view.
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    
-    // Create a path with the rectangle in it.
-    CGPathRef path = CGPathCreateWithRect(maskRect, NULL);
-    
-    // Set the path to the mask layer.
-    maskLayer.path = path;
-    
-    // Release the path since it's not covered by ARC.
-    CGPathRelease(path);
-    
-    // Set the mask of the view.
-    self.m_nextCoinImageView.layer.mask = maskLayer;
 }
 
 - (void)didReceiveMemoryWarning {
