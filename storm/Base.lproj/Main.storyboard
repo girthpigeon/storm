@@ -17,16 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b38-Hn-WVX">
-                                <rect key="frame" x="95" y="229" width="410" height="142"/>
-                                <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="18"/>
-                                <state key="normal" title="Cash Cloud" backgroundImage="MainCloud.png">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D6x-zl-mtQ">
-                                <rect key="frame" x="95" y="438" width="410" height="142"/>
+                                <rect key="frame" x="29" y="438" width="541" height="142"/>
                                 <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="18"/>
                                 <state key="normal" title="Settings" backgroundImage="MainCloud.png">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -34,7 +26,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="biZ-yO-c9f">
-                                <rect key="frame" x="95" y="28" width="410" height="142"/>
+                                <rect key="frame" x="29" y="28" width="541" height="142"/>
                                 <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="18"/>
                                 <state key="normal" title="Make It Rain" backgroundImage="MainCloud.png">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -44,12 +36,20 @@
                                     <segue destination="vi2-FC-fMa" kind="show" id="xAc-ne-f4M"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b38-Hn-WVX">
+                                <rect key="frame" x="29" y="229" width="541" height="142"/>
+                                <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="18"/>
+                                <state key="normal" title="Cash Cloud" backgroundImage="MainCloud.png">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.43245119834359491" green="0.7400247453679808" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="D6x-zl-mtQ" firstAttribute="leading" secondItem="b38-Hn-WVX" secondAttribute="leading" id="7Nr-zT-jbz"/>
                             <constraint firstItem="biZ-yO-c9f" firstAttribute="leading" secondItem="b38-Hn-WVX" secondAttribute="leading" id="ACV-wD-qO3"/>
-                            <constraint firstItem="biZ-yO-c9f" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="79" id="CPK-Qr-dbW"/>
+                            <constraint firstItem="biZ-yO-c9f" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="13" id="CPK-Qr-dbW"/>
                             <constraint firstItem="biZ-yO-c9f" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="HuG-JW-coT"/>
                             <constraint firstItem="b38-Hn-WVX" firstAttribute="top" secondItem="biZ-yO-c9f" secondAttribute="bottom" constant="59" id="KDD-fj-75j"/>
                             <constraint firstItem="D6x-zl-mtQ" firstAttribute="top" secondItem="b38-Hn-WVX" secondAttribute="bottom" constant="67" id="PRI-eV-PMv"/>
@@ -66,10 +66,10 @@
             </objects>
             <point key="canvasLocation" x="739" y="532"/>
         </scene>
-        <!--View Controller-->
+        <!--Make It Rain View Controller-->
         <scene sceneID="6wP-fo-5Lf">
             <objects>
-                <viewController id="vi2-FC-fMa" sceneMemberID="viewController">
+                <viewController id="vi2-FC-fMa" customClass="MakeItRainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gqs-IV-GOG"/>
                         <viewControllerLayoutGuide type="bottom" id="oHS-fu-lek"/>
@@ -78,20 +78,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ovo-Br-5Ev">
-                                <rect key="frame" x="0.0" y="343" width="605" height="124"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Coin1.png" translatesAutoresizingMaskIntoConstraints="NO" id="c1C-Aa-vw1">
-                                        <rect key="frame" x="233" y="11" width="135" height="101"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Coin10.png" translatesAutoresizingMaskIntoConstraints="NO" id="K7y-RP-Ht6">
-                                        <rect key="frame" x="539" y="11" width="135" height="101"/>
-                                    </imageView>
-                                </subviews>
-                            </scrollView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bJE-J9-IYK">
+                                <rect key="frame" x="517" y="221" width="158" height="158"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CJD-Id-gyN">
+                                <rect key="frame" x="221" y="221" width="158" height="158"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="121" y="221" width="158" height="158"/>
+                                </variation>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="m_currentCoinImageView" destination="CJD-Id-gyN" id="MxO-uF-Xn2"/>
+                        <outlet property="m_nextCoinImageView" destination="bJE-J9-IYK" id="bm2-ZO-EmW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZPO-7J-cPI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -99,8 +101,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Coin1.png" width="442" height="442"/>
-        <image name="Coin10.png" width="442" height="442"/>
         <image name="MainCloud.png" width="2014" height="741"/>
     </resources>
 </document>
