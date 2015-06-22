@@ -87,17 +87,34 @@
                                     <rect key="frame" x="121" y="221" width="158" height="158"/>
                                 </variation>
                             </imageView>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="REQ-1u-a8z">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="407" width="400" height="193"/>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="REQ-1u-a8z"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="REQ-1u-a8z"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="m_currentCoinImageView" destination="CJD-Id-gyN" id="MxO-uF-Xn2"/>
                         <outlet property="m_nextCoinImageView" destination="bJE-J9-IYK" id="bm2-ZO-EmW"/>
+                        <outlet property="walletView" destination="REQ-1u-a8z" id="p2m-BL-BiP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZPO-7J-cPI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1532" y="519"/>
+            <point key="canvasLocation" x="1531.5" y="519"/>
         </scene>
     </scenes>
     <resources>

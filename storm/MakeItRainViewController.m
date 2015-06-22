@@ -14,7 +14,7 @@ NSMutableArray *m_coinsArray;
 int m_currentCoinIndex = 0;
 CGPoint _startLocation;
 BOOL _directionAssigned = NO;
-enum direction {LEFT,RIGHT};
+enum direction {LEFT,RIGHT, TOP};
 enum direction _direction;
 enum activeImageView {CURRENT,NEXT};
 enum activeImageView _activeImage = CURRENT;
@@ -38,11 +38,14 @@ BOOL _reassignIncomingImage = YES;
     self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
     self.m_nextCoinImageView.image = nextImage;
     
-    [self.view addSubview:self.m_currentCoinImageView];
-    [self.view addSubview:self.m_nextCoinImageView];
+    [self.walletView addSubview:self.m_currentCoinImageView];
+    [self.walletView addSubview:self.m_nextCoinImageView];
     
-    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(horizontalSwipeRecognized:)];
-    [self.view addGestureRecognizer:pan];
+    UIPanGestureRecognizer* horizontalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(horizontalSwipeRecognized:)];
+    [self.walletView addGestureRecognizer:horizontalPan];
+    
+    UIPanGestureRecognizer* verticalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panWasRecognized:)];
+    [self.view addGestureRecognizer:verticalPan];
     
 }
 
@@ -57,14 +60,65 @@ BOOL _reassignIncomingImage = YES;
 }
 
 - (void)panWasRecognized:(UIPanGestureRecognizer *)panner {
-    UIView *draggedView = panner.view;
-    CGPoint offset = [panner translationInView:draggedView.superview];
-    CGPoint center = draggedView.center;
-    draggedView.center = CGPointMake(center.x + offset.x, center.y + offset.y);
+    
+    CGFloat distance = 0;
+    CGPoint stopLocation;
+    if (panner.state == UIGestureRecognizerStateBegan)
+    {
+        _directionAssigned = NO;
+        _startLocation = [panner locationInView:self.view];
+    }
+    else
+    {
+        stopLocation = [panner locationInView:self.view];
+        CGFloat dx = stopLocation.x - _startLocation.x;
+        CGFloat dy = stopLocation.y - _startLocation.y;
+        distance = sqrt(dx*dx + dy*dy);
+    }
+    
+    UIImageView *draggedImage;
+    if (_activeImage == CURRENT)
+    {
+        draggedImage = self.m_currentCoinImageView;
+    }
+    else
+    {
+        draggedImage = self.m_nextCoinImageView;
+    }
+    
+    CGPoint offset = [panner translationInView:draggedImage.superview];
+    CGPoint center = draggedImage.center;
+    draggedImage.center = CGPointMake(center.x + offset.x, center.y + offset.y);
     
     // Reset translation to zero so on the next `panWasRecognized:` message, the
     // translation will just be the additional movement of the touch since now.
-    [panner setTranslation:CGPointZero inView:draggedView.superview];
+    [panner setTranslation:CGPointZero inView:draggedImage.superview];
+    
+    CGPoint velocity = [panner velocityInView:self.view];
+    if(velocity.y < -100)
+    {
+        _direction = TOP;
+    }
+    
+    if(panner.state == UIGestureRecognizerStateEnded)
+    {
+        if(_direction == TOP && (distance > 150))
+        {
+
+            [UIView animateWithDuration:0.5
+                          delay:0.0
+                        options:UIViewAnimationCurveLinear
+                     animations:^{
+                         draggedImage.center = CGPointMake(draggedImage.center.x, -100);
+                     }
+                         completion:nil];
+        }
+    }
+}
+
+-(void)madeItRain
+{
+        
 }
 
 -(void)horizontalSwipeRecognized:(UIPanGestureRecognizer *)swipe
@@ -173,6 +227,7 @@ BOOL _reassignIncomingImage = YES;
           UIImage *nextImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
           self.m_nextCoinImageView.image = nextImage;
           self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+          _activeImage = NEXT;
       }
       else
       {
@@ -184,6 +239,7 @@ BOOL _reassignIncomingImage = YES;
           UIImage *nextImage = [m_coinsArray objectAtIndex:queuedImageIndex];
           self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
           self.m_nextCoinImageView.image = nextImage;
+          _activeImage = CURRENT;
       }
   }
   else // swipe right
