@@ -102,6 +102,7 @@ BOOL _reassignIncomingImage = YES;
     
     if(panner.state == UIGestureRecognizerStateEnded)
     {
+        NSLog(@"distance: %f", distance);
         if(_direction == TOP && (distance > 150))
         {
 
@@ -111,14 +112,17 @@ BOOL _reassignIncomingImage = YES;
                      animations:^{
                          draggedImage.center = CGPointMake(draggedImage.center.x, -100);
                      }
-                         completion:nil];
+                    completion:^(BOOL finished){
+                                 
+                        [self madeItRain:draggedImage];
+                    }];
         }
     }
 }
 
--(void)madeItRain
+-(void)madeItRain:(UIImageView*)draggedImage
 {
-        
+    [self resetImages];
 }
 
 -(void)horizontalSwipeRecognized:(UIPanGestureRecognizer *)swipe
