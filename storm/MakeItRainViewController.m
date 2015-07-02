@@ -11,6 +11,7 @@
 @implementation MakeItRainViewController
 
 NSMutableArray *m_coinsArray;
+NSMutableArray *m_coinValuesArray;
 int m_currentCoinIndex = 0;
 CGPoint _startLocation;
 BOOL _directionAssigned = NO;
@@ -20,32 +21,50 @@ enum activeImageView {CURRENT,NEXT};
 enum activeImageView _activeImage = CURRENT;
 BOOL _reassignIncomingImage = YES;
 
+CGFloat width;
+CGFloat height;
+
 #define COIN_WIDTH 100
 #define COIN_HEIGHT 100
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //self.m_coinChoosingScrollView.delegate = self;
     [self createCoinsArray];
-    //[self.m_coinChoosingScrollView setContentSize:CGSizeMake([self.m_coinsArray count] * self.view.bounds.size.width, self.view.bounds.size.height)];
+    
+    width = self.view.bounds.size.width;
+    height = self.view.bounds.size.height;
     
     UIImage *currentImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
-    self.m_currentCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+    self.m_currentCoinImageView.frame = CGRectMake(width/2, height/2, COIN_WIDTH, COIN_HEIGHT);
     self.m_currentCoinImageView.image = currentImage;
     
     UIImage *nextImage = [m_coinsArray objectAtIndex:m_currentCoinIndex+1];
-    self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+    self.m_nextCoinImageView.frame = CGRectMake(width, height/2, COIN_WIDTH, COIN_HEIGHT);
     self.m_nextCoinImageView.image = nextImage;
     
     [self.walletView addSubview:self.m_currentCoinImageView];
     [self.walletView addSubview:self.m_nextCoinImageView];
+    
+    UIImage *walletBackImage = [UIImage imageNamed:@"WalletHalfBack.png"];
+    self.m_walletBackImageView.frame = CGRectMake(0, height/4, width, height);
+    self.m_walletBackImageView.image = walletBackImage;
+    UIImage *walletFrontImage = [UIImage imageNamed:@"WalletHalfFront.png"];
+    self.m_walletFrontImageView.frame = CGRectMake(0, height/5, width, height);
+    self.m_walletFrontImageView.image = walletFrontImage;
+    
+    [self.walletView addSubview:self.m_walletBackImageView];
+    [self.walletView addSubview:self.m_walletFrontImageView];
     
     UIPanGestureRecognizer* horizontalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(horizontalSwipeRecognized:)];
     [self.walletView addGestureRecognizer:horizontalPan];
     
     UIPanGestureRecognizer* verticalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panWasRecognized:)];
     [self.view addGestureRecognizer:verticalPan];
+}
+
+-(void)viewDidLayoutSubviews
+{
     
 }
 
@@ -57,6 +76,14 @@ BOOL _reassignIncomingImage = YES;
     [m_coinsArray  addObject:[UIImage imageNamed:@"Couin5.png"]];
     [m_coinsArray  addObject:[UIImage imageNamed:@"Coin10.png"]];
     [m_coinsArray  addObject:[UIImage imageNamed:@"Coin25.png"]];
+    
+    m_coinValuesArray =[[NSMutableArray alloc]init];
+    
+    [m_coinValuesArray  addObject:[NSNumber numberWithInt:1]];
+    [m_coinValuesArray  addObject:[NSNumber numberWithInt:5]];
+    [m_coinValuesArray  addObject:[NSNumber numberWithInt:10]];
+    [m_coinValuesArray  addObject:[NSNumber numberWithInt:25]];
+
 }
 
 - (void)panWasRecognized:(UIPanGestureRecognizer *)panner {
@@ -122,7 +149,14 @@ BOOL _reassignIncomingImage = YES;
 
 -(void)madeItRain:(UIImageView*)draggedImage
 {
+    int coinValue = [[m_coinValuesArray objectAtIndex:m_currentCoinIndex] integerValue];
+    [self sendCoin:coinValue];
     [self resetImages];
+}
+
+-(void)sendCoin:(int) coinValue
+{
+    // send a coin with coinValue to server
 }
 
 -(void)horizontalSwipeRecognized:(UIPanGestureRecognizer *)swipe
@@ -225,12 +259,12 @@ BOOL _reassignIncomingImage = YES;
           // queue up the next image
           UIImage *currentImage = [m_coinsArray objectAtIndex:queuedImageIndex];
           self.m_currentCoinImageView.image = currentImage;
-          self.m_currentCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+          self.m_currentCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
           
           // put swiped image back into center
           UIImage *nextImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
           self.m_nextCoinImageView.image = nextImage;
-          self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+          self.m_nextCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
           _activeImage = NEXT;
       }
       else
@@ -238,10 +272,10 @@ BOOL _reassignIncomingImage = YES;
           // queue up the next image
           UIImage *currentImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
           self.m_currentCoinImageView.image = currentImage;
-          self.m_currentCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+          self.m_currentCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
           
           UIImage *nextImage = [m_coinsArray objectAtIndex:queuedImageIndex];
-          self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+          self.m_nextCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
           self.m_nextCoinImageView.image = nextImage;
           _activeImage = CURRENT;
       }
@@ -258,11 +292,11 @@ BOOL _reassignIncomingImage = YES;
       {
           // queue up the next image
           UIImage *currentImage = [m_coinsArray objectAtIndex:queuedImageIndex];
-          self.m_currentCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+          self.m_currentCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
           self.m_currentCoinImageView.image = currentImage;
           
           UIImage *nextImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
-          self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+          self.m_nextCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
           self.m_nextCoinImageView.image = nextImage;
       }
       else
@@ -270,11 +304,11 @@ BOOL _reassignIncomingImage = YES;
           // queue up the next image
           UIImage *currentImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
           self.m_currentCoinImageView.image = currentImage;
-          self.m_currentCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+          self.m_currentCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
           
           UIImage *nextImage = [m_coinsArray objectAtIndex:queuedImageIndex];
           self.m_nextCoinImageView.image = nextImage;
-          self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+          self.m_nextCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
           
       }
 
@@ -286,13 +320,13 @@ BOOL _reassignIncomingImage = YES;
     if (_activeImage == NEXT)
     {
         // queue up the next image
-        self.m_currentCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
-        self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+        self.m_currentCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+        self.m_nextCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
     }
     else
     {
-        self.m_currentCoinImageView.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
-        self.m_nextCoinImageView.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height/2, COIN_WIDTH, COIN_HEIGHT);
+        self.m_currentCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+        self.m_nextCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
     }
 
 }
