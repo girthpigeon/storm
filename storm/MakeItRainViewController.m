@@ -264,7 +264,10 @@ CGFloat height;
           // put swiped image back into center
           UIImage *nextImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
           self.m_nextCoinImageView.image = nextImage;
-          self.m_nextCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+          [UIView animateWithDuration:.5
+                           animations:^{
+                               self.m_nextCoinImageView.frame = CGRectMake((width - COIN_WIDTH)/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+                           }];
           _activeImage = NEXT;
       }
       else
@@ -272,7 +275,10 @@ CGFloat height;
           // queue up the next image
           UIImage *currentImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
           self.m_currentCoinImageView.image = currentImage;
-          self.m_currentCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+          [UIView animateWithDuration:.5
+                           animations:^{
+                               self.m_currentCoinImageView.frame = CGRectMake((width - COIN_WIDTH)/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+          }];
           
           UIImage *nextImage = [m_coinsArray objectAtIndex:queuedImageIndex];
           self.m_nextCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
@@ -296,20 +302,27 @@ CGFloat height;
           self.m_currentCoinImageView.image = currentImage;
           
           UIImage *nextImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
-          self.m_nextCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
           self.m_nextCoinImageView.image = nextImage;
+          [UIView animateWithDuration:.5
+                           animations:^{
+                               self.m_nextCoinImageView.frame = CGRectMake((width - COIN_WIDTH)/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+          }];
+          _activeImage = NEXT;
       }
       else
       {
           // queue up the next image
           UIImage *currentImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
           self.m_currentCoinImageView.image = currentImage;
-          self.m_currentCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+          [UIView animateWithDuration:.5
+                           animations:^{
+                               self.m_currentCoinImageView.frame = CGRectMake((width - COIN_WIDTH)/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+            }];
           
           UIImage *nextImage = [m_coinsArray objectAtIndex:queuedImageIndex];
           self.m_nextCoinImageView.image = nextImage;
           self.m_nextCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
-          
+          _activeImage = CURRENT;
       }
 
   }
@@ -321,11 +334,11 @@ CGFloat height;
     {
         // queue up the next image
         self.m_currentCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
-        self.m_nextCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+        self.m_nextCoinImageView.frame = CGRectMake((width- COIN_WIDTH)/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
     }
     else
     {
-        self.m_currentCoinImageView.frame = CGRectMake(width/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+        self.m_currentCoinImageView.frame = CGRectMake((width - COIN_WIDTH)/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
         self.m_nextCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
     }
 
