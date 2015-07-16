@@ -61,6 +61,8 @@ CGFloat height;
     
     UIPanGestureRecognizer* verticalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panWasRecognized:)];
     [self.view addGestureRecognizer:verticalPan];
+    
+    [self resetImages];
 }
 
 -(void)viewDidLayoutSubviews
@@ -157,6 +159,7 @@ CGFloat height;
 -(void)sendCoin:(int) coinValue
 {
     // send a coin with coinValue to server
+    //http://localhost:1337/Coin/sendCoin?from=558746ccd1e77f4a2a9a0d91&to=558746ccd1e77f4a2a9a0d91&value=100&message=Ten Dimes is Chill&stormKey=558746ccd1e77f4a2a9a0d92
 }
 
 -(void)horizontalSwipeRecognized:(UIPanGestureRecognizer *)swipe

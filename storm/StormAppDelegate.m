@@ -6,17 +6,27 @@
 //  Copyright (c) 2015 Swerve. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "StormAppDelegate.h"
+#import "VenmoLoginURLProtocol.h"
 
-@interface AppDelegate ()
+@interface StormAppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation StormAppDelegate
+
+NSString *APP_SECRET = @"hLm5yTP62vqXbfnB7AJeSN3FQxdWAfXf";
+NSString *APP_ID = @"2678";
+NSString *APP_NAME = @"Storm";
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [NSURLProtocol registerClass:[VenmoLoginURLProtocol class]];
+    
+    //[Venmo startWithAppId:APP_ID secret:APP_SECRET name:APP_NAME];
+    
     return YES;
 }
 
@@ -40,6 +50,14 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+   // if ([[Venmo sharedInstance] handleOpenURL:url]) {
+        return YES;
+   // }
+    // You can add your app-specific url handling code here if needed
+    return NO;
 }
 
 @end

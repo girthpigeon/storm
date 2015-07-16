@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Swerve. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "HomeScreenViewController.h"
 
-@interface ViewController ()
+@interface HomeScreenViewController ()
 
 @end
 
-@implementation ViewController
+@implementation HomeScreenViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
