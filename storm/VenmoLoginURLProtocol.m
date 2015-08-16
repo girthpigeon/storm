@@ -48,19 +48,26 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    NSString *responseString = [[NSString alloc] initWithData:self.m_responseData encoding:NSUTF8StringEncoding];
-    NSError *e = nil;
-    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error: &e];
-    
     [self.m_responseData appendData:data];
-    NSLog(@"Response: %@", self.m_responseData);
     
     [self.client URLProtocol:self didLoadData:data];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     [self.client URLProtocolDidFinishLoading:self];
+    
+    NSString *responseString = [[NSString alloc] initWithData:self.m_responseData encoding:NSUTF8StringEncoding];
+    NSLog(@"Response: %@", responseString);
+    //NSError *e = nil;
+    //NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    //NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error: &e];
+    
+    /*if ([JSON count] > 0)
+    {
+        NSString *stormKey = [JSON objectForKey:@"stormKey"];
+        NSString *userId = [JSON objectForKey:@"userId"];
+    }*/
+
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {

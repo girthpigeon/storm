@@ -15,9 +15,9 @@
 
 @implementation StormAppDelegate
 
-NSString *APP_SECRET = @"hLm5yTP62vqXbfnB7AJeSN3FQxdWAfXf";
-NSString *APP_ID = @"2678";
-NSString *APP_NAME = @"Storm";
+NSString *APP_SECRET = @"AscAHGZmtjXKSndTC9kxJXXgcrdmpMeT";
+NSString *APP_ID = @"2858 ";
+NSString *APP_NAME = @"Twister";
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
