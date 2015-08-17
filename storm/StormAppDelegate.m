@@ -9,6 +9,7 @@
 #import "StormAppDelegate.h"
 #import "VenmoLoginURLProtocol.h"
 #import "HomeScreenViewController.h"
+#import "Singleton.h"
 
 @interface StormAppDelegate ()
 
@@ -19,6 +20,7 @@
 NSString *APP_SECRET = @"AscAHGZmtjXKSndTC9kxJXXgcrdmpMeT";
 NSString *APP_ID = @"2858 ";
 NSString *APP_NAME = @"Twister";
+NSString *serverUrl = @"https://tuzkyzdvkt.localtunnel.me";
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -27,6 +29,8 @@ NSString *APP_NAME = @"Twister";
     [NSURLProtocol registerClass:[VenmoLoginURLProtocol class]];
     
     //[Venmo startWithAppId:APP_ID secret:APP_SECRET name:APP_NAME];
+    Singleton* appData = [Singleton sharedInstance];
+    appData.serverUrl = serverUrl;
     
     /*HomeScreenViewController *homeScreenVC = [[HomeScreenViewController alloc] initWithNibName:@"HomeScreenViewController" bundle:nil];
     UINavigationController *navigationController=[[UINavigationController alloc] initWithRootViewController:homeScreenVC];

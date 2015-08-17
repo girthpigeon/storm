@@ -8,6 +8,7 @@
 
 #import "VenmoLoginURLProtocol.h"
 #import "KeychainItemWrapper.h"
+#import "Singleton.h"
 
 @implementation VenmoLoginURLProtocol
 
@@ -75,7 +76,7 @@
         NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error: &e];
         
-        if ([JSON count] > 0)
+        if ([JSON count] == 2)
          {
              NSString *stormKey = [JSON objectForKey:@"stormKey"];
              NSString *userId = [JSON objectForKey:@"userId"];
@@ -85,6 +86,10 @@
              
              KeychainItemWrapper *keychain2 = [[KeychainItemWrapper alloc] initWithIdentifier:@"stormKey" accessGroup:nil];
              [keychain2 setObject:stormKey forKey:(__bridge id)(kSecAttrAccount)];
+             
+             Singleton* appData = [Singleton sharedInstance];
+             appData.userId = userId;
+             appData.stormId = stormKey;
              
              [[NSNotificationCenter defaultCenter] postNotificationName:@"NSURLConnectionDidFinish" object:nil];
          }

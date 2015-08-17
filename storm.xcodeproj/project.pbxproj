@@ -23,6 +23,7 @@
 		2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE015081B49CF29002B77FE /* LoginViewController.m */; };
 		2EE4F8341B81595F00A9AAB6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4F8331B81595F00A9AAB6 /* Security.framework */; };
 		2EE4F8361B815AA100A9AAB6 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */; };
+		2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F83A1B81736A00A9AAB6 /* Singleton.m */; };
 		2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,8 @@
 		2EE4F8331B81595F00A9AAB6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		2EE4F8371B815B2600A9AAB6 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
+		2EE4F8391B81736A00A9AAB6 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
+		2EE4F83A1B81736A00A9AAB6 /* Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Singleton.m; sourceTree = "<group>"; };
 		2EE838931B54C10700636CBA /* VenmoLoginURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenmoLoginURLProtocol.h; sourceTree = "<group>"; };
 		2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenmoLoginURLProtocol.m; sourceTree = "<group>"; };
 		40EC2F3A336BAB49B3A2D75A /* Pods-storm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-storm.release.xcconfig"; path = "Pods/Target Support Files/Pods-storm/Pods-storm.release.xcconfig"; sourceTree = "<group>"; };
@@ -115,10 +118,9 @@
 		2E081CBF1B25251900781BDE /* storm */ = {
 			isa = PBXGroup;
 			children = (
+				2EE4F8381B81733D00A9AAB6 /* App */,
 				2EE015041B49CEBE002B77FE /* Login */,
 				2ED9AEF81B312A0100345A07 /* MakeItRain */,
-				2E081CC41B25251900781BDE /* StormAppDelegate.h */,
-				2E081CC51B25251900781BDE /* StormAppDelegate.m */,
 				2E081CC71B25251900781BDE /* HomeScreenViewController.h */,
 				2E081CC81B25251900781BDE /* HomeScreenViewController.m */,
 				2E081CCA1B25251900781BDE /* Main.storyboard */,
@@ -175,6 +177,17 @@
 				2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */,
 			);
 			name = Login;
+			sourceTree = "<group>";
+		};
+		2EE4F8381B81733D00A9AAB6 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2E081CC41B25251900781BDE /* StormAppDelegate.h */,
+				2E081CC51B25251900781BDE /* StormAppDelegate.m */,
+				2EE4F8391B81736A00A9AAB6 /* Singleton.h */,
+				2EE4F83A1B81736A00A9AAB6 /* Singleton.m */,
+			);
+			name = App;
 			sourceTree = "<group>";
 		};
 		4B5D3866D06DB7674628E084 /* Pods */ = {
@@ -335,6 +348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E081CC91B25251900781BDE /* HomeScreenViewController.m in Sources */,
+				2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */,
 				2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */,
 				2E081CC61B25251900781BDE /* StormAppDelegate.m in Sources */,
 				2ED9AF071B3130DC00345A07 /* MakeItRainViewController.m in Sources */,

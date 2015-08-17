@@ -7,6 +7,7 @@
 //
 
 #import "MakeItRainViewController.h"
+#import "Singleton.h"
 
 @implementation MakeItRainViewController
 
@@ -159,8 +160,24 @@ CGFloat height;
 -(void)sendCoin:(int) coinValue
 {
     // send a coin with coinValue to server
+    Singleton* appData = [Singleton sharedInstance];
+    
+    NSString *defaultMessage = @"Ryan sucks eggs";
+    NSString *defaultToUser = @"558746ccd1e77f4a2a9a0d91";
+
+    NSString *urlString = [NSString stringWithFormat:@"%@/Coin/sendCoin?from=%@&to=%@&value=%d&message=%@", appData.serverUrl, appData.userId, defaultToUser, coinValue, defaultMessage];
     //http://localhost:1337/Coin/sendCoin?from=558746ccd1e77f4a2a9a0d91&to=558746ccd1e77f4a2a9a0d91&value=100&message=Ten Dimes is Chill&stormKey=558746ccd1e77f4a2a9a0d92
-}
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"GET"];
+
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSString *requestReply = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+        NSLog(@"requestReply: %@", requestReply);
+    }] resume];
+    }
 
 -(void)horizontalSwipeRecognized:(UIPanGestureRecognizer *)swipe
 {

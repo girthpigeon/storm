@@ -8,6 +8,7 @@
 
 #import "HomeScreenViewController.h"
 #import "KeychainItemWrapper.h"
+#import "Singleton.h"
 
 @interface HomeScreenViewController ()
 
@@ -22,17 +23,26 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
+    KeychainItemWrapper *userKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
+    KeychainItemWrapper *stormKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
     //[keychain resetKeychainItem];
-    NSString *userId = [keychain objectForKey:(__bridge id)(kSecAttrAccount)];
+    NSString *userId = [userKey objectForKey:(__bridge id)(kSecAttrAccount)];
+    NSString *stormId = [stormKey objectForKey:(__bridge id)(kSecAttrAccount)];
     
     if ([userId isEqualToString:@""])
     {
-        [self performSegueWithIdentifier:@"VenmoAuthSegue" sender:self];
+        //[self performSegueWithIdentifier:@"VenmoAuthSegue" sender:self];
+    }
+    else
+    {
+        Singleton* appData = [Singleton sharedInstance];
+        appData.userId = userId;
+        appData.stormId = stormId;
     }
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
