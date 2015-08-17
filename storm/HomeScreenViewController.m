@@ -7,6 +7,7 @@
 //
 
 #import "HomeScreenViewController.h"
+#import "KeychainItemWrapper.h"
 
 @interface HomeScreenViewController ()
 
@@ -17,6 +18,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
+    //[keychain resetKeychainItem];
+    NSString *userId = [keychain objectForKey:(__bridge id)(kSecAttrAccount)];
+    
+    if ([userId isEqualToString:@""])
+    {
+        [self performSegueWithIdentifier:@"VenmoAuthSegue" sender:self];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

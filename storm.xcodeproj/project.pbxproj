@@ -21,6 +21,8 @@
 		2ED9AEF71B30F36B00345A07 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 2ED9AEF51B2E6B7400345A07 /* Assets */; };
 		2ED9AF071B3130DC00345A07 /* MakeItRainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED9AF061B3130DC00345A07 /* MakeItRainViewController.m */; };
 		2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE015081B49CF29002B77FE /* LoginViewController.m */; };
+		2EE4F8341B81595F00A9AAB6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4F8331B81595F00A9AAB6 /* Security.framework */; };
+		2EE4F8361B815AA100A9AAB6 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */; };
 		2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +59,9 @@
 		2ED9AF061B3130DC00345A07 /* MakeItRainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MakeItRainViewController.m; sourceTree = "<group>"; };
 		2EE015071B49CF29002B77FE /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		2EE015081B49CF29002B77FE /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		2EE4F8331B81595F00A9AAB6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
+		2EE4F8371B815B2600A9AAB6 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
 		2EE838931B54C10700636CBA /* VenmoLoginURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenmoLoginURLProtocol.h; sourceTree = "<group>"; };
 		2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenmoLoginURLProtocol.m; sourceTree = "<group>"; };
 		40EC2F3A336BAB49B3A2D75A /* Pods-storm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-storm.release.xcconfig"; path = "Pods/Target Support Files/Pods-storm/Pods-storm.release.xcconfig"; sourceTree = "<group>"; };
@@ -68,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE4F8341B81595F00A9AAB6 /* Security.framework in Frameworks */,
 				2E5D4C9E1B49F5960001F90A /* Foundation.framework in Frameworks */,
 				2E5D4C9C1B49F58F0001F90A /* UIKit.framework in Frameworks */,
 				2E5D4C9A1B49F5880001F90A /* CoreGraphics.framework in Frameworks */,
@@ -165,6 +171,8 @@
 				2EE015081B49CF29002B77FE /* LoginViewController.m */,
 				2EE838931B54C10700636CBA /* VenmoLoginURLProtocol.h */,
 				2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */,
+				2EE4F8371B815B2600A9AAB6 /* KeychainItemWrapper.h */,
+				2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -181,6 +189,7 @@
 		F6350C28A5BE93CC6A4EAC50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2EE4F8331B81595F00A9AAB6 /* Security.framework */,
 				2E5D4C9D1B49F5960001F90A /* Foundation.framework */,
 				2E5D4C9B1B49F58F0001F90A /* UIKit.framework */,
 				2E5D4C991B49F5880001F90A /* CoreGraphics.framework */,
@@ -331,6 +340,7 @@
 				2ED9AF071B3130DC00345A07 /* MakeItRainViewController.m in Sources */,
 				2E081CC31B25251900781BDE /* main.m in Sources */,
 				2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */,
+				2EE4F8361B815AA100A9AAB6 /* KeychainItemWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

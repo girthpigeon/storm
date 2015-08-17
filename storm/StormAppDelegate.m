@@ -8,6 +8,7 @@
 
 #import "StormAppDelegate.h"
 #import "VenmoLoginURLProtocol.h"
+#import "HomeScreenViewController.h"
 
 @interface StormAppDelegate ()
 
@@ -26,6 +27,12 @@ NSString *APP_NAME = @"Twister";
     [NSURLProtocol registerClass:[VenmoLoginURLProtocol class]];
     
     //[Venmo startWithAppId:APP_ID secret:APP_SECRET name:APP_NAME];
+    
+    /*HomeScreenViewController *homeScreenVC = [[HomeScreenViewController alloc] initWithNibName:@"HomeScreenViewController" bundle:nil];
+    UINavigationController *navigationController=[[UINavigationController alloc] initWithRootViewController:homeScreenVC];
+    self.window.rootViewController =nil;
+    self.window.rootViewController = navigationController;
+    [self.window makeKeyAndVisible];*/
     
     return YES;
 }
