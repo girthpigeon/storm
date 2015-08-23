@@ -163,20 +163,25 @@ CGFloat height;
     Singleton* appData = [Singleton sharedInstance];
     
     NSString *defaultMessage = @"Ryan sucks eggs";
-    NSString *defaultToUser = @"558746ccd1e77f4a2a9a0d91";
+    NSString *defaultToUser = @"558746ccd1e77f4a2a9a0d92";
 
-    NSString *urlString = [NSString stringWithFormat:@"%@/Coin/sendCoin?from=%@&to=%@&value=%d&message=%@", appData.serverUrl, appData.userId, defaultToUser, coinValue, defaultMessage];
+    NSString *urlString = [NSString stringWithFormat:@"%@Coin/sendCoin?", appData.serverUrl];
     //http://localhost:1337/Coin/sendCoin?from=558746ccd1e77f4a2a9a0d91&to=558746ccd1e77f4a2a9a0d91&value=100&message=Ten Dimes is Chill&stormKey=558746ccd1e77f4a2a9a0d92
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"GET"];
+    [request setHTTPMethod:@"POST"];
+    
+    NSString *postString = [NSString stringWithFormat:@"from=%@&to=%@&value=%d&message=%@&stormKey=%@", appData.userId, defaultToUser, coinValue, defaultMessage, appData.stormId];
 
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *requestReply = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSLog(@"requestReply: %@", requestReply);
-    }] resume];
+    
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
+    
+    [request setHTTPBody:[postString
+                          dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+
     }
 
 -(void)horizontalSwipeRecognized:(UIPanGestureRecognizer *)swipe

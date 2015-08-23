@@ -24,14 +24,18 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     KeychainItemWrapper *userKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
-    KeychainItemWrapper *stormKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
-    //[keychain resetKeychainItem];
+    KeychainItemWrapper *stormKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"stormKey" accessGroup:nil];
+    //[userKey resetKeychainItem];
+   // [stormKey resetKeychainItem];
     NSString *userId = [userKey objectForKey:(__bridge id)(kSecAttrAccount)];
     NSString *stormId = [stormKey objectForKey:(__bridge id)(kSecAttrAccount)];
     
-    if ([userId isEqualToString:@""])
+    if (userId == nil || [userId isEqualToString:@""])
     {
         //[self performSegueWithIdentifier:@"VenmoAuthSegue" sender:self];
+        Singleton* appData = [Singleton sharedInstance];
+        appData.userId = @"55d117139d21d7791ab3ea4f";
+        appData.stormId = @"55d117139d21d7791ab3ea50";
     }
     else
     {

@@ -20,7 +20,7 @@
 NSString *APP_SECRET = @"AscAHGZmtjXKSndTC9kxJXXgcrdmpMeT";
 NSString *APP_ID = @"2858 ";
 NSString *APP_NAME = @"Twister";
-NSString *serverUrl = @"https://tuzkyzdvkt.localtunnel.me";
+NSString *serverUrl = @"http://10.0.0.122:1337/";
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
