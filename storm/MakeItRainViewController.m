@@ -11,6 +11,8 @@
 
 @implementation MakeItRainViewController
 
+/*
+
 NSMutableArray *m_coinsArray;
 NSMutableArray *m_coinValuesArray;
 int m_currentCoinIndex = 0;
@@ -196,12 +198,16 @@ CGFloat height;
     else
     {
         stopLocation = [swipe locationInView:self.view];
-        CGFloat dx = stopLocation.x - _startLocation.x;
-        CGFloat dy = stopLocation.y - _startLocation.y;
-        distance = sqrt(dx*dx + dy*dy);
+        //CGFloat dx = stopLocation.x - _startLocation.x;
+        //CGFloat dy = stopLocation.y - _startLocation.y;
+        //distance = sqrt(dx*dx + dy*dy);
+        distance = self.m_currentCoinImageView.frame.origin.x - stopLocation.x;
+        NSLog(@"distance: %f", distance);
     }
     
-    if(swipe.state == UIGestureRecognizerStateEnded)
+    if (self.m_currentCoinImageView.frame.origin.x + self.m_currentCoinImageView.frame.size.width < 0
+        || self.m_currentCoinImageView.frame.origin.x > [UIScreen mainScreen].bounds.size.width
+        || (swipe.state == UIGestureRecognizerStateEnded))
     {
         if(_direction == LEFT && (([UIScreen mainScreen].bounds.size.width - _startLocation.x) + distance) > [UIScreen mainScreen].bounds.size.width/2)
         {
@@ -231,9 +237,12 @@ CGFloat height;
         }
         else
         {
-            [self resetImages];
+            if (swipe.state == UIGestureRecognizerStateEnded)
+            {
+                [self resetImages];
+            }
         }
-        _reassignIncomingImage = YES;
+        
         return;
     }
     
@@ -372,6 +381,6 @@ CGFloat height;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
+}*/
 
 @end

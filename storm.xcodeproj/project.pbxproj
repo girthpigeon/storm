@@ -14,6 +14,7 @@
 		2E081CCE1B25251900781BDE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E081CCD1B25251900781BDE /* Images.xcassets */; };
 		2E081CD11B25251900781BDE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E081CCF1B25251900781BDE /* LaunchScreen.xib */; };
 		2E081CDD1B25251900781BDE /* stormTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E081CDC1B25251900781BDE /* stormTests.m */; };
+		2E42C3D11B8C112B00EBEB73 /* SendCoinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E42C3D01B8C112B00EBEB73 /* SendCoinsViewController.m */; };
 		2E5D4C9A1B49F5880001F90A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5D4C991B49F5880001F90A /* CoreGraphics.framework */; };
 		2E5D4C9C1B49F58F0001F90A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5D4C9B1B49F58F0001F90A /* UIKit.framework */; };
 		2E5D4C9E1B49F5960001F90A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5D4C9D1B49F5960001F90A /* Foundation.framework */; };
@@ -50,6 +51,8 @@
 		2E081CD61B25251900781BDE /* stormTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = stormTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E081CDB1B25251900781BDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E081CDC1B25251900781BDE /* stormTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = stormTests.m; sourceTree = "<group>"; };
+		2E42C3CF1B8C112B00EBEB73 /* SendCoinsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendCoinsViewController.h; sourceTree = "<group>"; };
+		2E42C3D01B8C112B00EBEB73 /* SendCoinsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendCoinsViewController.m; sourceTree = "<group>"; };
 		2E5D4C991B49F5880001F90A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2E5D4C9B1B49F58F0001F90A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2E5D4C9D1B49F5960001F90A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -157,6 +160,8 @@
 			children = (
 				2ED9AF051B3130DC00345A07 /* MakeItRainViewController.h */,
 				2ED9AF061B3130DC00345A07 /* MakeItRainViewController.m */,
+				2E42C3CF1B8C112B00EBEB73 /* SendCoinsViewController.h */,
+				2E42C3D01B8C112B00EBEB73 /* SendCoinsViewController.m */,
 			);
 			name = MakeItRain;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 				TargetAttributes = {
 					2E081CBC1B25251900781BDE = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 6VHRHX2BN3;
 					};
 					2E081CD51B25251900781BDE = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -308,6 +314,7 @@
 				2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */,
 				2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */,
 				2E081CC61B25251900781BDE /* StormAppDelegate.m in Sources */,
+				2E42C3D11B8C112B00EBEB73 /* SendCoinsViewController.m in Sources */,
 				2ED9AF071B3130DC00345A07 /* MakeItRainViewController.m in Sources */,
 				2E081CC31B25251900781BDE /* main.m in Sources */,
 				2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */,
@@ -440,14 +447,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zack Pajka (3KBDR859K5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = storm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "storm/storm-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -456,13 +467,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zack Pajka (3KBDR859K5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = storm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "storm/storm-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
