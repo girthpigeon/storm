@@ -25,6 +25,7 @@ enum ScrollDirection
 };
 
 enum ScrollDirection m_scrollDirection;
+bool m_finishedPaginate;
 
 #define COIN_WIDTH 100
 #define COIN_HEIGHT 100
@@ -105,7 +106,7 @@ float height;
         UIView *subview = [[UIView alloc] initWithFrame:frame];
         subview.backgroundColor = [UIColor clearColor];
         
-        float coinXPosition = (width/2) + (i * (width/2)) - COIN_WIDTH/2;
+        float coinXPosition = (width/2) - COIN_WIDTH/2;
         frame = CGRectMake(coinXPosition, height/2, COIN_WIDTH, COIN_HEIGHT);
         
         UIImageView *coinImageView = [[UIImageView alloc] initWithFrame:frame];
@@ -124,56 +125,55 @@ float height;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-
     if (m_lastContentOffset > scrollView.contentOffset.x)
         m_scrollDirection = Right;
     else if (m_lastContentOffset < scrollView.contentOffset.x)
         m_scrollDirection = Left;
     
     m_lastContentOffset = scrollView.contentOffset.x;
+    
+    if (m_finishedPaginate)
+    {
+        m_finishedPaginate = false;
+        
+        if (m_scrollDirection == Left)
+        {
+            for (int i = 0; i < m_coinViewsArray.count; i++)
+            {
+                UIView *currentView = [m_coinViewsArray objectAtIndex:i];
+                
+                // animate old view out
+                [UIView animateWithDuration:.3
+                                 animations:^{
+                                     currentView.frame = CGRectMake(currentView.frame.origin.x - width/2, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
+                                 }];
+            }
+            m_currentCoinIndex++;
+        }
+        else if (m_scrollDirection == Right)
+        {
+            for (int i = m_coinViewsArray.count - 1; i >= 0; i--)
+            {
+                UIView *currentView = [m_coinViewsArray objectAtIndex:i];
+                
+                // animate old view out
+                [UIView animateWithDuration:.3
+                                 animations:^{
+                                     currentView.frame = CGRectMake(currentView.frame.origin.x + width/2, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
+                                 }];
+            }
+            m_currentCoinIndex--;
+        }
+
+    }
+    
 }
 
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
 
-
-    //if (m_currentCoinIndex == m_coinViewsArray.count - 1)
-    //{
-        // reset the views in order
-    //    [self resetCoinViews];
-    //}
-    
-    if (m_scrollDirection == Left)
-    {
-        for (int i = 0; i < m_coinViewsArray.count; i++)
-        {
-            UIView *currentView = [m_coinViewsArray objectAtIndex:i];
-        
-            // animate old view out
-            [UIView animateWithDuration:.3
-                         animations:^{
-                             currentView.frame = CGRectMake(currentView.frame.origin.x - width, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
-                         }];
-        }
-         m_currentCoinIndex++;
-    }
-    else if (m_scrollDirection == Right)
-    {
-        for (int i = m_coinViewsArray.count - 1; i >= 0; i--)
-        {
-            UIView *currentView = [m_coinViewsArray objectAtIndex:i];
-            
-            // animate old view out
-            [UIView animateWithDuration:.3
-                             animations:^{
-                                 currentView.frame = CGRectMake(currentView.frame.origin.x + width, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
-                             }];
-        }
-        m_currentCoinIndex--;
-    }
-   
-
+    m_finishedPaginate = true;
 }
 
 @end
