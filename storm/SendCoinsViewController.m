@@ -7,12 +7,14 @@
 //
 
 #import "SendCoinsViewController.h"
+#import "Singleton.h"
 
 @implementation SendCoinsViewController
 
 NSMutableArray *m_coinsArray;
 NSMutableArray *m_coinValuesArray;
 NSMutableArray *m_coinViewsArray;
+NSMutableArray *m_coinImageViewsArray;
 
 int m_currentCoinIndex;
 
@@ -26,6 +28,11 @@ enum ScrollDirection
 
 enum ScrollDirection m_scrollDirection;
 bool m_finishedPaginate;
+
+// vertical swipe stuff
+CGPoint m_startPosition;
+enum Direction {NONE, TOP};
+enum Direction m_verticalSwipeDirection;
 
 #define COIN_WIDTH 100
 #define COIN_HEIGHT 100
@@ -46,6 +53,9 @@ float height;
     
     [self createCoinsArray];
     [self setupCoinViews];
+    
+    UIPanGestureRecognizer* verticalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panWasRecognized:)];
+    [self.view addGestureRecognizer:verticalPan];
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,6 +105,7 @@ float height;
 - (void)resetCoinViews
 {
     m_coinViewsArray = [[NSMutableArray alloc] init];
+    m_coinImageViewsArray = [[NSMutableArray alloc] init];
     for (int i=0; i < m_coinsArray.count; i++)
     {
         CGRect frame;
@@ -110,10 +121,12 @@ float height;
         frame = CGRectMake(coinXPosition, height/2, COIN_WIDTH, COIN_HEIGHT);
         
         UIImageView *coinImageView = [[UIImageView alloc] initWithFrame:frame];
+
         UIImage *coin = [m_coinsArray objectAtIndex:i];
         
         coinImageView.image = coin;
-        //[self.view addSubview:subview];
+        [m_coinImageViewsArray addObject:coinImageView];
+        
         [subview addSubview:coinImageView];
         [self.view addSubview:subview];
         
@@ -169,11 +182,122 @@ float height;
     
 }
 
-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
 
     m_finishedPaginate = true;
+}
+
+- (void)panWasRecognized:(UIPanGestureRecognizer *)panner {
+    
+    CGFloat distance = 0;
+    CGPoint stopLocation;
+    if (panner.state == UIGestureRecognizerStateBegan)
+    {
+        m_startPosition = [panner locationInView:self.view];
+    }
+    else
+    {
+        stopLocation = [panner locationInView:self.view];
+        CGFloat dx = stopLocation.x - m_startPosition.x;
+        CGFloat dy = stopLocation.y - m_startPosition.y;
+        distance = sqrt(dx*dx + dy*dy);
+    }
+    
+    UIImageView *currentCoin = [m_coinImageViewsArray objectAtIndex:m_currentCoinIndex];
+    
+    CGPoint offset = [panner translationInView:currentCoin.superview];
+    CGPoint center = currentCoin.center;
+    currentCoin.center = CGPointMake(center.x + offset.x, center.y + offset.y);
+    
+    // Reset translation to zero so on the next `panWasRecognized:` message, the
+    // translation will just be the additional movement of the touch since now.
+    [panner setTranslation:CGPointZero inView:currentCoin.superview];
+    
+    NSLog(@"stopLocation.y: %f", stopLocation.y);
+    NSLog(@"height / 3: %f", height / 3);
+    if (stopLocation.y < height / 3)
+    {
+       m_verticalSwipeDirection = TOP;
+    }
+    
+    if(panner.state == UIGestureRecognizerStateEnded)
+    {
+        CGPoint velocity = [panner velocityInView:self.view];
+        
+        NSLog(@"velocity: %f", velocity);
+        if(m_verticalSwipeDirection == TOP)
+        {
+            float coinXPosition = (width/2) - COIN_WIDTH/2;
+            CGRect frame = CGRectMake(coinXPosition, height/2, COIN_WIDTH, COIN_HEIGHT);
+
+            UIImageView *coinImageView = [[UIImageView alloc] initWithFrame:frame];
+            UIImage *newImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
+            coinImageView.image = newImage;
+            [m_coinImageViewsArray insertObject:coinImageView atIndex:m_currentCoinIndex + 1];
+            
+            UIView *currentView = [m_coinViewsArray objectAtIndex:m_currentCoinIndex];
+            [currentView addSubview:coinImageView];
+            
+            
+            
+            [UIImageView animateWithDuration:0.5
+                                  delay:0.0
+                                options:UIViewAnimationCurveLinear
+                             animations:^{
+                                 currentCoin.center = CGPointMake(currentCoin.center.x, -100);
+                             }
+                             completion:^(BOOL finished)
+                            {
+                                 
+                                 [currentCoin removeFromSuperview];
+                                 [m_coinImageViewsArray removeObjectAtIndex:m_currentCoinIndex];
+                                 [self madeItRain:currentCoin];
+                             }];
+        }
+    }
+}
+
+-(void)madeItRain:(UIImageView*)draggedImage
+{
+    //int coinValue = [[m_coinValuesArray objectAtIndex:m_currentCoinIndex] integerValue];
+    //[self sendCoin:coinValue];
+    [self resetImage];
+}
+
+-(void)sendCoin:(int) coinValue
+{
+    // send a coin with coinValue to server
+    Singleton* appData = [Singleton sharedInstance];
+    
+    NSString *defaultMessage = @"Ryan sucks eggs";
+    NSString *defaultToUser = @"558746ccd1e77f4a2a9a0d92";
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@Coin/sendCoin?", appData.serverUrl];
+    //http://localhost:1337/Coin/sendCoin?from=558746ccd1e77f4a2a9a0d91&to=558746ccd1e77f4a2a9a0d91&value=100&message=Ten Dimes is Chill&stormKey=558746ccd1e77f4a2a9a0d92
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
+    
+    NSString *postString = [NSString stringWithFormat:@"from=%@&to=%@&value=%d&message=%@&stormKey=%@", appData.userId, defaultToUser, coinValue, defaultMessage, appData.stormId];
+    
+    
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
+    
+    [request setHTTPBody:[postString
+                          dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+}
+
+-(void)resetImage
+{
+    //UIImageView *currentView = [m_coinViewsArray objectAtIndex:m_currentCoinIndex];
+    //self.m_currentCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+    //self.m_nextCoinImageView.frame = CGRectMake((width- COIN_WIDTH)/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
+
 }
 
 @end
