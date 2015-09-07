@@ -49,9 +49,7 @@ float height;
     width = screenRect.size.width;
     height = screenRect.size.height;
     
-    //width = self.view.bounds.size.width;
-    //height = self.view.bounds.size.height;
-    
+    [self setupBackground];
     [self createCoinsArray];
     [self setupCoinViews];
     
@@ -72,6 +70,27 @@ float height;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
     self.horizontalScrollView = nil;
+}
+
+- (void) setupBackground
+{
+    CGRect frame;
+    frame.origin.x = 0;
+    frame.origin.y = 2 * (height / 3);
+    frame.size.width = width;
+    frame.size.height = height / 3;
+    
+    UIImageView *walletBackView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletHalfBack.png"]];
+    walletBackView.frame = frame;
+    
+    UIImageView *walletFrontView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletHalfFront.png"]];
+    frame.origin.y = frame.origin.y + 25;
+    frame.origin.x = frame.origin.x + 5;
+    
+    walletFrontView.frame = frame;
+    
+    [self.view addSubview:walletBackView];
+    [self.view addSubview:walletFrontView];
 }
 
 - (void)createCoinsArray
@@ -153,31 +172,37 @@ float height;
         
         if (m_scrollDirection == Left)
         {
-            for (int i = 0; i < m_coinViewsArray.count; i++)
+            if (m_currentCoinIndex < m_coinViewsArray.count - 1)
             {
-                UIView *currentView = [m_coinViewsArray objectAtIndex:i];
+                for (int i = 0; i < m_coinViewsArray.count; i++)
+                {
+                    UIView *currentView = [m_coinViewsArray objectAtIndex:i];
                 
-                // animate old view out
-                [UIView animateWithDuration:.3
+                    // animate old view out
+                    [UIView animateWithDuration:.3
                                  animations:^{
                                      currentView.frame = CGRectMake(currentView.frame.origin.x - width/2, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
                                  }];
+                }
+                m_currentCoinIndex++;
             }
-            m_currentCoinIndex++;
         }
         else if (m_scrollDirection == Right)
         {
-            for (int i = m_coinViewsArray.count - 1; i >= 0; i--)
+            if (m_currentCoinIndex > 0)
             {
-                UIView *currentView = [m_coinViewsArray objectAtIndex:i];
+                for (int i = m_coinViewsArray.count - 1; i >= 0; i--)
+                {
+                    UIView *currentView = [m_coinViewsArray objectAtIndex:i];
                 
-                // animate old view out
-                [UIView animateWithDuration:.3
+                    // animate old view out
+                    [UIView animateWithDuration:.3
                                  animations:^{
                                      currentView.frame = CGRectMake(currentView.frame.origin.x + width/2, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
                                  }];
+                }
+                m_currentCoinIndex--;
             }
-            m_currentCoinIndex--;
         }
 
     }
