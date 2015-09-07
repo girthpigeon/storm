@@ -15,6 +15,7 @@ NSMutableArray *m_coinsArray;
 NSMutableArray *m_coinValuesArray;
 NSMutableArray *m_coinViewsArray;
 NSMutableArray *m_coinImageViewsArray;
+NSMutableArray *m_currentlyAnimatingCoinsArray;
 
 int m_currentCoinIndex;
 
@@ -98,7 +99,7 @@ float height;
     self.horizontalScrollView.contentSize = CGSizeMake(self.view.frame.size.width * m_coinsArray.count, self.view.frame.size.height);
     [self.horizontalScrollView setPagingEnabled:TRUE];
     [self.horizontalScrollView setDelegate:self];
-    [self.horizontalScrollView setBackgroundColor:[UIColor greenColor]];
+    [self.horizontalScrollView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:self.horizontalScrollView];
 }
 
@@ -106,6 +107,7 @@ float height;
 {
     m_coinViewsArray = [[NSMutableArray alloc] init];
     m_coinImageViewsArray = [[NSMutableArray alloc] init];
+    m_currentlyAnimatingCoinsArray = [[NSMutableArray alloc] init];
     for (int i=0; i < m_coinsArray.count; i++)
     {
         CGRect frame;
@@ -194,9 +196,13 @@ float height;
     CGPoint stopLocation;
     CGFloat dx = 0.0;
     CGFloat dy = 0.0;
+    
+    UIImageView *currentCoin = [m_coinImageViewsArray objectAtIndex:m_currentCoinIndex];
+    
     if (panner.state == UIGestureRecognizerStateBegan)
     {
         m_startPosition = [panner locationInView:self.view];
+        //currentCoin =[m_coinImageViewsArray objectAtIndex:m_currentCoinIndex];
     }
     else
     {
@@ -206,8 +212,6 @@ float height;
         distance = sqrt(dx*dx + dy*dy);
     }
     
-    UIImageView *currentCoin = [m_coinImageViewsArray objectAtIndex:m_currentCoinIndex];
-    
     CGPoint offset = [panner translationInView:currentCoin.superview];
     CGPoint center = currentCoin.center;
     currentCoin.center = CGPointMake(center.x + offset.x, center.y + offset.y);
@@ -216,101 +220,85 @@ float height;
     // translation will just be the additional movement of the touch since now.
     [panner setTranslation:CGPointZero inView:currentCoin.superview];
     
-    NSLog(@"stopLocation.y: %f", stopLocation.y);
-    NSLog(@"height / 3: %f", height / 3);
-    //if (stopLocation.y < height / 3)
-    //{
-    //   m_verticalSwipeDirection = TOP;
-   // }
-    
     if(panner.state == UIGestureRecognizerStateEnded)
     {
         CGPoint velocity = [panner velocityInView:self.view];
         
-        //NSLog(@"velocity: %f", velocity);
-        if(currentCoin.center.y < height / 3)
-        {
-            float coinXPosition = (width/2) - COIN_WIDTH/2;
-            CGRect frame = CGRectMake(coinXPosition, height/2, COIN_WIDTH, COIN_HEIGHT);
-
-            UIImageView *coinImageView = [[UIImageView alloc] initWithFrame:frame];
-            UIImage *newImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
-            coinImageView.image = newImage;
-            [m_coinImageViewsArray insertObject:coinImageView atIndex:m_currentCoinIndex + 1];
-            
-            UIView *currentView = [m_coinViewsArray objectAtIndex:m_currentCoinIndex];
-            [currentView addSubview:coinImageView];
-            
-            //CGMutablePathRef *path [UIMutablePathRef CGMutablePathRef];
-            // animation
-            UIBezierPath *path = [UIBezierPath bezierPath];
-            
-            // Move the "cursor" to the start
-            [path moveToPoint:currentCoin.center];
-            
-            
-            
-            CGPoint c1 = CGPointMake(stopLocation.x + dx, stopLocation.y - dy);
-            
-            CGFloat projectedX = currentCoin.center.x + dx*2;
-            CGFloat projectedY = 0 - COIN_HEIGHT;
-            
-            CGPoint c2 = CGPointMake(projectedX, projectedY);
-            
-            CGFloat movePoints = projectedX - currentCoin.center.x;
-            CGFloat duration = movePoints / (velocity.x/3);
-            
-            NSLog(@"duration: %f", duration);
-            
-            CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-            //pathAnimation.calculationMode = kCAAnimationPaced;
-            
-            // Draw a curve towards the end, using control points
-            [path addCurveToPoint:c2 controlPoint1:c2 controlPoint2:c2];
-            
-            // Use this path as the animation's path (casted to CGPath)
-            pathAnimation.path = path.CGPath;
-            
-            // The other animations properties
-            pathAnimation.fillMode              = kCAFillModeForwards;
-            pathAnimation.removedOnCompletion   = NO;
-            pathAnimation.duration              = duration;
-            pathAnimation.timingFunction        = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-            
-            // Apply it
-            [pathAnimation setDelegate:self];
-            [currentCoin.layer addAnimation:pathAnimation forKey:@"coinFling"];
-            
-            
-            [self madeItRain:currentCoin];
-            m_verticalSwipeDirection = NONE;
-        }
-        else
+        CGFloat projectedX = 0.0;
+        CGFloat projectedY = 0.0;
+        
+        // animation
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        
+        // Move the "cursor" to the start
+        [path moveToPoint:currentCoin.center];
+        
+        if(currentCoin.center.y < height * .40) // successful coin fling, coin flies up
         {
             
-        /*[UIImageView animateWithDuration:0.1
-             delay:0.0
-             options:UIViewAnimationCurveLinear
-             animations:^{
-             currentCoin.center = CGPointMake(currentCoin.center.x, height + COIN_HEIGHT);
-             }
-             completion:^(BOOL finished)
-             {
-             
-                 [currentCoin removeFromSuperview];
-                 [m_coinImageViewsArray removeObjectAtIndex:m_currentCoinIndex];
-                 [self madeItRain:currentCoin];
-             }];*/
+            projectedX = currentCoin.center.x + dx*2;
+            projectedY = 0 - COIN_HEIGHT;
         }
+        else // unsuccessful fling, coin falls
+        {
+            
+            projectedX = currentCoin.center.x + dx*2;
+            projectedY = height + COIN_HEIGHT;
+        }
+        
+        // set animation endpoint
+        CGPoint c2 = CGPointMake(projectedX, projectedY);
+        
+        CGFloat movePoints = projectedX - currentCoin.center.x;
+        CGFloat duration = movePoints / (velocity.x/3);
+        
+        CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+        //pathAnimation.calculationMode = kCAAnimationPaced;
+        
+        // Draw a curve towards the end, using control points
+        [path addCurveToPoint:c2 controlPoint1:c2 controlPoint2:c2];
+        
+        // Use this path as the animation's path (casted to CGPath)
+        pathAnimation.path = path.CGPath;
+        
+        // The other animations properties
+        pathAnimation.fillMode              = kCAFillModeForwards;
+        pathAnimation.removedOnCompletion   = NO;
+        pathAnimation.duration              = duration;
+        pathAnimation.timingFunction        = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+        
+        // Apply it
+        [pathAnimation setDelegate:self];
+        [currentCoin.layer addAnimation:pathAnimation forKey:@"coinFling"];
+        
+        [self madeItRain:currentCoin];
+        
+        // remove flung coin from current array, add to animated array
+        [m_currentlyAnimatingCoinsArray addObject:currentCoin];
+        [m_coinImageViewsArray removeObjectAtIndex:m_currentCoinIndex];
+        
+        // add new copy of coin to center
+        float coinXPosition = (width/2) - COIN_WIDTH/2;
+        CGRect frame = CGRectMake(coinXPosition, height/2, COIN_WIDTH, COIN_HEIGHT);
+        
+        UIImageView *coinImageView = [[UIImageView alloc] initWithFrame:frame];
+        UIImage *newImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];
+        coinImageView.image = newImage;
+        [m_coinImageViewsArray insertObject:coinImageView atIndex:m_currentCoinIndex];
+        
+        UIView *currentView = [m_coinViewsArray objectAtIndex:m_currentCoinIndex];
+        [currentView addSubview:coinImageView];
     }
 }
 
 - (void)animationDidStop:(CAKeyframeAnimation *)anim finished:(BOOL)flag
 {
-    
-    UIImageView *currentCoin = [m_coinImageViewsArray objectAtIndex:m_currentCoinIndex];
-    [m_coinImageViewsArray removeObjectAtIndex:m_currentCoinIndex];
-    [currentCoin removeFromSuperview];
+    if (m_currentlyAnimatingCoinsArray.count > 0)
+    {
+        UIImageView *currentCoin = [m_currentlyAnimatingCoinsArray objectAtIndex:0];
+        [m_currentlyAnimatingCoinsArray removeObjectAtIndex:0];
+        [currentCoin removeFromSuperview];
+    }
     
 }
 
