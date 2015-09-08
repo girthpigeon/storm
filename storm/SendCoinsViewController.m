@@ -100,10 +100,17 @@ float height;
 - (void) createAnimatingClouds
 {
     int numClouds = 3;
-    m_animatingCloudsMap = [[NSMutableDictionary alloc] initWithCapacity:numClouds];
-    [self createCloud:@"1" fromEdge:false];
-    [self createCloud:@"2" fromEdge:false];
-    [self createCloud:@"3" fromEdge:false];
+    
+    int lowerBound = 2;
+    int upperBound = 10;
+    int rndNumClouds = lowerBound + arc4random() % (upperBound - lowerBound);
+    
+    for (int i=0; i < rndNumClouds; i++)
+    {
+        m_animatingCloudsMap = [[NSMutableDictionary alloc] initWithCapacity:numClouds];
+        NSString *tag = [NSString stringWithFormat:@"%d?", i];
+        [self createCloud:tag fromEdge:false];
+    }
 }
 
 -(void) createCloud:(NSString*) tag fromEdge:(BOOL) onEdge
@@ -139,56 +146,51 @@ float height;
     frame.size.height = rndHeight;
     
     cloudView.frame = frame;
-    cloudView.alpha = .6;
+    //cloudView.alpha = .6;
     
     [self.view addSubview:cloudView];
     [self animateCloud:cloudView withTag:tag];
-    
     [self.view sendSubviewToBack:cloudView];
-
+    
 }
 
 - (void) animateCloud:(UIImageView*) cloudView withTag:(NSString*) tag
 {
-    
     // animation
-     UIBezierPath *path = [UIBezierPath bezierPath];
-     
-     // Move the "cursor" to the start
-     [path moveToPoint:cloudView.center];
-     
-     CGFloat projectedX = width + cloudView.frame.size.width;
-     CGFloat projectedY = cloudView.frame.origin.y;
-     
-     // set animation endpoint
-     CGPoint finishPoint = CGPointMake(projectedX, projectedY);
-     
-     int lowerBound = 5.0;
-     int upperBound = 15.0;
-     int rndDuration = lowerBound + arc4random() % (upperBound - lowerBound);
-     
-     //CGFloat movePoints = projectedX - cloudView.center.x;
-     //CGFloat duration = movePoints / rndVelocity;
-     
-     CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-     
-     // Draw a curve towards the end, using control points
-     [path addCurveToPoint:finishPoint controlPoint1:finishPoint controlPoint2:finishPoint];
-     
-     // Use this path as the animation's path (casted to CGPath)
-     pathAnimation.path = path.CGPath;
-     
-     // The other animations properties
-     pathAnimation.fillMode              = kCAFillModeForwards;
-     pathAnimation.removedOnCompletion   = NO;
-     pathAnimation.duration              = rndDuration;
-     pathAnimation.timingFunction        = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-     
-     // Apply it
-     [pathAnimation setDelegate:self];
-     [pathAnimation setValue:@"cloud" forKey:@"tag"];
-     [pathAnimation setValue:tag forKey:@"cloudId"];
-     [cloudView.layer addAnimation:pathAnimation forKey:@"cloudMove"];
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    
+    // Move the "cursor" to the start
+    [path moveToPoint:cloudView.center];
+    
+    CGFloat projectedX = width + cloudView.frame.size.width;
+    CGFloat projectedY = cloudView.frame.origin.y;
+    
+    // set animation endpoint
+    CGPoint finishPoint = CGPointMake(projectedX, projectedY);
+    
+    int lowerBound = 5.0;
+    int upperBound = 15.0;
+    int rndDuration = lowerBound + arc4random() % (upperBound - lowerBound);
+    
+    CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    
+    // Draw a curve towards the end, using control points
+    [path addCurveToPoint:finishPoint controlPoint1:finishPoint controlPoint2:finishPoint];
+    
+    // Use this path as the animation's path (casted to CGPath)
+    pathAnimation.path = path.CGPath;
+    
+    // The other animations properties
+    pathAnimation.fillMode              = kCAFillModeForwards;
+    pathAnimation.removedOnCompletion   = NO;
+    pathAnimation.duration              = rndDuration;
+    pathAnimation.timingFunction        = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    
+    // Apply it
+    [pathAnimation setDelegate:self];
+    [pathAnimation setValue:@"cloud" forKey:@"tag"];
+    [pathAnimation setValue:tag forKey:@"cloudId"];
+    [cloudView.layer addAnimation:pathAnimation forKey:@"cloudMove"];
     
     // add to animating clouds map
     [m_animatingCloudsMap setObject:cloudView forKey:tag];
@@ -243,7 +245,7 @@ float height;
         frame = CGRectMake(coinXPosition, height/2, COIN_WIDTH, COIN_HEIGHT);
         
         UIImageView *coinImageView = [[UIImageView alloc] initWithFrame:frame];
-
+        
         UIImage *coin = [m_coinsArray objectAtIndex:i];
         
         coinImageView.image = coin;
@@ -278,12 +280,12 @@ float height;
                 for (int i = 0; i < m_coinViewsArray.count; i++)
                 {
                     UIView *currentView = [m_coinViewsArray objectAtIndex:i];
-                
+                    
                     // animate old view out
                     [UIView animateWithDuration:.3
-                                 animations:^{
-                                     currentView.frame = CGRectMake(currentView.frame.origin.x - width/2, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
-                                 }];
+                                     animations:^{
+                                         currentView.frame = CGRectMake(currentView.frame.origin.x - width/2, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
+                                     }];
                 }
                 m_currentCoinIndex++;
             }
@@ -292,27 +294,27 @@ float height;
         {
             if (m_currentCoinIndex > 0)
             {
-                for (int i = m_coinViewsArray.count - 1; i >= 0; i--)
+                for (int i = (int)m_coinViewsArray.count - 1; i >= 0; i--)
                 {
                     UIView *currentView = [m_coinViewsArray objectAtIndex:i];
-                
+                    
                     // animate old view out
                     [UIView animateWithDuration:.3
-                                 animations:^{
-                                     currentView.frame = CGRectMake(currentView.frame.origin.x + width/2, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
-                                 }];
+                                     animations:^{
+                                         currentView.frame = CGRectMake(currentView.frame.origin.x + width/2, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
+                                     }];
                 }
                 m_currentCoinIndex--;
             }
         }
-
+        
     }
     
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-
+    
     m_finishedPaginate = true;
 }
 
@@ -418,7 +420,7 @@ float height;
 
 - (void)animationDidStop:(CAKeyframeAnimation *)anim finished:(BOOL)flag
 {
-   NSString *animationTag = [anim valueForKey:@"tag"];
+    NSString *animationTag = [anim valueForKey:@"tag"];
     
     if ([animationTag isEqualToString:@"coinFling"])
     {
@@ -479,7 +481,7 @@ float height;
     //UIImageView *currentView = [m_coinViewsArray objectAtIndex:m_currentCoinIndex];
     //self.m_currentCoinImageView.frame = CGRectMake(width, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
     //self.m_nextCoinImageView.frame = CGRectMake((width- COIN_WIDTH)/2, (2 * height)/3, COIN_WIDTH, COIN_HEIGHT);
-
+    
 }
 
 @end
