@@ -10,6 +10,9 @@
 
 @interface HomeScreenViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *m_makeItRain;
+@property (weak, nonatomic) IBOutlet UIButton *m_cashCloud;
+@property (weak, nonatomic) IBOutlet UIButton *m_settings;
 
 @end
 

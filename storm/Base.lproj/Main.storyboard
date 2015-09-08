@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Home Screen View Controller-->
@@ -18,65 +17,11 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b38-Hn-WVX">
-                                <rect key="frame" x="29" y="229" width="541" height="142"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="142" id="cib-wu-wQb"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="18"/>
-                                <state key="normal" title="Cash Cloud" backgroundImage="MainCloud.png">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="fI1-gB-Vyd" kind="show" id="46C-Gs-yja"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D6x-zl-mtQ">
-                                <rect key="frame" x="29" y="438" width="541" height="142"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="142" id="vtK-uP-cfG"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="18"/>
-                                <state key="normal" title="Settings" backgroundImage="MainCloud.png">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="biZ-yO-c9f">
-                                <rect key="frame" x="29" y="28" width="541" height="142"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="142" id="swI-fw-cPz"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="18"/>
-                                <state key="normal" title="Make It Rain" backgroundImage="MainCloud.png">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="vi2-FC-fMa" kind="show" id="xAc-ne-f4M"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" red="0.43245119834359491" green="0.7400247453679808" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="D6x-zl-mtQ" firstAttribute="leading" secondItem="b38-Hn-WVX" secondAttribute="leading" id="7Nr-zT-jbz"/>
-                            <constraint firstItem="biZ-yO-c9f" firstAttribute="leading" secondItem="b38-Hn-WVX" secondAttribute="leading" id="ACV-wD-qO3"/>
-                            <constraint firstItem="biZ-yO-c9f" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="13" id="CPK-Qr-dbW"/>
-                            <constraint firstItem="biZ-yO-c9f" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="HuG-JW-coT"/>
-                            <constraint firstItem="b38-Hn-WVX" firstAttribute="top" secondItem="biZ-yO-c9f" secondAttribute="bottom" constant="59" id="KDD-fj-75j"/>
-                            <constraint firstItem="D6x-zl-mtQ" firstAttribute="top" secondItem="b38-Hn-WVX" secondAttribute="bottom" constant="67" id="PRI-eV-PMv"/>
-                            <constraint firstItem="b38-Hn-WVX" firstAttribute="trailing" secondItem="biZ-yO-c9f" secondAttribute="trailing" id="S7p-dZ-5X5"/>
-                            <constraint firstItem="b38-Hn-WVX" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="VzH-dP-Tsh"/>
-                            <constraint firstItem="biZ-yO-c9f" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gLq-Va-1wd"/>
-                            <constraint firstItem="D6x-zl-mtQ" firstAttribute="trailing" secondItem="b38-Hn-WVX" secondAttribute="trailing" id="sWj-Mg-aUH"/>
-                            <constraint firstAttribute="bottom" secondItem="D6x-zl-mtQ" secondAttribute="bottom" constant="20" symbolic="YES" id="tf8-QL-57f"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="b38-Hn-WVX" secondAttribute="bottom" constant="229" id="z7w-tE-QyP"/>
-                        </constraints>
                     </view>
                     <connections>
                         <segue destination="xj4-ys-PcA" kind="show" identifier="VenmoAuthSegue" id="a7Q-Bc-ZdU"/>
+                        <segue destination="fI1-gB-Vyd" kind="show" identifier="MakeItRainSegue" id="OD6-Dj-Ygm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -300,10 +245,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xvz-c1-w7i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1531" y="1274"/>
+            <point key="canvasLocation" x="1383" y="1247"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="MainCloud.png" width="2014" height="741"/>
-    </resources>
 </document>
