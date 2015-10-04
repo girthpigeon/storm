@@ -25,6 +25,7 @@
 		2EE4F8361B815AA100A9AAB6 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */; };
 		2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F83A1B81736A00A9AAB6 /* Singleton.m */; };
 		2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */; };
+		2EFB82621BC0C3CE00406131 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFB82611BC0C3CE00406131 /* Friend.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,8 @@
 		2EE4F83A1B81736A00A9AAB6 /* Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Singleton.m; sourceTree = "<group>"; };
 		2EE838931B54C10700636CBA /* VenmoLoginURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenmoLoginURLProtocol.h; sourceTree = "<group>"; };
 		2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenmoLoginURLProtocol.m; sourceTree = "<group>"; };
+		2EFB82601BC0C3CE00406131 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
+		2EFB82611BC0C3CE00406131 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,7 @@
 		2E081CBF1B25251900781BDE /* storm */ = {
 			isa = PBXGroup;
 			children = (
+				2EFB825F1BC0C3B000406131 /* Models */,
 				2EE4F8381B81733D00A9AAB6 /* App */,
 				2EE015041B49CEBE002B77FE /* Login */,
 				2ED9AEF81B312A0100345A07 /* MakeItRain */,
@@ -188,6 +192,15 @@
 				2EE4F83A1B81736A00A9AAB6 /* Singleton.m */,
 			);
 			name = App;
+			sourceTree = "<group>";
+		};
+		2EFB825F1BC0C3B000406131 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2EFB82601BC0C3CE00406131 /* Friend.h */,
+				2EFB82611BC0C3CE00406131 /* Friend.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		4B5D3866D06DB7674628E084 /* Pods */ = {
@@ -311,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E081CC91B25251900781BDE /* HomeScreenViewController.m in Sources */,
+				2EFB82621BC0C3CE00406131 /* Friend.m in Sources */,
 				2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */,
 				2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */,
 				2E081CC61B25251900781BDE /* StormAppDelegate.m in Sources */,

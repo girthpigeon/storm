@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SendCoinsViewController : UIViewController <UIScrollViewDelegate>
+@interface SendCoinsViewController : UIViewController <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, retain) IBOutlet UIScrollView *horizontalScrollView;
 

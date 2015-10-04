@@ -8,6 +8,7 @@
 
 #import "SendCoinsViewController.h"
 #import "Singleton.h"
+#import "Friend.h"
 
 @implementation SendCoinsViewController
 
@@ -18,6 +19,16 @@ NSMutableArray *m_coinImageViewsArray;
 
 NSMutableArray *m_currentlyAnimatingCoinsArray;
 NSMutableDictionary *m_animatingCloudsMap;
+
+UITableView *m_friendsList;
+NSMutableArray *m_friendsArray;
+BOOL m_friendPickerActivated;
+
+// wallet
+UIImageView *m_walletFrontView;
+UIImageView *m_walletBackView;
+CGPoint m_walletFrontViewLocation;
+CGPoint m_walletBackViewLocation;
 
 int m_currentCoinIndex;
 
@@ -52,8 +63,10 @@ float height;
     height = screenRect.size.height;
     
     [self setupBackground];
+    //[self setupFriendListview];
     [self createCoinsArray];
     [self setupCoinViews];
+    [self setupHubCloud];
     
     UIPanGestureRecognizer* verticalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panWasRecognized:)];
     [self.view addGestureRecognizer:verticalPan];
@@ -74,6 +87,25 @@ float height;
     self.horizontalScrollView = nil;
 }
 
+- (void) setupFriendListview
+{
+    m_friendsList=[[UITableView alloc]init];
+    m_friendsList.frame = CGRectMake(0,height,width, height /2);
+    m_friendsList.dataSource=self;
+    m_friendsList.delegate=self;
+    m_friendsList.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    [m_friendsList registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    [m_friendsList reloadData];
+    [self.view addSubview:m_friendsList];
+    
+    UITapGestureRecognizer *dismissFriends = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissFriendsPicker:)];
+    [dismissFriends setDelegate:self];
+    
+    [self.view setUserInteractionEnabled:YES];
+    
+    [self.view addGestureRecognizer:dismissFriends];
+}
+
 - (void) setupBackground
 {
     CGRect frame;
@@ -82,17 +114,17 @@ float height;
     frame.size.width = width;
     frame.size.height = height / 3;
     
-    UIImageView *walletBackView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletHalfBack.png"]];
-    walletBackView.frame = frame;
+    m_walletBackView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletHalfBack.png"]];
+    m_walletBackView.frame = frame;
     
-    UIImageView *walletFrontView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletHalfFront.png"]];
+    m_walletFrontView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletHalfFront.png"]];
     frame.origin.y = frame.origin.y + 25;
     frame.origin.x = frame.origin.x + 5;
     
-    walletFrontView.frame = frame;
+    m_walletFrontView.frame = frame;
     
-    [self.view addSubview:walletBackView];
-    [self.view addSubview:walletFrontView];
+    [self.view addSubview:m_walletBackView];
+    [self.view addSubview:m_walletFrontView];
     
     [self createAnimatingClouds];
 }
@@ -225,6 +257,226 @@ float height;
     [self.view addSubview:self.horizontalScrollView];
 }
 
+- (void) setupHubCloud
+{
+    
+    UIImageView *cloudView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MainCloud.png"]];
+    CGRect frame;
+    
+    frame.origin.x = width / 10;
+    frame.origin.y = height / 25;
+    frame.size.width = (width / 10) * 8;
+    frame.size.height = (height / 20) * 3;
+    
+    cloudView.frame = frame;
+    
+    UITapGestureRecognizer *hubTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cloudHubTouched:)];
+    [hubTouch setDelegate:self];
+    
+    [cloudView setUserInteractionEnabled:YES];
+    
+    
+    [self.view addSubview:cloudView];
+    
+    // to whom textblock
+    UILabel *toLabel = [[UILabel alloc]initWithFrame:CGRectMake((width / 2) - (width / 6), height / 20, width / 3, (height / 20) * 2)];
+    toLabel.text = @"To:";
+    [toLabel setFont:[UIFont boldSystemFontOfSize:16]];
+    [self.view addSubview:toLabel];
+    
+    UIImageView *prof = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
+    
+    frame.origin.x = width /2 + width / 5;
+    frame.origin.y = (height / 20) * 2;
+    frame.size.width = 100;
+    frame.size.height = 100;
+    prof.frame = frame;
+    
+    UITapGestureRecognizer *friendPickerTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickFriendsTouched:)];
+    [friendPickerTouched setDelegate:self];
+    
+    [prof setUserInteractionEnabled:YES];
+    
+    [self.view addSubview:prof];
+    
+    [cloudView addGestureRecognizer:hubTouch];
+    [prof addGestureRecognizer:friendPickerTouched];
+    
+    // message edittextbox
+    //UITextField *message = [[UITextField alloc]initWithFrame:CGRectMake((width / 2) - (width / 6), (height / 20) * 2, width / 3, (height / 20) * 2)];
+    //[message setBorderStyle:UITextBorderStyleRoundedRect];
+    //[self.view addSubview:message];
+    
+    // friend picker
+    
+}
+
+-(void)cloudHubTouched:(UITapGestureRecognizer *)tap
+{
+    // edit message
+}
+
+-(void) pickFriendsTouched:(UITapGestureRecognizer *)tap
+{
+    if (!m_friendPickerActivated)
+    {
+        // fetch venmo friends
+        [self getFriendsList];
+        
+        // setup the friends listview
+        [self setupFriendListview];
+   
+        // slide wallet down
+        [self changeFriendPickerStatus:true];
+        
+    }
+   
+}
+
+-(void)changeFriendPickerStatus:(BOOL) down
+{
+    if (down)
+    {
+        m_walletBackViewLocation = m_walletBackView.center;
+        m_walletFrontViewLocation = m_walletFrontView.center;
+        
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             m_walletBackView.center = CGPointMake(m_walletBackView.center.x, height * 2);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             m_walletFrontView.center = CGPointMake(m_walletFrontView.center.x, height * 2);
+                         }
+                         completion:^(BOOL finished){
+                             
+                             
+                         }];
+        
+        
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             m_friendsList.center = CGPointMake(width / 2, height / 2);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        
+        m_friendPickerActivated = true;
+    }
+    else
+    {
+        
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             m_walletBackView.center = m_walletBackViewLocation;
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             m_walletFrontView.center = m_walletFrontViewLocation;
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             m_friendsList.center = CGPointMake(width / 2, height * 2);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        m_friendPickerActivated = false;
+    }
+}
+
+- (void) dismissFriendsPicker:(UITapGestureRecognizer *)tap
+{
+    if (m_friendPickerActivated)
+    {
+        [self changeFriendPickerStatus:false];
+    }
+}
+
+-(void)getFriendsList
+{
+    m_friendsArray = [[NSMutableArray alloc] init];
+    
+    NSString* accessToken = @"853ca506cae4b0a19c8d442d34e85e1c47a36139bc3ee07713f5b33d1663599c";
+    //https://api.venmo.com/v1/users/:558746ccd1e77f4a2a9a0d92/friends?access_token=appData.accessToken
+    
+    // send a coin with coinValue to server
+    Singleton* appData = [Singleton sharedInstance];
+    
+    NSString *postString = [NSString stringWithFormat:@"https://api.venmo.com/v1/users/:%@/friends?access_token=%@", appData.userId,  accessToken];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:postString]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"content-type"];
+    
+    NSError *err;
+    
+    NSURLResponse *response;
+    
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request   returningResponse:&response error:&err];
+    
+    NSDictionary *jsonArray = [NSJSONSerialization JSONObjectWithData:responseData options: NSJSONReadingMutableContainers error: &err];
+    
+   // NSArray *array=[[jsonArray objectForKey:@"search_api"]objectForKey:@"result"];
+
+    
+    //NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return m_friendsArray.count;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier   forIndexPath:indexPath] ;
+    
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    Friend* pal =[m_friendsArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = pal.FirstName;
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Your custom operation
+}
+
 - (void)resetCoinViews
 {
     m_coinViewsArray = [[NSMutableArray alloc] init];
@@ -319,6 +571,11 @@ float height;
 }
 
 - (void)panWasRecognized:(UIPanGestureRecognizer *)panner {
+    if (m_friendPickerActivated)
+    {
+        [self changeFriendPickerStatus:false];
+        return;
+    }
     
     CGFloat distance = 0;
     CGPoint stopLocation;

@@ -80,6 +80,7 @@
          {
              NSString *stormKey = [JSON objectForKey:@"stormKey"];
              NSString *userId = [JSON objectForKey:@"userId"];
+             NSString *accessToken = [JSON objectForKey:@"accessToken"];
              
              KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
              [keychain setObject:userId forKey:(__bridge id)(kSecAttrAccount)];
@@ -90,7 +91,7 @@
              Singleton* appData = [Singleton sharedInstance];
              appData.userId = userId;
              appData.stormId = stormKey;
-             
+          
              [[NSNotificationCenter defaultCenter] postNotificationName:@"NSURLConnectionDidFinish" object:nil];
          }
     }
