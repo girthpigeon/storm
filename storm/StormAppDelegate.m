@@ -20,8 +20,8 @@
 NSString *APP_SECRET = @"AscAHGZmtjXKSndTC9kxJXXgcrdmpMeT";
 NSString *APP_ID = @"2858 ";
 NSString *APP_NAME = @"Twister";
-NSString *serverUrl = @"http://10.0.0.122:1337/";
-
+//NSString *serverUrl = @"http://10.0.0.122:1337/";
+NSString *serverUrl = @"https://tuiqphzjyd.localtunnel.me";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.

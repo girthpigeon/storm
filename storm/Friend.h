@@ -14,6 +14,8 @@
 @property (strong, retain) NSString* FirstName;
 @property (strong, retain) NSString* LastName;
 @property (strong, retain) UIImage* ProfPic;
-@property (strong, retain) NSString* UserId;
+@property (strong, retain) NSString* Username;
+
+-(id)initWithFirst:(NSString *)first Last:(NSString *)last Username:(NSString *)username ProfUrl:(NSString *)profUrl;
 
 @end

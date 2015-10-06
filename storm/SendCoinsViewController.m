@@ -24,6 +24,8 @@ UITableView *m_friendsList;
 NSMutableArray *m_friendsArray;
 BOOL m_friendPickerActivated;
 
+NSData *m_responseData;
+
 // wallet
 UIImageView *m_walletFrontView;
 UIImageView *m_walletBackView;
@@ -422,30 +424,78 @@ float height;
 {
     m_friendsArray = [[NSMutableArray alloc] init];
     
-    NSString* accessToken = @"853ca506cae4b0a19c8d442d34e85e1c47a36139bc3ee07713f5b33d1663599c";
-    //https://api.venmo.com/v1/users/:558746ccd1e77f4a2a9a0d92/friends?access_token=appData.accessToken
-    
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
+    NSString *urlString = [NSString stringWithFormat:@"%@User/getMyVenmoFriends?", appData.serverUrl];
     
-    NSString *postString = [NSString stringWithFormat:@"https://api.venmo.com/v1/users/:%@/friends?access_token=%@", appData.userId,  accessToken];
+    //http://localhost:1337/User/getMyVenmoFriends?userId=558746ccd1e77f4a2a9a0d91&stormKey=558746ccd1e77f4a2a9a0d92
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:postString]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"content-type"];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
     
-    NSError *err;
+    NSString *postString = [NSString stringWithFormat:@"userId=%@&stormKey=%@", appData.userId, appData.stormId];
     
-    NSURLResponse *response;
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
+    [request setHTTPBody:[postString
+                          dataUsingEncoding:NSUTF8StringEncoding]];
     
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request   returningResponse:&response error:&err];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
-    NSDictionary *jsonArray = [NSJSONSerialization JSONObjectWithData:responseData options: NSJSONReadingMutableContainers error: &err];
+    //NSString* accessToken = @"853ca506cae4b0a19c8d442d34e85e1c47a36139bc3ee07713f5b33d1663599c";
+    
+    //NSError *err;
+    
+    //NSURLResponse *response;
+    
+    //NSData *responseData = [NSURLConnection sendSynchronousRequest:request   returningResponse:&response error:&err];
+    
+    //NSDictionary *jsonArray = [NSJSONSerialization JSONObjectWithData:responseData options: NSJSONReadingMutableContainers error: &err];
     
    // NSArray *array=[[jsonArray objectForKey:@"search_api"]objectForKey:@"result"];
 
     
     //NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+// This method is used to receive the data which we get using post method.
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)data
+{
+    //NSArray *jsonArray=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    //BOOL danger=[(NSNumber*)[(NSDictionary*)[jsonArray objectAtIndex:0] objectForKey:@"danger"] boolValue];
+    
+    m_responseData = [[NSMutableData alloc] init];
+}
+
+// This method receives the error report in case of connection is not made to server.
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    
+}
+
+// This method is used to process the data after connection has made successfully.
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSString *responseString = [[NSString alloc] initWithData:m_responseData encoding:NSUTF8StringEncoding];
+    NSLog(@"Response: %@", responseString);
+    
+    if (responseString != nil)
+    {
+        NSError *e = nil;
+        NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error: &e];
+        
+        if ([JSON count] == 2)
+        {
+            NSString *username = [JSON objectForKey:@"username"];
+            NSString *firstName = [JSON objectForKey:@"first_name"];
+            NSString *lastName = [JSON objectForKey:@"last_name"];
+            NSString *profUrl = [JSON objectForKey:@"profile_picture_url"];
+            Friend *pal = [[Friend alloc] initWithFirst:firstName Last:lastName Username:username ProfUrl:profUrl];
+            [m_friendsArray addObject:pal];
+        }
+    }
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
