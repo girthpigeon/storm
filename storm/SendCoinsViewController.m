@@ -9,6 +9,7 @@
 #import "SendCoinsViewController.h"
 #import "Singleton.h"
 #import "Friend.h"
+#import "Utils.h"
 
 @implementation SendCoinsViewController
 
@@ -112,9 +113,9 @@ float height;
 {
     CGRect frame;
     frame.origin.x = 0;
-    frame.origin.y = 2 * (height / 3);
+    frame.origin.y = 3 * (height / 4);
     frame.size.width = width;
-    frame.size.height = height / 3;
+    frame.size.height = (height / 4);
     
     m_walletBackView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletHalfBack.png"]];
     m_walletBackView.frame = frame;
@@ -135,8 +136,8 @@ float height;
 {
     int numClouds = 3;
     
-    int lowerBound = 2;
-    int upperBound = 10;
+    int lowerBound = 1;
+    int upperBound = 5;
     int rndNumClouds = lowerBound + arc4random() % (upperBound - lowerBound);
     
     for (int i=0; i < rndNumClouds; i++)
@@ -157,7 +158,7 @@ float height;
     int upperBound = width;
     int rndX = lowerBound + arc4random() % (upperBound - lowerBound);
     
-    lowerBound = 0;
+    lowerBound = height / 4;
     upperBound = 2 * (height / 3);
     int rndY = lowerBound + arc4random() % (upperBound - lowerBound);
     
@@ -180,7 +181,7 @@ float height;
     frame.size.height = rndHeight;
     
     cloudView.frame = frame;
-    //cloudView.alpha = .6;
+    cloudView.alpha = .4;
     
     [self.view addSubview:cloudView];
     [self animateCloud:cloudView withTag:tag];
@@ -265,10 +266,20 @@ float height;
     UIImageView *cloudView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MainCloud.png"]];
     CGRect frame;
     
-    frame.origin.x = width / 10;
+    // bounding box for coins
+    frame.origin.x = 0;
+    frame.origin.y = 0;
+    frame.size.width = width;
+    frame.size.height = (height / 4);
+    
+    UIView* behindCloud = [[UIView alloc] initWithFrame:frame];
+    [behindCloud setBackgroundColor:self.view.backgroundColor];
+    [self.view addSubview:behindCloud];
+    
+    frame.origin.x = width / 20;
     frame.origin.y = height / 25;
-    frame.size.width = (width / 10) * 8;
-    frame.size.height = (height / 20) * 3;
+    frame.size.width = (width / 20) * 18;
+    frame.size.height = (height / 4);
     
     cloudView.frame = frame;
     
@@ -289,7 +300,7 @@ float height;
     UIImageView *prof = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
     
     frame.origin.x = width /2 + width / 5;
-    frame.origin.y = (height / 20) * 2;
+    frame.origin.y = (height / 20) * 3;
     frame.size.width = 100;
     frame.size.height = 100;
     prof.frame = frame;
@@ -495,7 +506,9 @@ float height;
             [m_friendsArray addObject:pal];
         }
     }
-
+    
+    //[Utils circlize:(UIImage *) withFrame:<#(CGRect)#>]
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -544,7 +557,7 @@ float height;
         subview.backgroundColor = [UIColor clearColor];
         
         float coinXPosition = (width/2) - COIN_WIDTH/2;
-        frame = CGRectMake(coinXPosition, height/2, COIN_WIDTH, COIN_HEIGHT);
+        frame = CGRectMake(coinXPosition, 2 * (height/3), COIN_WIDTH, COIN_HEIGHT);
         
         UIImageView *coinImageView = [[UIImageView alloc] initWithFrame:frame];
         
@@ -713,7 +726,7 @@ float height;
         
         // add new copy of coin to center
         float coinXPosition = (width/2) - COIN_WIDTH/2;
-        CGRect frame = CGRectMake(coinXPosition, height/2, COIN_WIDTH, COIN_HEIGHT);
+        CGRect frame = CGRectMake(coinXPosition, 2 * (height/3), COIN_WIDTH, COIN_HEIGHT);
         
         UIImageView *coinImageView = [[UIImageView alloc] initWithFrame:frame];
         UIImage *newImage = [m_coinsArray objectAtIndex:m_currentCoinIndex];

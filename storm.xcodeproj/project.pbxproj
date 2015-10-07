@@ -25,6 +25,7 @@
 		2EE4F8361B815AA100A9AAB6 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */; };
 		2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F83A1B81736A00A9AAB6 /* Singleton.m */; };
 		2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */; };
+		2EF412231BC3771F0030489C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF412221BC3771F0030489C /* Utils.m */; };
 		2EFB82621BC0C3CE00406131 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFB82611BC0C3CE00406131 /* Friend.m */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,8 @@
 		2EE4F83A1B81736A00A9AAB6 /* Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Singleton.m; sourceTree = "<group>"; };
 		2EE838931B54C10700636CBA /* VenmoLoginURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenmoLoginURLProtocol.h; sourceTree = "<group>"; };
 		2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenmoLoginURLProtocol.m; sourceTree = "<group>"; };
+		2EF412211BC3771F0030489C /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		2EF412221BC3771F0030489C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		2EFB82601BC0C3CE00406131 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		2EFB82611BC0C3CE00406131 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -190,6 +193,8 @@
 				2E081CC51B25251900781BDE /* StormAppDelegate.m */,
 				2EE4F8391B81736A00A9AAB6 /* Singleton.h */,
 				2EE4F83A1B81736A00A9AAB6 /* Singleton.m */,
+				2EF412211BC3771F0030489C /* Utils.h */,
+				2EF412221BC3771F0030489C /* Utils.m */,
 			);
 			name = App;
 			sourceTree = "<group>";
@@ -324,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E081CC91B25251900781BDE /* HomeScreenViewController.m in Sources */,
+				2EF412231BC3771F0030489C /* Utils.m in Sources */,
 				2EFB82621BC0C3CE00406131 /* Friend.m in Sources */,
 				2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */,
 				2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */,
