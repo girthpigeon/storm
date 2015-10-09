@@ -296,12 +296,14 @@ float height;
     [self.view addSubview:cloudView];
     
     // num coins sent label
-    m_coinCountLabel = [[UILabel alloc]initWithFrame:CGRectMake((width / 2) - (width / 20), (height / 25) * 2, width / 4, (height / 20) * 2)];
+    m_coinCountLabel = [[UILabel alloc]initWithFrame:CGRectMake((width / 2) - (width / 8), (height / 25) * 2, width / 3, (height / 20) * 2)];
     m_coinCountLabel.text = @"$0.00";
     m_coinCount = 0.00;
     
-    [m_coinCountLabel setFont:[UIFont boldSystemFontOfSize:18]];
+    [m_coinCountLabel setFont:[UIFont boldSystemFontOfSize:35]];
+    m_coinCountLabel.transform = CGAffineTransformScale(m_coinCountLabel.transform, 0.5, 0.5);
     [self.view addSubview:m_coinCountLabel];
+    [self changeCoinCountLabel:m_coinCountLabel.text];
     
     // message edittextbox
     UITextField *message = [[UITextField alloc]initWithFrame:CGRectMake((width / 6), (height / 30) * 4, (width / 3 ) * 2, (height / 20) * 3)];
@@ -776,10 +778,10 @@ float height;
 -(void)madeItRain:(UIImageView*)draggedImage
 {
     double coinValue = [[m_coinValuesArray objectAtIndex:m_currentCoinIndex] doubleValue];
-    m_coinCountLabel.text = [self convertCoinValueToMoneyAmount:m_coinCountLabel.text plus:coinValue];
+    NSString* newAmt = [self convertCoinValueToMoneyAmount:m_coinCountLabel.text plus:coinValue];
+    [self changeCoinCountLabel:newAmt];
     //[self sendCoin:coinValue];
     [self resetImage];
-    
     
 }
 
@@ -794,6 +796,33 @@ float height;
     
     // convert back to string
     return [NSString stringWithFormat:@"$%.02f", startingValue];
+}
+
+-(void)changeCoinCountLabel:(NSString *)value
+{
+    // Add transition (must be called after myLabel has been displayed)
+    //CATransition *animation = [CATransition animation];
+    //animation.duration = 0.2update;
+    //animation.type = kCATransitionFade;
+    //animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    //[m_coinCountLabel.layer addAnimation:animation forKey:@"changeTextTransition"];
+    
+    
+    [UIView animateWithDuration:.1 animations:^{
+        m_coinCountLabel.transform = CGAffineTransformScale(m_coinCountLabel.transform, 2, 2);
+        
+    } completion:^(BOOL finished){
+        
+        [self.view addSubview:m_coinCountLabel];
+        [UIView animateWithDuration:.4 animations:^{
+            m_coinCountLabel.transform = CGAffineTransformScale(m_coinCountLabel.transform, 0.5, 0.5);
+        }];
+    }];
+    
+    m_coinCountLabel.text = value;
+    
+    
+    // Change the text
 }
 
 -(void)sendCoin:(int) coinValue
