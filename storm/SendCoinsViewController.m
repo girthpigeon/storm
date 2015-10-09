@@ -28,6 +28,7 @@ BOOL m_friendPickerActivated;
 NSData *m_responseData;
 
 // cloudhub
+UITextField *m_messageTextField;
 UILabel *m_coinCountLabel;
 double m_coinCount;
 
@@ -296,7 +297,7 @@ float height;
     [self.view addSubview:cloudView];
     
     // num coins sent label
-    m_coinCountLabel = [[UILabel alloc]initWithFrame:CGRectMake((width / 2) - (width / 8), (height / 25) * 2, width / 3, (height / 20) * 2)];
+    m_coinCountLabel = [[UILabel alloc]initWithFrame:CGRectMake((width / 2) - (width / 6), (height / 25) * 2, width / 2, (height / 20) * 2)];
     m_coinCountLabel.text = @"$0.00";
     m_coinCount = 0.00;
     
@@ -306,14 +307,14 @@ float height;
     [self changeCoinCountLabel:m_coinCountLabel.text];
     
     // message edittextbox
-    UITextField *message = [[UITextField alloc]initWithFrame:CGRectMake((width / 6), (height / 30) * 4, (width / 3 ) * 2, (height / 20) * 3)];
-    message.text = @"for being a little baby bitch";
-    [message setFont:[UIFont boldSystemFontOfSize:12]];
-    [message setBackgroundColor:[UIColor clearColor]];
+    m_messageTextField = [[UITextField alloc]initWithFrame:CGRectMake((width / 6), (height / 30) * 4, (width / 20) * 11, (height / 20) * 3)];
+    m_messageTextField.text = @"for being a little baby bitch";
+    [m_messageTextField setFont:[UIFont boldSystemFontOfSize:12]];
+    [m_messageTextField setBackgroundColor:[UIColor clearColor]];
     //message.textAlignment = NSTextAlignment.Center
     //[message setEditable:YES];
-    message.borderStyle = UITextBorderStyleNone;
-    [self.view addSubview:message];
+    m_messageTextField.borderStyle = UITextBorderStyleNone;
+    [self.view addSubview:m_messageTextField];
     
     UIImageView *prof = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
     
@@ -335,6 +336,13 @@ float height;
     
     // friend picker
     
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch * touch = [touches anyObject];
+    if(touch.phase == UITouchPhaseBegan) {
+        [m_messageTextField resignFirstResponder];
+    }
 }
 
 -(void)cloudHubTouched:(UITapGestureRecognizer *)tap
@@ -694,7 +702,7 @@ float height;
         // Move the "cursor" to the start
         [path moveToPoint:currentCoin.center];
         
-        if(currentCoin.center.y < height * .40) // successful coin fling, coin flies up
+        if(currentCoin.center.y < height * .65) // successful coin fling, coin flies up
         {
             projectedX = currentCoin.center.x + dx*2;
             projectedY = 0 - COIN_HEIGHT;
@@ -800,14 +808,6 @@ float height;
 
 -(void)changeCoinCountLabel:(NSString *)value
 {
-    // Add transition (must be called after myLabel has been displayed)
-    //CATransition *animation = [CATransition animation];
-    //animation.duration = 0.2update;
-    //animation.type = kCATransitionFade;
-    //animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    //[m_coinCountLabel.layer addAnimation:animation forKey:@"changeTextTransition"];
-    
-    
     [UIView animateWithDuration:.1 animations:^{
         m_coinCountLabel.transform = CGAffineTransformScale(m_coinCountLabel.transform, 2, 2);
         
