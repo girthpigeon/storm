@@ -27,6 +27,10 @@ BOOL m_friendPickerActivated;
 
 NSData *m_responseData;
 
+// cloudhub
+UILabel *m_coinCountLabel;
+double m_coinCount;
+
 // wallet
 UIImageView *m_walletFrontView;
 UIImageView *m_walletBackView;
@@ -242,10 +246,10 @@ float height;
     
     m_coinValuesArray =[[NSMutableArray alloc]init];
     
-    [m_coinValuesArray  addObject:[NSNumber numberWithInt:1]];
-    [m_coinValuesArray  addObject:[NSNumber numberWithInt:5]];
-    [m_coinValuesArray  addObject:[NSNumber numberWithInt:10]];
-    [m_coinValuesArray  addObject:[NSNumber numberWithInt:25]];
+    [m_coinValuesArray  addObject:[NSNumber numberWithDouble:0.01]];
+    [m_coinValuesArray  addObject:[NSNumber numberWithDouble:0.05]];
+    [m_coinValuesArray  addObject:[NSNumber numberWithDouble:0.10]];
+    [m_coinValuesArray  addObject:[NSNumber numberWithDouble:0.25]];
 }
 
 - (void)setupCoinViews
@@ -291,11 +295,23 @@ float height;
     
     [self.view addSubview:cloudView];
     
-    // to whom textblock
-    UILabel *toLabel = [[UILabel alloc]initWithFrame:CGRectMake((width / 2) - (width / 6), height / 20, width / 3, (height / 20) * 2)];
-    toLabel.text = @"To:";
-    [toLabel setFont:[UIFont boldSystemFontOfSize:16]];
-    [self.view addSubview:toLabel];
+    // num coins sent label
+    m_coinCountLabel = [[UILabel alloc]initWithFrame:CGRectMake((width / 2) - (width / 20), (height / 25) * 2, width / 4, (height / 20) * 2)];
+    m_coinCountLabel.text = @"$0.00";
+    m_coinCount = 0.00;
+    
+    [m_coinCountLabel setFont:[UIFont boldSystemFontOfSize:18]];
+    [self.view addSubview:m_coinCountLabel];
+    
+    // message edittextbox
+    UITextField *message = [[UITextField alloc]initWithFrame:CGRectMake((width / 6), (height / 30) * 4, (width / 3 ) * 2, (height / 20) * 3)];
+    message.text = @"for being a little baby bitch";
+    [message setFont:[UIFont boldSystemFontOfSize:12]];
+    [message setBackgroundColor:[UIColor clearColor]];
+    //message.textAlignment = NSTextAlignment.Center
+    //[message setEditable:YES];
+    message.borderStyle = UITextBorderStyleNone;
+    [self.view addSubview:message];
     
     UIImageView *prof = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
     
@@ -314,11 +330,6 @@ float height;
     
     [cloudView addGestureRecognizer:hubTouch];
     [prof addGestureRecognizer:friendPickerTouched];
-    
-    // message edittextbox
-    //UITextField *message = [[UITextField alloc]initWithFrame:CGRectMake((width / 2) - (width / 6), (height / 20) * 2, width / 3, (height / 20) * 2)];
-    //[message setBorderStyle:UITextBorderStyleRoundedRect];
-    //[self.view addSubview:message];
     
     // friend picker
     
@@ -764,9 +775,25 @@ float height;
 
 -(void)madeItRain:(UIImageView*)draggedImage
 {
-    //int coinValue = [[m_coinValuesArray objectAtIndex:m_currentCoinIndex] integerValue];
+    double coinValue = [[m_coinValuesArray objectAtIndex:m_currentCoinIndex] doubleValue];
+    m_coinCountLabel.text = [self convertCoinValueToMoneyAmount:m_coinCountLabel.text plus:coinValue];
     //[self sendCoin:coinValue];
     [self resetImage];
+    
+    
+}
+
+-(NSString *)convertCoinValueToMoneyAmount:(NSString *)currentAmtString plus:(double)coinValue
+{
+    // convert string to double
+    NSString *value = [currentAmtString substringFromIndex:1];
+    double startingValue = [value doubleValue];
+    
+    // add doubles
+    startingValue += coinValue;
+    
+    // convert back to string
+    return [NSString stringWithFormat:@"$%.02f", startingValue];
 }
 
 -(void)sendCoin:(int) coinValue
