@@ -10,6 +10,7 @@
 #import "Singleton.h"
 #import "Friend.h"
 #import "Utils.h"
+#import "FriendCell.h"
 
 @implementation SendCoinsViewController
 
@@ -21,15 +22,17 @@ NSMutableArray *m_coinImageViewsArray;
 NSMutableArray *m_currentlyAnimatingCoinsArray;
 NSMutableDictionary *m_animatingCloudsMap;
 
-UITableView *m_friendsList;
+UITableView *m_friendsListTable;
 NSMutableArray *m_friendsArray;
 BOOL m_friendPickerActivated;
+Friend *m_recipient;
 
 NSData *m_responseData;
 
 // cloudhub
 UITextField *m_messageTextField;
 UILabel *m_coinCountLabel;
+UIImageView *m_recipientImage;
 double m_coinCount;
 
 // wallet
@@ -97,17 +100,18 @@ float height;
 
 - (void) setupFriendListview
 {
-    m_friendsList=[[UITableView alloc]init];
-    m_friendsList.frame = CGRectMake(0,height,width, height /2);
-    m_friendsList.dataSource=self;
-    m_friendsList.delegate=self;
-    m_friendsList.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    [m_friendsList registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
-    [m_friendsList reloadData];
-    [self.view addSubview:m_friendsList];
+    m_friendsListTable=[[UITableView alloc]init];
+    m_friendsListTable.frame = CGRectMake(0,height,width, height /2);
+    m_friendsListTable.dataSource=self;
+    m_friendsListTable.delegate=self;
+    m_friendsListTable.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    //[m_friendsListTable registerClass:[FriendCell class] forCellReuseIdentifier:@"FriendCell"];
+    [m_friendsListTable reloadData];
+    [self.view addSubview:m_friendsListTable];
     
-    UITapGestureRecognizer *dismissFriends = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissFriendsPicker:)];
+    UITapGestureRecognizer *dismissFriends = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapRecognizer:)];
     [dismissFriends setDelegate:self];
+    [dismissFriends setCancelsTouchesInView:NO];
     
     [self.view setUserInteractionEnabled:YES];
     
@@ -316,23 +320,23 @@ float height;
     m_messageTextField.borderStyle = UITextBorderStyleNone;
     [self.view addSubview:m_messageTextField];
     
-    UIImageView *prof = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
+    m_recipientImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
     
     frame.origin.x = width /2 + width / 5;
     frame.origin.y = (height / 20) * 3;
     frame.size.width = 100;
     frame.size.height = 100;
-    prof.frame = frame;
+    m_recipientImage.frame = frame;
     
     UITapGestureRecognizer *friendPickerTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickFriendsTouched:)];
     [friendPickerTouched setDelegate:self];
     
-    [prof setUserInteractionEnabled:YES];
+    [m_recipientImage setUserInteractionEnabled:YES];
     
-    [self.view addSubview:prof];
+    [self.view addSubview:m_recipientImage];
     
     [cloudView addGestureRecognizer:hubTouch];
-    [prof addGestureRecognizer:friendPickerTouched];
+    [m_recipientImage addGestureRecognizer:friendPickerTouched];
     
     // friend picker
     
@@ -355,7 +359,10 @@ float height;
     if (!m_friendPickerActivated)
     {
         // fetch venmo friends
-        [self getFriendsList];
+        if (!m_friendsArray || m_friendsArray.count == 0)
+        {
+            [self getFriendsList];
+        }
         
         // setup the friends listview
         [self setupFriendListview];
@@ -394,13 +401,14 @@ float height;
                              
                              
                          }];
-        
+        CGRect frame = m_friendsListTable.frame;
+        frame.origin.y = height / 2;
         
         [UIView animateWithDuration:0.4
                               delay:0.0
                             options:UIViewAnimationCurveLinear
                          animations:^{
-                             m_friendsList.center = CGPointMake(width / 2, height / 2);
+                             m_friendsListTable.frame = frame;
                          }
                          completion:^(BOOL finished){
                              
@@ -435,7 +443,7 @@ float height;
                               delay:0.0
                             options:UIViewAnimationCurveLinear
                          animations:^{
-                             m_friendsList.center = CGPointMake(width / 2, height * 2);
+                             m_friendsListTable.center = CGPointMake(width / 2, height * 2);
                          }
                          completion:^(BOOL finished){
                              
@@ -444,17 +452,39 @@ float height;
     }
 }
 
-- (void) dismissFriendsPicker:(UITapGestureRecognizer *)tap
+- (void) backgroundTapRecognizer:(UITapGestureRecognizer *)tap
 {
     if (m_friendPickerActivated)
     {
-        [self changeFriendPickerStatus:false];
+        CGPoint touchPoint = [tap locationInView: tap.view];
+        if (touchPoint.y < height / 2)
+        {
+            [self dismissFriendsPicker];
+        }
     }
+}
+
+- (void) dismissFriendsPicker
+{
+    [self changeFriendPickerStatus:false];
 }
 
 -(void)getFriendsList
 {
     m_friendsArray = [[NSMutableArray alloc] init];
+    
+    for (int i=0; i < 20; i++)
+    {
+        Friend *pal = [[Friend alloc] initWithFirst:@"Zack" Last:@"Pajka" Username:@"zackpa" ProfUrl:@"https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/1/005/07a/399/1fb9102.jpg"];
+        [m_friendsArray addObject:pal];
+        
+        //NSURL *url = [NSURL URLWithString:@"https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/1/005/07a/399/1fb9102.jpg"];
+        //NSData *data = [NSData dataWithContentsOfURL:url];
+        
+        //cell.thumbnailImageView.image = [UIImage imageWithData:data];
+    }
+    
+    /*
     
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
@@ -487,7 +517,7 @@ float height;
    // NSArray *array=[[jsonArray objectForKey:@"search_api"]objectForKey:@"result"];
 
     
-    //NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    //NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];*/
 }
 
 // This method is used to receive the data which we get using post method.
@@ -509,7 +539,7 @@ float height;
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSString *responseString = [[NSString alloc] initWithData:m_responseData encoding:NSUTF8StringEncoding];
-    NSLog(@"Response: %@", responseString);
+    //NSLog(@"Response: %@", responseString);
     
     if (responseString != nil)
     {
@@ -527,9 +557,6 @@ float height;
             [m_friendsArray addObject:pal];
         }
     }
-    
-    //[Utils circlize:(UIImage *) withFrame:<#(CGRect)#>]
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -543,22 +570,42 @@ float height;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier   forIndexPath:indexPath] ;
+    static NSString *CellIdentifier = @"FriendCell";
+    FriendCell *cell = (FriendCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"FriendCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+        //cell = [[FriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     Friend* pal =[m_friendsArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = pal.FirstName;
+    cell.nameLabel.text = pal.FullName;
+    [Utils circlize:pal.ProfPic withImageView:cell.thumbnailImageView];
+    //cell.thumbnailImageView.image = [UIImage imageNamed:@"ProfilePictureHolder.png"]
+    
+    
+    
+    cell.thumbnailImageView.image = pal.ProfPic;
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Your custom operation
+    m_recipient =[m_friendsArray objectAtIndex:indexPath.row];
+    [self changeRecipient];
+    [self dismissFriendsPicker];
+}
+
+- (void) changeRecipient
+{
+    [Utils circlize:m_recipient.ProfPic withImageView:m_recipientImage];
 }
 
 - (void)resetCoinViews

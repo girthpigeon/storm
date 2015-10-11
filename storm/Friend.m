@@ -12,6 +12,7 @@
 
 @synthesize FirstName;
 @synthesize LastName;
+@synthesize FullName;
 @synthesize Username;
 @synthesize ProfPic;
 
@@ -22,6 +23,7 @@
     self.LastName = last;
     self.Username = username;
     self.ProfPic = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:profUrl]]];
+    self.FullName = [NSString stringWithFormat:@"%@ %@", first, last];
     
     return self;
 }

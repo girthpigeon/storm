@@ -11,5 +11,6 @@
 @interface SendCoinsViewController : UIViewController <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, NSURLConnectionDelegate>
 
 @property (strong, retain) IBOutlet UIScrollView *horizontalScrollView;
+@property (weak, nonatomic) IBOutlet UITableView *m_friendsList;
 
 @end

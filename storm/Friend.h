@@ -13,6 +13,7 @@
 
 @property (strong, retain) NSString* FirstName;
 @property (strong, retain) NSString* LastName;
+@property (strong, retain) NSString* FullName;
 @property (strong, retain) UIImage* ProfPic;
 @property (strong, retain) NSString* Username;
 

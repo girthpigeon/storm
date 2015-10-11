@@ -10,16 +10,14 @@
 
 @implementation Utils
 
-- (UIImageView *)circlize:(UIImage *)image withFrame:(CGRect)frame
++ (void)circlize:(UIImage *)image withImageView:(UIImageView*)imageView
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.frame = frame;
-    
+    imageView.image = image;
     imageView.layer.cornerRadius = imageView.frame.size.height /2;
     imageView.layer.masksToBounds = YES;
     imageView.layer.borderWidth = 0;
     
-    return imageView;
+    return;
 }
 
 @end

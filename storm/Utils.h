@@ -11,6 +11,6 @@
 
 @interface Utils : NSObject
 
-+ (UIImageView *)circlize:(UIImage *)image withFrame:(CGRect)frame;
++ (void)circlize:(UIImage *)image withImageView:(UIImageView*)imageView;
 
 @end
