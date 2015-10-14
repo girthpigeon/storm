@@ -473,18 +473,13 @@ float height;
 {
     m_friendsArray = [[NSMutableArray alloc] init];
     
-    for (int i=0; i < 20; i++)
+    /*for (int i=0; i < 20; i++)
     {
         Friend *pal = [[Friend alloc] initWithFirst:@"Zack" Last:@"Pajka" Username:@"zackpa" ProfUrl:@"https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/1/005/07a/399/1fb9102.jpg"];
         [m_friendsArray addObject:pal];
-        
-        //NSURL *url = [NSURL URLWithString:@"https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/1/005/07a/399/1fb9102.jpg"];
-        //NSData *data = [NSData dataWithContentsOfURL:url];
-        
-        //cell.thumbnailImageView.image = [UIImage imageWithData:data];
-    }
+    }*/
     
-    /*
+    
     
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];

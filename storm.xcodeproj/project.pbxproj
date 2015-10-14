@@ -20,6 +20,17 @@
 		2E5D4C9E1B49F5960001F90A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5D4C9D1B49F5960001F90A /* Foundation.framework */; };
 		2E6DC07B1BC9C84900CEA07D /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC07A1BC9C84900CEA07D /* FriendCell.m */; settings = {ASSET_TAGS = (); }; };
 		2E6DC07D1BC9D55B00CEA07D /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6DC07C1BC9D55B00CEA07D /* FriendCell.xib */; settings = {ASSET_TAGS = (); }; };
+		2E6DC0911BCB2CEC00CEA07D /* RNCryptor in Resources */ = {isa = PBXBuildFile; fileRef = 2E6DC0901BCB2CEC00CEA07D /* RNCryptor */; settings = {ASSET_TAGS = (); }; };
+		2E6DC0D51BCB31CB00CEA07D /* RNCryptor-Prefix.pch in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0CB1BCB31CB00CEA07D /* RNCryptor-Prefix.pch */; };
+		2E6DC0D61BCB31CB00CEA07D /* RNCryptor.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0CC1BCB31CB00CEA07D /* RNCryptor.h */; };
+		2E6DC0D71BCB31CB00CEA07D /* RNCryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0CD1BCB31CB00CEA07D /* RNCryptor.m */; };
+		2E6DC0D81BCB31CB00CEA07D /* RNCryptor+Private.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0CE1BCB31CB00CEA07D /* RNCryptor+Private.h */; };
+		2E6DC0D91BCB31CB00CEA07D /* RNCryptorEngine.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0CF1BCB31CB00CEA07D /* RNCryptorEngine.h */; };
+		2E6DC0DA1BCB31CB00CEA07D /* RNCryptorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D01BCB31CB00CEA07D /* RNCryptorEngine.m */; };
+		2E6DC0DB1BCB31CB00CEA07D /* RNDecryptor.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D11BCB31CB00CEA07D /* RNDecryptor.h */; };
+		2E6DC0DC1BCB31CB00CEA07D /* RNDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D21BCB31CB00CEA07D /* RNDecryptor.m */; };
+		2E6DC0DD1BCB31CB00CEA07D /* RNEncryptor.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D31BCB31CB00CEA07D /* RNEncryptor.h */; };
+		2E6DC0DE1BCB31CC00CEA07D /* RNEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D41BCB31CB00CEA07D /* RNEncryptor.m */; };
 		2ED9AEF71B30F36B00345A07 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 2ED9AEF51B2E6B7400345A07 /* Assets */; };
 		2ED9AF071B3130DC00345A07 /* MakeItRainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED9AF061B3130DC00345A07 /* MakeItRainViewController.m */; };
 		2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE015081B49CF29002B77FE /* LoginViewController.m */; };
@@ -63,6 +74,17 @@
 		2E6DC0791BC9C84900CEA07D /* FriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCell.h; sourceTree = "<group>"; };
 		2E6DC07A1BC9C84900CEA07D /* FriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCell.m; sourceTree = "<group>"; };
 		2E6DC07C1BC9D55B00CEA07D /* FriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCell.xib; sourceTree = "<group>"; };
+		2E6DC0901BCB2CEC00CEA07D /* RNCryptor */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RNCryptor; path = /Users/pajka/Documents/storm/storm/RNCryptor; sourceTree = "<absolute>"; };
+		2E6DC0CB1BCB31CB00CEA07D /* RNCryptor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RNCryptor-Prefix.pch"; path = "RNCryptor/RNCryptor-Prefix.pch"; sourceTree = "<group>"; };
+		2E6DC0CC1BCB31CB00CEA07D /* RNCryptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNCryptor.h; path = RNCryptor/RNCryptor.h; sourceTree = "<group>"; };
+		2E6DC0CD1BCB31CB00CEA07D /* RNCryptor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNCryptor.m; path = RNCryptor/RNCryptor.m; sourceTree = "<group>"; };
+		2E6DC0CE1BCB31CB00CEA07D /* RNCryptor+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RNCryptor+Private.h"; path = "RNCryptor/RNCryptor+Private.h"; sourceTree = "<group>"; };
+		2E6DC0CF1BCB31CB00CEA07D /* RNCryptorEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNCryptorEngine.h; path = RNCryptor/RNCryptorEngine.h; sourceTree = "<group>"; };
+		2E6DC0D01BCB31CB00CEA07D /* RNCryptorEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNCryptorEngine.m; path = RNCryptor/RNCryptorEngine.m; sourceTree = "<group>"; };
+		2E6DC0D11BCB31CB00CEA07D /* RNDecryptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNDecryptor.h; path = RNCryptor/RNDecryptor.h; sourceTree = "<group>"; };
+		2E6DC0D21BCB31CB00CEA07D /* RNDecryptor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNDecryptor.m; path = RNCryptor/RNDecryptor.m; sourceTree = "<group>"; };
+		2E6DC0D31BCB31CB00CEA07D /* RNEncryptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNEncryptor.h; path = RNCryptor/RNEncryptor.h; sourceTree = "<group>"; };
+		2E6DC0D41BCB31CB00CEA07D /* RNEncryptor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNEncryptor.m; path = RNCryptor/RNEncryptor.m; sourceTree = "<group>"; };
 		2ED9AEF51B2E6B7400345A07 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Assets; path = storm/Assets; sourceTree = "<group>"; };
 		2ED9AF051B3130DC00345A07 /* MakeItRainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MakeItRainViewController.h; sourceTree = "<group>"; };
 		2ED9AF061B3130DC00345A07 /* MakeItRainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MakeItRainViewController.m; sourceTree = "<group>"; };
@@ -127,6 +149,7 @@
 		2E081CBF1B25251900781BDE /* storm */ = {
 			isa = PBXGroup;
 			children = (
+				2E6DC0811BCB29BC00CEA07D /* Encryption */,
 				2E6DC0781BC9C69C00CEA07D /* FriendPicker */,
 				2EFB825F1BC0C3B000406131 /* Models */,
 				2EE4F8381B81733D00A9AAB6 /* App */,
@@ -176,6 +199,23 @@
 				2E6DC07C1BC9D55B00CEA07D /* FriendCell.xib */,
 			);
 			name = FriendPicker;
+			sourceTree = "<group>";
+		};
+		2E6DC0811BCB29BC00CEA07D /* Encryption */ = {
+			isa = PBXGroup;
+			children = (
+				2E6DC0CB1BCB31CB00CEA07D /* RNCryptor-Prefix.pch */,
+				2E6DC0CC1BCB31CB00CEA07D /* RNCryptor.h */,
+				2E6DC0CD1BCB31CB00CEA07D /* RNCryptor.m */,
+				2E6DC0CE1BCB31CB00CEA07D /* RNCryptor+Private.h */,
+				2E6DC0CF1BCB31CB00CEA07D /* RNCryptorEngine.h */,
+				2E6DC0D01BCB31CB00CEA07D /* RNCryptorEngine.m */,
+				2E6DC0D11BCB31CB00CEA07D /* RNDecryptor.h */,
+				2E6DC0D21BCB31CB00CEA07D /* RNDecryptor.m */,
+				2E6DC0D31BCB31CB00CEA07D /* RNEncryptor.h */,
+				2E6DC0D41BCB31CB00CEA07D /* RNEncryptor.m */,
+			);
+			name = Encryption;
 			sourceTree = "<group>";
 		};
 		2ED9AEF81B312A0100345A07 /* MakeItRain */ = {
@@ -325,6 +365,7 @@
 			files = (
 				2E6DC07D1BC9D55B00CEA07D /* FriendCell.xib in Resources */,
 				2ED9AEF71B30F36B00345A07 /* Assets in Resources */,
+				2E6DC0911BCB2CEC00CEA07D /* RNCryptor in Resources */,
 				2E081CCC1B25251900781BDE /* Main.storyboard in Resources */,
 				2E081CD11B25251900781BDE /* LaunchScreen.xib in Resources */,
 				2E081CCE1B25251900781BDE /* Images.xcassets in Resources */,
@@ -345,6 +386,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E6DC0D51BCB31CB00CEA07D /* RNCryptor-Prefix.pch in Sources */,
+				2E6DC0D61BCB31CB00CEA07D /* RNCryptor.h in Sources */,
+				2E6DC0D71BCB31CB00CEA07D /* RNCryptor.m in Sources */,
+				2E6DC0D81BCB31CB00CEA07D /* RNCryptor+Private.h in Sources */,
+				2E6DC0D91BCB31CB00CEA07D /* RNCryptorEngine.h in Sources */,
+				2E6DC0DA1BCB31CB00CEA07D /* RNCryptorEngine.m in Sources */,
+				2E6DC0DB1BCB31CB00CEA07D /* RNDecryptor.h in Sources */,
+				2E6DC0DC1BCB31CB00CEA07D /* RNDecryptor.m in Sources */,
+				2E6DC0DD1BCB31CB00CEA07D /* RNEncryptor.h in Sources */,
+				2E6DC0DE1BCB31CC00CEA07D /* RNEncryptor.m in Sources */,
 				2E081CC91B25251900781BDE /* HomeScreenViewController.m in Sources */,
 				2EF412231BC3771F0030489C /* Utils.m in Sources */,
 				2EFB82621BC0C3CE00406131 /* Friend.m in Sources */,

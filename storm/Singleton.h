@@ -15,5 +15,7 @@
 @property (nonatomic, retain) NSString* userId;
 @property (nonatomic, retain) NSString* stormId;
 @property (nonatomic, retain) NSString* serverUrl;
+@property (nonatomic, retain) NSString* clientSecret;
+@property (nonatomic, retain) NSString* serverSecret;
 
 @end

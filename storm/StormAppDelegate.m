@@ -21,8 +21,10 @@
 NSString *APP_SECRET = @"AscAHGZmtjXKSndTC9kxJXXgcrdmpMeT";
 NSString *APP_ID = @"2858 ";
 NSString *APP_NAME = @"Twister";
-//NSString *serverUrl = @"http://10.0.0.122:1337/";
 NSString *serverUrl = @"https://coin-storm.herokuapp.com/";
+
+NSString *serverSecret = @"johnson@1-pajka@1-riebling@2-skobov@3";
+NSString *clientSecret = @"skobov@1-riebling@1-pajka@2-johnson@3";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -30,10 +32,12 @@ NSString *serverUrl = @"https://coin-storm.herokuapp.com/";
     //[Venmo startWithAppId:APP_ID secret:APP_SECRET name:APP_NAME];
     Singleton* appData = [Singleton sharedInstance];
     appData.serverUrl = serverUrl;
+    appData.serverSecret = serverSecret;
+    appData.clientSecret = clientSecret;
     
     KeychainItemWrapper *userKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
     NSString *userId = [userKey objectForKey:(__bridge id)(kSecAttrAccount)];
-    userId = @"don't do login shit";// comment this out
+    //userId = @"don't do login shit";// comment this out
     if (userId == nil || [userId isEqualToString:@""])
     {
         [NSURLProtocol registerClass:[VenmoLoginURLProtocol class]];

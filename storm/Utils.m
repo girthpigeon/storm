@@ -20,4 +20,28 @@
     return;
 }
 
++ (NSString*) encrypt:(NSString*)unencryptedString withPassword:(NSString*)password
+{
+    NSData *data = [unencryptedString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSData *encryptedData = [RNEncryptor encryptData:data
+                                        withSettings:kRNCryptorAES256Settings
+                                            password:password
+                                               error:&error];
+    NSString* encryptedString = [NSString stringWithUTF8String:[encryptedData bytes]];
+    return encryptedString;
+}
+
++ (NSString*) decrypt:(NSString*)encryptedData withPassword:(NSString *)password
+{
+    NSData *data = [encryptedData dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSData *decryptedData = [RNDecryptor decryptData:data
+                                        withPassword:password
+                                               error:&error];
+    NSString* decryptedString = [NSString stringWithUTF8String:[decryptedData bytes]];
+    return decryptedString;
+}
+
+
 @end
