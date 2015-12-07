@@ -27,7 +27,7 @@ NSMutableArray *m_friendsArray;
 BOOL m_friendPickerActivated;
 Friend *m_recipient;
 
-NSData *m_responseData;
+NSMutableData *m_responseData;
 
 // cloudhub
 UITextField *m_messageTextField;
@@ -74,7 +74,6 @@ float height;
     height = screenRect.size.height;
     
     [self setupBackground];
-    //[self setupFriendListview];
     [self createCoinsArray];
     [self setupCoinViews];
     [self setupHubCloud];
@@ -105,7 +104,6 @@ float height;
     m_friendsListTable.dataSource=self;
     m_friendsListTable.delegate=self;
     m_friendsListTable.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    //[m_friendsListTable registerClass:[FriendCell class] forCellReuseIdentifier:@"FriendCell"];
     [m_friendsListTable reloadData];
     [self.view addSubview:m_friendsListTable];
     
@@ -195,7 +193,6 @@ float height;
     [self.view addSubview:cloudView];
     [self animateCloud:cloudView withTag:tag];
     [self.view sendSubviewToBack:cloudView];
-    
 }
 
 - (void) animateCloud:(UIImageView*) cloudView withTag:(NSString*) tag
@@ -271,7 +268,6 @@ float height;
 
 - (void) setupHubCloud
 {
-    
     UIImageView *cloudView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MainCloud.png"]];
     CGRect frame;
     
@@ -297,7 +293,6 @@ float height;
     
     [cloudView setUserInteractionEnabled:YES];
     
-    
     [self.view addSubview:cloudView];
     
     // num coins sent label
@@ -315,8 +310,7 @@ float height;
     m_messageTextField.text = @"for being a little baby bitch";
     [m_messageTextField setFont:[UIFont boldSystemFontOfSize:12]];
     [m_messageTextField setBackgroundColor:[UIColor clearColor]];
-    //message.textAlignment = NSTextAlignment.Center
-    //[message setEditable:YES];
+
     m_messageTextField.borderStyle = UITextBorderStyleNone;
     [self.view addSubview:m_messageTextField];
     
@@ -469,72 +463,71 @@ float height;
     [self changeFriendPickerStatus:false];
 }
 
+-(void)fetchMoreFriends:(NSString *)requestUrl
+{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    [request setURL:[NSURL URLWithString:requestUrl]];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSString *responseString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+        NSLog(@"requestReply: %@", responseString);
+        
+        if (responseString != nil)
+        {
+            NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSDictionary *result = [allJSON objectForKey:@"result"];
+
+            NSDictionary *data = [result objectForKey:@"pagination"];
+            NSString *nextUrl = [data objectForKey:@"next"];
+            
+            NSMutableArray *friends = [result objectForKey:@"data"];
+            for (NSArray *friend in friends)
+            {
+                NSString *username = [friend valueForKey:@"username"];
+                NSString *firstName = [friend valueForKey:@"first_name"];
+                NSString *lastName = [friend valueForKey:@"last_name"];
+                NSString *profUrl = [friend valueForKey:@"profile_picture_url"];
+                Friend *pal = [[Friend alloc] initWithFirst:firstName Last:lastName Username:username ProfUrl:profUrl];
+                [m_friendsArray addObject:pal];
+            }
+            
+            if (nextUrl != nil)
+            {
+                NSLog(@"fetchingmorefriends: %@", nextUrl);
+                [self fetchMoreFriends:nextUrl];
+            }
+            else
+            {
+                NSLog(@"all done");
+                [m_friendsListTable reloadData];
+            }
+        }
+        
+    }] resume];
+
+}
+
 -(void)getFriendsList
 {
     m_friendsArray = [[NSMutableArray alloc] init];
     
-    /*for (int i=0; i < 20; i++)
-    {
-        Friend *pal = [[Friend alloc] initWithFirst:@"Zack" Last:@"Pajka" Username:@"zackpa" ProfUrl:@"https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/1/005/07a/399/1fb9102.jpg"];
-        [m_friendsArray addObject:pal];
-    }*/
-    
-    
-    
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
     NSString *urlString = [NSString stringWithFormat:@"%@User/getMyVenmoFriends?", appData.serverUrl];
-    
-    //http://localhost:1337/User/getMyVenmoFriends?userId=558746ccd1e77f4a2a9a0d91&stormKey=558746ccd1e77f4a2a9a0d92
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
-    
     NSString *postString = [NSString stringWithFormat:@"userId=%@&stormKey=%@", appData.userId, appData.stormId];
     
-    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
-    [request setHTTPBody:[postString
-                          dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    //NSString* accessToken = @"853ca506cae4b0a19c8d442d34e85e1c47a36139bc3ee07713f5b33d1663599c";
-    
-    //NSError *err;
-    
-    //NSURLResponse *response;
-    
-    //NSData *responseData = [NSURLConnection sendSynchronousRequest:request   returningResponse:&response error:&err];
-    
-    //NSDictionary *jsonArray = [NSJSONSerialization JSONObjectWithData:responseData options: NSJSONReadingMutableContainers error: &err];
-    
-   // NSArray *array=[[jsonArray objectForKey:@"search_api"]objectForKey:@"result"];
-
-    
-    //NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];*/
-}
-
-// This method is used to receive the data which we get using post method.
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)data
-{
-    //NSArray *jsonArray=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    //BOOL danger=[(NSNumber*)[(NSDictionary*)[jsonArray objectAtIndex:0] objectForKey:@"danger"] boolValue];
-    
-    m_responseData = [[NSMutableData alloc] init];
-}
-
-// This method receives the error report in case of connection is not made to server.
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    
+    NSString *fullString = [NSString stringWithFormat:@"%@%@",urlString, postString];
+    [self fetchMoreFriends:fullString];
 }
 
 // This method is used to process the data after connection has made successfully.
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSString *responseString = [[NSString alloc] initWithData:m_responseData encoding:NSUTF8StringEncoding];
-    //NSLog(@"Response: %@", responseString);
+    NSLog(@"Response: %@", responseString);
     
     if (responseString != nil)
     {
@@ -572,15 +565,11 @@ float height;
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"FriendCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
-        //cell = [[FriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     Friend* pal =[m_friendsArray objectAtIndex:indexPath.row];
     cell.nameLabel.text = pal.FullName;
     [Utils circlize:pal.ProfPic withImageView:cell.thumbnailImageView];
-    //cell.thumbnailImageView.image = [UIImage imageNamed:@"ProfilePictureHolder.png"]
-    
-    
     
     cell.thumbnailImageView.image = pal.ProfPic;
     return cell;

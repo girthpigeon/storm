@@ -36,8 +36,8 @@
     {
         //[self performSegueWithIdentifier:@"VenmoAuthSegue" sender:self];
         Singleton* appData = [Singleton sharedInstance];
-        appData.userId = @"55d117139d21d7791ab3ea4f";
-        appData.stormId = @"55d117139d21d7791ab3ea50";
+        appData.userId = @"6";
+        appData.stormId = @"2";
     }
     else
     {
