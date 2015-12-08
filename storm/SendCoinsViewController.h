@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SendCoinsViewController : UIViewController <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, NSURLConnectionDelegate>
+@interface SendCoinsViewController : UIViewController <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, NSURLConnectionDelegate, UITextFieldDelegate>
 
 @property (strong, retain) IBOutlet UIScrollView *horizontalScrollView;
 @property (weak, nonatomic) IBOutlet UITableView *m_friendsList;

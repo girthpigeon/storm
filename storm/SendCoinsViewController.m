@@ -22,6 +22,11 @@ NSMutableArray *m_coinImageViewsArray;
 NSMutableArray *m_currentlyAnimatingCoinsArray;
 NSMutableDictionary *m_animatingCloudsMap;
 
+UITextField *m_friendSearchBox;
+CGFloat const searchHeight = 50;
+bool m_searchingFriends = false;
+NSMutableArray *m_copyOfFriendsArray;
+
 UITableView *m_friendsListTable;
 NSMutableArray *m_friendsArray;
 BOOL m_friendPickerActivated;
@@ -99,8 +104,8 @@ float height;
 
 - (void) setupFriendListview
 {
-    m_friendsListTable=[[UITableView alloc]init];
-    m_friendsListTable.frame = CGRectMake(0,height,width, height /2);
+    m_friendsListTable = [[UITableView alloc] init];
+    m_friendsListTable.frame = CGRectMake(0, height, width, height /2);
     m_friendsListTable.dataSource=self;
     m_friendsListTable.delegate=self;
     m_friendsListTable.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -114,6 +119,16 @@ float height;
     [self.view setUserInteractionEnabled:YES];
     
     [self.view addGestureRecognizer:dismissFriends];
+    
+    // setup search bar on top
+    m_friendSearchBox = [[UITextField alloc] init];
+    m_friendSearchBox.frame = CGRectMake(0, height, width, searchHeight);
+    [m_friendSearchBox setBackgroundColor:[UIColor whiteColor]];
+    m_friendSearchBox.delegate = self;
+    m_friendSearchBox.tag = 2;
+    [m_friendSearchBox addTarget:self action:@selector(friendSearchChanged:) forControlEvents:UIControlEventEditingChanged];
+    [self.view addSubview:m_friendSearchBox];
+    
 }
 
 - (void) setupBackground
@@ -314,12 +329,13 @@ float height;
     m_messageTextField.borderStyle = UITextBorderStyleNone;
     [self.view addSubview:m_messageTextField];
     
+    // recipient circle
     m_recipientImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
     
     frame.origin.x = width /2 + width / 5;
     frame.origin.y = (height / 20) * 3;
-    frame.size.width = 100;
-    frame.size.height = 100;
+    frame.size.width = 75;
+    frame.size.height = 75;
     m_recipientImage.frame = frame;
     
     UITapGestureRecognizer *friendPickerTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickFriendsTouched:)];
@@ -331,15 +347,13 @@ float height;
     
     [cloudView addGestureRecognizer:hubTouch];
     [m_recipientImage addGestureRecognizer:friendPickerTouched];
-    
-    // friend picker
-    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch * touch = [touches anyObject];
     if(touch.phase == UITouchPhaseBegan) {
         [m_messageTextField resignFirstResponder];
+        [m_friendSearchBox resignFirstResponder];
     }
 }
 
@@ -357,6 +371,11 @@ float height;
         {
             [self getFriendsList];
         }
+        else
+        {
+            m_friendsArray = m_copyOfFriendsArray;
+            [m_friendsListTable reloadData];
+        }
         
         // setup the friends listview
         [self setupFriendListview];
@@ -365,7 +384,49 @@ float height;
         [self changeFriendPickerStatus:true];
         
     }
-   
+}
+
+-(void)friendSearchChanged :(UITextField *)theTextField
+{
+    NSString *search = theTextField.text;
+    if ([search isEqualToString:@""])
+    {
+        m_friendsArray = m_copyOfFriendsArray;
+        [m_friendsListTable reloadData];
+    }
+    else
+    {
+        NSMutableArray *searchArray = [[NSMutableArray alloc] init];
+        for (Friend *pal in m_copyOfFriendsArray)
+        {
+            if ([pal.FullName containsString:theTextField.text])
+            {
+                [searchArray addObject:pal];
+            }
+        }
+    
+        if (searchArray.count > 0)
+        {
+            m_friendsArray = searchArray;
+            [m_friendsListTable reloadData];
+        }
+    }
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField.tag == m_friendSearchBox.tag)
+    {
+        m_searchingFriends = true;
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.tag == m_friendSearchBox.tag)
+    {
+    //    m_searchingFriends = false;
+    }
 }
 
 -(void)changeFriendPickerStatus:(BOOL) down
@@ -395,7 +456,21 @@ float height;
                              
                              
                          }];
-        CGRect frame = m_friendsListTable.frame;
+        
+        CGRect frame = m_friendSearchBox.frame;
+        frame.origin.y = height / 2 - searchHeight;
+        
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             m_friendSearchBox.frame = frame;
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+
+        frame = m_friendsListTable.frame;
         frame.origin.y = height / 2;
         
         [UIView animateWithDuration:0.4
@@ -407,7 +482,7 @@ float height;
                          completion:^(BOOL finished){
                              
                          }];
-        
+    
         m_friendPickerActivated = true;
     }
     else
@@ -433,6 +508,19 @@ float height;
                              
                          }];
         
+        CGRect frame = m_friendSearchBox.frame;
+        frame.origin.y = height;
+        
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             m_friendSearchBox.frame = frame;
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        
         [UIView animateWithDuration:0.4
                               delay:0.0
                             options:UIViewAnimationCurveLinear
@@ -448,13 +536,19 @@ float height;
 
 - (void) backgroundTapRecognizer:(UITapGestureRecognizer *)tap
 {
-    if (m_friendPickerActivated)
+    if (m_friendPickerActivated && !m_searchingFriends)
     {
         CGPoint touchPoint = [tap locationInView: tap.view];
-        if (touchPoint.y < height / 2)
+        if (touchPoint.y < height / 2 - searchHeight)
         {
             [self dismissFriendsPicker];
         }
+    }
+    
+    // no longer focused on friends search box
+    if (m_searchingFriends)
+    {
+        m_searchingFriends = false;
     }
 }
 
@@ -492,6 +586,7 @@ float height;
                 NSString *profUrl = [friend valueForKey:@"profile_picture_url"];
                 Friend *pal = [[Friend alloc] initWithFirst:firstName Last:lastName Username:username ProfUrl:profUrl];
                 [m_friendsArray addObject:pal];
+                [m_friendsListTable reloadData];
             }
             
             if (nextUrl != nil)
@@ -502,7 +597,7 @@ float height;
             else
             {
                 NSLog(@"all done");
-                [m_friendsListTable reloadData];
+                m_copyOfFriendsArray = [[NSMutableArray alloc] initWithArray:m_friendsArray];
             }
         }
         
