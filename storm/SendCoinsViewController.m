@@ -23,7 +23,7 @@ NSMutableArray *m_currentlyAnimatingCoinsArray;
 NSMutableDictionary *m_animatingCloudsMap;
 
 UITextField *m_friendSearchBox;
-CGFloat const searchHeight = 50;
+CGFloat const searchHeight = 40;
 bool m_searchingFriends = false;
 NSMutableArray *m_copyOfFriendsArray;
 
@@ -122,11 +122,19 @@ float height;
     
     // setup search bar on top
     m_friendSearchBox = [[UITextField alloc] init];
-    m_friendSearchBox.frame = CGRectMake(0, height, width, searchHeight);
+    m_friendSearchBox.frame = CGRectMake(0, height / 2, width, 0);
     [m_friendSearchBox setBackgroundColor:[UIColor whiteColor]];
     m_friendSearchBox.delegate = self;
     m_friendSearchBox.tag = 2;
+    m_friendSearchBox.alpha = 0.0;
+    m_friendSearchBox.autocorrectionType = UITextAutocorrectionTypeNo;
+    m_friendSearchBox.returnKeyType = UIReturnKeyDone;
+    m_friendSearchBox.placeholder = @"Search for friend";
     [m_friendSearchBox addTarget:self action:@selector(friendSearchChanged:) forControlEvents:UIControlEventEditingChanged];
+    
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 0)];
+    m_friendSearchBox.leftView = paddingView;
+    m_friendSearchBox.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:m_friendSearchBox];
     
 }
@@ -456,32 +464,34 @@ float height;
                              
                              
                          }];
-        
-        CGRect frame = m_friendSearchBox.frame;
-        frame.origin.y = height / 2 - searchHeight;
-        
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-                            options:UIViewAnimationCurveLinear
-                         animations:^{
-                             m_friendSearchBox.frame = frame;
-                         }
-                         completion:^(BOOL finished){
-                             
-                         }];
 
-        frame = m_friendsListTable.frame;
+        CGRect frame = m_friendsListTable.frame;
         frame.origin.y = height / 2;
         
         [UIView animateWithDuration:0.4
                               delay:0.0
                             options:UIViewAnimationCurveLinear
-                         animations:^{
+                         animations:^
+                        {
                              m_friendsListTable.frame = frame;
-                         }
-                         completion:^(BOOL finished){
+                        }
+                        completion:^(BOOL finished)
+                        {
+                            CGRect frame = m_friendSearchBox.frame;
+                            frame.size.height = searchHeight;
+                            frame.origin.y = height / 2 - searchHeight;
                              
-                         }];
+                            [UIView animateWithDuration:0.2
+                                                   delay:0.0
+                                                 options:UIViewAnimationCurveLinear
+                                              animations:^{
+                                                  m_friendSearchBox.alpha = .8;
+                                                  m_friendSearchBox.frame = frame;
+                                              }
+                                              completion:^(BOOL finished){
+                                                  
+                                              }];
+                        }];
     
         m_friendPickerActivated = true;
     }
@@ -509,28 +519,30 @@ float height;
                          }];
         
         CGRect frame = m_friendSearchBox.frame;
-        frame.origin.y = height;
+        frame.size.height = 0;
+        frame.origin.y = height / 2;
         
-        [UIView animateWithDuration:0.4
+        [UIView animateWithDuration:0.1
                               delay:0.0
                             options:UIViewAnimationCurveLinear
                          animations:^{
                              m_friendSearchBox.frame = frame;
+                             m_friendSearchBox.alpha = 0.0;
                          }
                          completion:^(BOOL finished){
-                             
+                             [UIView animateWithDuration:0.4
+                                                   delay:0.0
+                                                 options:UIViewAnimationCurveLinear
+                                              animations:^{
+                                                  m_friendsListTable.center = CGPointMake(width / 2, height * 2);
+                                              }
+                                              completion:^(BOOL finished){
+                                                  
+                                              }];
+
                          }];
         
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-                            options:UIViewAnimationCurveLinear
-                         animations:^{
-                             m_friendsListTable.center = CGPointMake(width / 2, height * 2);
-                         }
-                         completion:^(BOOL finished){
-                             
-                         }];
-        m_friendPickerActivated = false;
+               m_friendPickerActivated = false;
     }
 }
 
@@ -586,7 +598,9 @@ float height;
                 NSString *profUrl = [friend valueForKey:@"profile_picture_url"];
                 Friend *pal = [[Friend alloc] initWithFirst:firstName Last:lastName Username:username ProfUrl:profUrl];
                 [m_friendsArray addObject:pal];
-                [m_friendsListTable reloadData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [m_friendsListTable reloadData];
+                });
             }
             
             if (nextUrl != nil)
