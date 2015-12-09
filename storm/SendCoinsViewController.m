@@ -11,22 +11,27 @@
 #import "Friend.h"
 #import "Utils.h"
 #import "FriendCell.h"
+#import "Storm.h"
+#import "Coin.h"
 
 @implementation SendCoinsViewController
 
+// coin arrays
 NSMutableArray *m_coinsArray;
 NSMutableArray *m_coinValuesArray;
 NSMutableArray *m_coinViewsArray;
 NSMutableArray *m_coinImageViewsArray;
-
 NSMutableArray *m_currentlyAnimatingCoinsArray;
+
 NSMutableDictionary *m_animatingCloudsMap;
 
+// friend search
 UITextField *m_friendSearchBox;
 CGFloat const searchHeight = 40;
 bool m_searchingFriends = false;
 NSMutableArray *m_copyOfFriendsArray;
 
+// friend picker
 UITableView *m_friendsListTable;
 NSMutableArray *m_friendsArray;
 BOOL m_friendPickerActivated;
@@ -46,8 +51,10 @@ UIImageView *m_walletBackView;
 CGPoint m_walletFrontViewLocation;
 CGPoint m_walletBackViewLocation;
 
-int m_currentCoinIndex;
+// current storm
+Storm *m_currentStorm;
 
+int m_currentCoinIndex;
 CGFloat m_lastContentOffset;
 
 enum ScrollDirection
@@ -569,8 +576,13 @@ float height;
     [self changeFriendPickerStatus:false];
 }
 
--(void)fetchMoreFriends:(NSString *)requestUrl
+-(void)fetchMoreFriends:(NSString *)requestUrl withNextId:(NSString*)nextId
 {
+    if (nextId != nil)
+    {
+        requestUrl = [NSString stringWithFormat:@"%@&beforeId=%@", requestUrl, nextId];
+    }
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     [request setURL:[NSURL URLWithString:requestUrl]];
@@ -586,8 +598,7 @@ float height;
             NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
             NSDictionary *result = [allJSON objectForKey:@"result"];
 
-            NSDictionary *data = [result objectForKey:@"pagination"];
-            NSString *nextUrl = [data objectForKey:@"next"];
+            NSString *nextUrl = [result objectForKey:@"pagination"];
             
             NSMutableArray *friends = [result objectForKey:@"data"];
             for (NSArray *friend in friends)
@@ -606,7 +617,7 @@ float height;
             if (nextUrl != nil)
             {
                 NSLog(@"fetchingmorefriends: %@", nextUrl);
-                [self fetchMoreFriends:nextUrl];
+                [self fetchMoreFriends:requestUrl withNextId:nextUrl];
             }
             else
             {
@@ -629,7 +640,7 @@ float height;
     NSString *postString = [NSString stringWithFormat:@"userId=%@&stormKey=%@", appData.userId, appData.stormId];
     
     NSString *fullString = [NSString stringWithFormat:@"%@%@",urlString, postString];
-    [self fetchMoreFriends:fullString];
+    [self fetchMoreFriends:fullString withNextId:nil];
 }
 
 // This method is used to process the data after connection has made successfully.
@@ -699,6 +710,15 @@ float height;
 - (void) changeRecipient
 {
     [Utils circlize:m_recipient.ProfPic withImageView:m_recipientImage];
+    [self initializeNewStorm];
+}
+
+-(void) initializeNewStorm
+{
+    m_messageTextField.text = @"";
+    m_coinCountLabel.text = @"$0.00";
+    Singleton* appData = [Singleton sharedInstance];
+    m_currentStorm = [[Storm alloc] init:m_recipient withSender:appData.userId];
 }
 
 - (void)resetCoinViews
@@ -960,9 +980,6 @@ float height;
     }];
     
     m_coinCountLabel.text = value;
-    
-    
-    // Change the text
 }
 
 -(void)sendCoin:(int) coinValue

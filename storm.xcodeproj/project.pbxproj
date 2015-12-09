@@ -31,6 +31,8 @@
 		2E6DC0DC1BCB31CB00CEA07D /* RNDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D21BCB31CB00CEA07D /* RNDecryptor.m */; };
 		2E6DC0DD1BCB31CB00CEA07D /* RNEncryptor.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D31BCB31CB00CEA07D /* RNEncryptor.h */; };
 		2E6DC0DE1BCB31CC00CEA07D /* RNEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D41BCB31CB00CEA07D /* RNEncryptor.m */; };
+		2E99CFD51C17E6B9001C0923 /* Coin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E99CFD41C17E6B9001C0923 /* Coin.m */; settings = {ASSET_TAGS = (); }; };
+		2E99CFD81C17E914001C0923 /* Storm.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E99CFD71C17E914001C0923 /* Storm.m */; settings = {ASSET_TAGS = (); }; };
 		2ED9AEF71B30F36B00345A07 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 2ED9AEF51B2E6B7400345A07 /* Assets */; };
 		2ED9AF071B3130DC00345A07 /* MakeItRainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED9AF061B3130DC00345A07 /* MakeItRainViewController.m */; };
 		2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE015081B49CF29002B77FE /* LoginViewController.m */; };
@@ -85,6 +87,10 @@
 		2E6DC0D21BCB31CB00CEA07D /* RNDecryptor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNDecryptor.m; path = RNCryptor/RNDecryptor.m; sourceTree = "<group>"; };
 		2E6DC0D31BCB31CB00CEA07D /* RNEncryptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNEncryptor.h; path = RNCryptor/RNEncryptor.h; sourceTree = "<group>"; };
 		2E6DC0D41BCB31CB00CEA07D /* RNEncryptor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNEncryptor.m; path = RNCryptor/RNEncryptor.m; sourceTree = "<group>"; };
+		2E99CFD31C17E6B9001C0923 /* Coin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coin.h; sourceTree = "<group>"; };
+		2E99CFD41C17E6B9001C0923 /* Coin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Coin.m; sourceTree = "<group>"; };
+		2E99CFD61C17E914001C0923 /* Storm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Storm.h; sourceTree = "<group>"; };
+		2E99CFD71C17E914001C0923 /* Storm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Storm.m; sourceTree = "<group>"; };
 		2ED9AEF51B2E6B7400345A07 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Assets; path = storm/Assets; sourceTree = "<group>"; };
 		2ED9AF051B3130DC00345A07 /* MakeItRainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MakeItRainViewController.h; sourceTree = "<group>"; };
 		2ED9AF061B3130DC00345A07 /* MakeItRainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MakeItRainViewController.m; sourceTree = "<group>"; };
@@ -260,6 +266,10 @@
 			children = (
 				2EFB82601BC0C3CE00406131 /* Friend.h */,
 				2EFB82611BC0C3CE00406131 /* Friend.m */,
+				2E99CFD31C17E6B9001C0923 /* Coin.h */,
+				2E99CFD41C17E6B9001C0923 /* Coin.m */,
+				2E99CFD61C17E914001C0923 /* Storm.h */,
+				2E99CFD71C17E914001C0923 /* Storm.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -401,9 +411,11 @@
 				2EFB82621BC0C3CE00406131 /* Friend.m in Sources */,
 				2E6DC07B1BC9C84900CEA07D /* FriendCell.m in Sources */,
 				2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */,
+				2E99CFD81C17E914001C0923 /* Storm.m in Sources */,
 				2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */,
 				2E081CC61B25251900781BDE /* StormAppDelegate.m in Sources */,
 				2E42C3D11B8C112B00EBEB73 /* SendCoinsViewController.m in Sources */,
+				2E99CFD51C17E6B9001C0923 /* Coin.m in Sources */,
 				2ED9AF071B3130DC00345A07 /* MakeItRainViewController.m in Sources */,
 				2E081CC31B25251900781BDE /* main.m in Sources */,
 				2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */,
