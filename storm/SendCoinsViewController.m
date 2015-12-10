@@ -54,6 +54,8 @@ CGPoint m_walletBackViewLocation;
 // current storm
 Storm *m_currentStorm;
 
+int m_originalRequestLength;
+
 int m_currentCoinIndex;
 CGFloat m_lastContentOffset;
 
@@ -580,7 +582,17 @@ float height;
 {
     if (nextId != nil)
     {
+        // If we need to remove the previous beforeId
+        if (m_originalRequestLength != requestUrl.length)
+        {
+            NSRange range = NSMakeRange(0, m_originalRequestLength);
+            requestUrl = [requestUrl substringWithRange:range];
+        }
         requestUrl = [NSString stringWithFormat:@"%@&beforeId=%@", requestUrl, nextId];
+    }
+    else
+    {
+        m_originalRequestLength = (int)requestUrl.length;
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -948,7 +960,7 @@ float height;
     double coinValue = [[m_coinValuesArray objectAtIndex:m_currentCoinIndex] doubleValue];
     NSString* newAmt = [self convertCoinValueToMoneyAmount:m_coinCountLabel.text plus:coinValue];
     [self changeCoinCountLabel:newAmt];
-    //[self sendCoin:coinValue];
+    [self sendCoin:coinValue];
     [self resetImage];
     
 }
@@ -989,21 +1001,21 @@ float height;
     
     NSString *defaultMessage = @"Ryan sucks eggs";
     NSString *defaultToUser = @"558746ccd1e77f4a2a9a0d92";
+    NSString *sandboxUser = @"145434160922624933";
     
     NSString *urlString = [NSString stringWithFormat:@"%@Coin/sendCoin?", appData.serverUrl];
-    //http://localhost:1337/Coin/sendCoin?from=558746ccd1e77f4a2a9a0d91&to=558746ccd1e77f4a2a9a0d91&value=100&message=Ten Dimes is Chill&stormKey=558746ccd1e77f4a2a9a0d92
+    NSString *fullUrl = [NSString stringWithFormat:@"%@from=%@&to=%@&value=%d&message=%@&stormKey=%@", urlString, sandboxUser, defaultToUser, coinValue, defaultMessage, appData.stormId];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
+    [request setURL:[NSURL URLWithString:fullUrl]];
     [request setHTTPMethod:@"POST"];
     
-    NSString *postString = [NSString stringWithFormat:@"from=%@&to=%@&value=%d&message=%@&stormKey=%@", appData.userId, defaultToUser, coinValue, defaultMessage, appData.stormId];
+    //NSString *postString = [NSString stringWithFormat:@"from=%@&to=%@&value=%d&message=%@&stormKey=%@", sandboxUser, defaultToUser, coinValue, defaultMessage, appData.stormId];
     
+    //[request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
     
-    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
-    
-    [request setHTTPBody:[postString
-                          dataUsingEncoding:NSUTF8StringEncoding]];
+    //[request setHTTPBody:[postString
+    //                      dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
