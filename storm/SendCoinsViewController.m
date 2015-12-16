@@ -627,7 +627,7 @@ float height;
                 });
             }
             
-            if (nextUrl != nil)
+            if (![nextUrl isEqualToString:@""])
             {
                 NSLog(@"fetchingmorefriends: %@", nextUrl);
                 [self fetchMoreFriends:requestUrl withNextId:nextUrl];
@@ -1000,24 +1000,32 @@ float height;
     Singleton* appData = [Singleton sharedInstance];
     
     NSString *defaultMessage = @"Ryan sucks eggs";
-    NSString *defaultToUser = @"558746ccd1e77f4a2a9a0d92";
-    NSString *sandboxUser = @"145434160922624933";
+    //NSString *defaultToUser = @"558746ccd1e77f4a2a9a0d92";
+    NSString *defaultToUser = @"1";
+    //NSString *sandboxUser = @"145434160922624933";
+    NSString *sandboxUser = @"6";
     
     NSString *urlString = [NSString stringWithFormat:@"%@Coin/sendCoin?", appData.serverUrl];
-    NSString *fullUrl = [NSString stringWithFormat:@"%@from=%@&to=%@&value=%d&message=%@&stormKey=%@", urlString, sandboxUser, defaultToUser, coinValue, defaultMessage, appData.stormId];
+    //NSString *fullUrl = [NSString stringWithFormat:@"%@from=%@&to=%@&value=%d&message=%@&stormKey=%@", urlString, sandboxUser, defaultToUser, coinValue, defaultMessage, appData.stormId];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:fullUrl]];
+    [request setURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
     
-    //NSString *postString = [NSString stringWithFormat:@"from=%@&to=%@&value=%d&message=%@&stormKey=%@", sandboxUser, defaultToUser, coinValue, defaultMessage, appData.stormId];
+    NSString *postString = [NSString stringWithFormat:@"from=%@&to=%@&value=%d&message=%@&stormKey=%@", sandboxUser, defaultToUser, coinValue, defaultMessage, appData.stormId];
     
-    //[request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
     
-    //[request setHTTPBody:[postString
-    //                      dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setHTTPBody:[postString
+                          dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    if(connection) {
+        NSLog(@"Connection Successful");
+    } else {
+        NSLog(@"Connection could not be made");
+    }
     
 }
 
