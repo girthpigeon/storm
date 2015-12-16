@@ -621,6 +621,7 @@ float height;
                 NSString *profUrl = [friend valueForKey:@"profile_picture_url"];
                 Friend *pal = [[Friend alloc] initWithFirst:firstName Last:lastName Username:username ProfUrl:profUrl];
                 [m_friendsArray addObject:pal];
+                m_copyOfFriendsArray = [[NSMutableArray alloc] initWithArray:m_friendsArray];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [m_friendsListTable reloadData];
                 });
@@ -634,7 +635,6 @@ float height;
             else
             {
                 NSLog(@"all done");
-                m_copyOfFriendsArray = [[NSMutableArray alloc] initWithArray:m_friendsArray];
             }
         }
         
