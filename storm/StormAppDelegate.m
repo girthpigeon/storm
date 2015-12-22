@@ -45,11 +45,10 @@ NSString *clientSecret = @"skobov@1-riebling@1-pajka@2-johnson@3";
         appData.stormId = @"2";
     }
     
-    /*HomeScreenViewController *homeScreenVC = [[HomeScreenViewController alloc] initWithNibName:@"HomeScreenViewController" bundle:nil];
+    HomeScreenViewController *homeScreenVC = [[HomeScreenViewController alloc] initWithNibName:@"HomeScreenViewController" bundle:nil];
     UINavigationController *navigationController=[[UINavigationController alloc] initWithRootViewController:homeScreenVC];
-    self.window.rootViewController =nil;
-    self.window.rootViewController = navigationController;
-    [self.window makeKeyAndVisible];*/
+    //self.window.rootViewController = navigationController;
+    //[self.window makeKeyAndVisible];
     
     return YES;
 }

@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jzQ-LC-08d">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="v75-KC-l9s">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="jzQ-LC-08d" sceneMemberID="viewController">
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Iwi-dS-8k6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="5uL-GZ-B9G"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jKJ-hO-KjD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-88" y="690"/>
+        </scene>
         <!--Home Screen View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -19,6 +36,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.43245119834359491" green="0.7400247453679808" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="gUK-hG-pOy"/>
                     <connections>
                         <segue destination="xj4-ys-PcA" kind="show" identifier="VenmoAuthSegue" id="a7Q-Bc-ZdU"/>
                         <segue destination="fI1-gB-Vyd" kind="show" identifier="MakeItRainSegue" id="OD6-Dj-Ygm"/>
@@ -232,7 +250,7 @@
         <!--Send Coins View Controller-->
         <scene sceneID="JKR-pA-XZe">
             <objects>
-                <viewController id="fI1-gB-Vyd" customClass="SendCoinsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SendCoinsView" id="fI1-gB-Vyd" customClass="SendCoinsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="AJJ-3U-yN4"/>
                         <viewControllerLayoutGuide type="bottom" id="9ev-vO-YLm"/>

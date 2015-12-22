@@ -16,6 +16,8 @@
 
 @implementation HomeScreenViewController
 
+bool m_loaded;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -23,12 +25,21 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-     [self setupButtons];
+    if (!m_loaded)
+    {
+        [self setupView];
+        m_loaded = true;
+    }
+}
+
+-(void) setupView
+{
+    [self setupButtons];
     
     KeychainItemWrapper *userKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
     KeychainItemWrapper *stormKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"stormKey" accessGroup:nil];
     //[userKey resetKeychainItem];
-   // [stormKey resetKeychainItem];
+    // [stormKey resetKeychainItem];
     NSString *userId = [userKey objectForKey:(__bridge id)(kSecAttrAccount)];
     NSString *stormId = [stormKey objectForKey:(__bridge id)(kSecAttrAccount)];
     
@@ -45,6 +56,7 @@
         appData.userId = userId;
         appData.stormId = stormId;
     }
+
 }
 
 -(void)setupButtons

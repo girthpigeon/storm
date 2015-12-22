@@ -43,6 +43,7 @@ NSMutableData *m_responseData;
 UITextField *m_messageTextField;
 UILabel *m_coinCountLabel;
 UIImageView *m_recipientImage;
+UIImageView *m_backButton;
 double m_coinCount;
 
 // wallet
@@ -311,6 +312,7 @@ float height;
     
     UIView* behindCloud = [[UIView alloc] initWithFrame:frame];
     [behindCloud setBackgroundColor:self.view.backgroundColor];
+    
     [self.view addSubview:behindCloud];
     
     frame.origin.x = width / 20;
@@ -320,11 +322,26 @@ float height;
     
     cloudView.frame = frame;
     
-    UITapGestureRecognizer *hubTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cloudHubTouched:)];
-    [hubTouch setDelegate:self];
+    //UITapGestureRecognizer *hubTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cloudHubTouched:)];
+    //[hubTouch setDelegate:self];
     
     [cloudView setUserInteractionEnabled:YES];
     
+    // sun back button
+    m_backButton = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sun.png"]];
+    CGRect sunFrame;
+    sunFrame.origin.x = 0 - 30;
+    sunFrame.origin.y = 0 - 30;
+    sunFrame.size.width = width / 3;
+    sunFrame.size.height = width / 3;
+    
+    m_backButton.frame = sunFrame;
+    
+    UITapGestureRecognizer *sunTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonTouched:)];
+    [sunTouch setDelegate:self];
+    
+    [m_backButton setUserInteractionEnabled:YES];
+    [self.view addSubview:m_backButton];
     [self.view addSubview:cloudView];
     
     // num coins sent label
@@ -362,7 +379,7 @@ float height;
     
     [self.view addSubview:m_recipientImage];
     
-    [cloudView addGestureRecognizer:hubTouch];
+    [m_backButton addGestureRecognizer:sunTouch];
     [m_recipientImage addGestureRecognizer:friendPickerTouched];
 }
 
@@ -377,6 +394,16 @@ float height;
 -(void)cloudHubTouched:(UITapGestureRecognizer *)tap
 {
     // edit message
+}
+
+- (void) backButtonTouched:(UITapGestureRecognizer *) tap
+{
+    //[m_animatingCloudsMap removeAllObjects];
+    //[m_coinImageViewsArray removeAllObjects];
+    //[m_coinsArray removeAllObjects];
+    //[m_currentlyAnimatingCoinsArray removeAllObjects];
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void) pickFriendsTouched:(UITapGestureRecognizer *)tap
