@@ -30,6 +30,9 @@ bool m_loaded;
         [self setupView];
         m_loaded = true;
     }
+    
+    // authenticate user and save to singleton NEW
+    // curl -X POST --header "Content-Type: application/json"  "http://storm-of-coins.herokuapp.com/api/authenticate?username=admin&password=admin"
 }
 
 -(void) setupView

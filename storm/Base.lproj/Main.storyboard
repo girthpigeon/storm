@@ -40,6 +40,7 @@
                     <connections>
                         <segue destination="xj4-ys-PcA" kind="show" identifier="VenmoAuthSegue" id="a7Q-Bc-ZdU"/>
                         <segue destination="fI1-gB-Vyd" kind="show" identifier="MakeItRainSegue" id="OD6-Dj-Ygm"/>
+                        <segue destination="9Gg-AM-EkK" kind="show" identifier="CashCloudSegue" id="74n-WU-1Tb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -245,7 +246,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZPO-7J-cPI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1531.5" y="519"/>
+            <point key="canvasLocation" x="2175" y="519"/>
+        </scene>
+        <!--Retrieve Coins View Controller-->
+        <scene sceneID="i7z-u0-utW">
+            <objects>
+                <viewController id="9Gg-AM-EkK" customClass="RetrieveCoinsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZBm-VW-drD"/>
+                        <viewControllerLayoutGuide type="bottom" id="NKI-Bf-M6o"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mJL-Dt-jCM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.43245119830000001" green="0.74002474539999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BVS-0S-Ueh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1472" y="529"/>
         </scene>
         <!--Send Coins View Controller-->
         <scene sceneID="JKR-pA-XZe">

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E0535531C46031B00ED41B7 /* RetrieveCoinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0535521C46031B00ED41B7 /* RetrieveCoinsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		2E081CC31B25251900781BDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E081CC21B25251900781BDE /* main.m */; };
 		2E081CC61B25251900781BDE /* StormAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E081CC51B25251900781BDE /* StormAppDelegate.m */; };
 		2E081CC91B25251900781BDE /* HomeScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E081CC81B25251900781BDE /* HomeScreenViewController.m */; };
@@ -55,6 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E0535511C46031B00ED41B7 /* RetrieveCoinsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetrieveCoinsViewController.h; sourceTree = "<group>"; };
+		2E0535521C46031B00ED41B7 /* RetrieveCoinsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RetrieveCoinsViewController.m; sourceTree = "<group>"; };
 		2E081CBD1B25251900781BDE /* storm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = storm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E081CC11B25251900781BDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E081CC21B25251900781BDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -131,6 +134,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E05354D1C46029700ED41B7 /* RainDance */ = {
+			isa = PBXGroup;
+			children = (
+				2E0535511C46031B00ED41B7 /* RetrieveCoinsViewController.h */,
+				2E0535521C46031B00ED41B7 /* RetrieveCoinsViewController.m */,
+			);
+			name = RainDance;
+			sourceTree = "<group>";
+		};
 		2E081CB41B25251900781BDE = {
 			isa = PBXGroup;
 			children = (
@@ -161,8 +173,9 @@
 				2EE4F8381B81733D00A9AAB6 /* App */,
 				2EE015041B49CEBE002B77FE /* Login */,
 				2ED9AEF81B312A0100345A07 /* MakeItRain */,
-				2E081CC71B25251900781BDE /* HomeScreenViewController.h */,
+				2E05354D1C46029700ED41B7 /* RainDance */,
 				2E081CC81B25251900781BDE /* HomeScreenViewController.m */,
+				2E081CC71B25251900781BDE /* HomeScreenViewController.h */,
 				2E081CCA1B25251900781BDE /* Main.storyboard */,
 				2E081CCD1B25251900781BDE /* Images.xcassets */,
 				2E081CCF1B25251900781BDE /* LaunchScreen.xib */,
@@ -417,6 +430,7 @@
 				2E42C3D11B8C112B00EBEB73 /* SendCoinsViewController.m in Sources */,
 				2E99CFD51C17E6B9001C0923 /* Coin.m in Sources */,
 				2ED9AF071B3130DC00345A07 /* MakeItRainViewController.m in Sources */,
+				2E0535531C46031B00ED41B7 /* RetrieveCoinsViewController.m in Sources */,
 				2E081CC31B25251900781BDE /* main.m in Sources */,
 				2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */,
 				2EE4F8361B815AA100A9AAB6 /* KeychainItemWrapper.m in Sources */,

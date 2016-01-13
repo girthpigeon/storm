@@ -749,7 +749,7 @@ float height;
 - (void) changeRecipient
 {
     [Utils circlize:m_recipient.ProfPic withImageView:m_recipientImage];
-    [self initializeNewStorm];
+    [self initializeNewStorm]; // also add to changing the message
 }
 
 -(void) initializeNewStorm
@@ -989,7 +989,6 @@ float height;
     [self changeCoinCountLabel:newAmt];
     [self sendCoin:coinValue];
     [self resetImage];
-    
 }
 
 -(NSString *)convertCoinValueToMoneyAmount:(NSString *)currentAmtString plus:(double)coinValue
@@ -1023,6 +1022,14 @@ float height;
 
 -(void)sendCoin:(int) coinValue
 {
+    // if new message create new storm
+    // url/api/storms
+    
+    //curl -X POST --header "Content-Type: application/json" --header "Accept: application/json" --header "X-Auth-Token: admin:1452661056346:f7624723064d43f68c442e212a940f76" -d "{
+    //\"message\": \"its ya boi Zack\"
+    //}" "http://localhost:8080/api/storms"
+    // [mutableRequest addValue:@"Hless" forHTTPHeaderField:@"X-user-nick"];
+    
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
     
