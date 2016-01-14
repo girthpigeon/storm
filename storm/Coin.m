@@ -14,11 +14,11 @@
 @synthesize Recipient;
 @synthesize SenderId;
 
--(id) init:(double)value toUser:(Friend *)toUser fromUser:(NSString *)sender
+-(id) initWithValue:(double)value ToUser:(Friend *)receiver FromUser:(Friend *)sender
 {
     self = [super init];
     self.Value = value;
-    self.Recipient = toUser;
+    self.Recipient = receiver;
     self.SenderId = sender;
     return self;
 }
