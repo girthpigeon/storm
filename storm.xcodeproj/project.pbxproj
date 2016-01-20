@@ -41,6 +41,7 @@
 		2EE4F8361B815AA100A9AAB6 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */; };
 		2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F83A1B81736A00A9AAB6 /* Singleton.m */; };
 		2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */; };
+		2EF3C87F1C4F4A120092FE78 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3C87E1C4F4A120092FE78 /* DBManager.m */; settings = {ASSET_TAGS = (); }; };
 		2EF412231BC3771F0030489C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF412221BC3771F0030489C /* Utils.m */; };
 		2EFB82621BC0C3CE00406131 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFB82611BC0C3CE00406131 /* Friend.m */; };
 /* End PBXBuildFile section */
@@ -106,6 +107,8 @@
 		2EE4F83A1B81736A00A9AAB6 /* Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Singleton.m; sourceTree = "<group>"; };
 		2EE838931B54C10700636CBA /* VenmoLoginURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenmoLoginURLProtocol.h; sourceTree = "<group>"; };
 		2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenmoLoginURLProtocol.m; sourceTree = "<group>"; };
+		2EF3C87D1C4F4A120092FE78 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		2EF3C87E1C4F4A120092FE78 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		2EF412211BC3771F0030489C /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		2EF412221BC3771F0030489C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		2EFB82601BC0C3CE00406131 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
@@ -134,13 +137,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2E05354D1C46029700ED41B7 /* RainDance */ = {
+		2E05354D1C46029700ED41B7 /* RecieveCoins */ = {
 			isa = PBXGroup;
 			children = (
 				2E0535511C46031B00ED41B7 /* RetrieveCoinsViewController.h */,
 				2E0535521C46031B00ED41B7 /* RetrieveCoinsViewController.m */,
 			);
-			name = RainDance;
+			name = RecieveCoins;
 			sourceTree = "<group>";
 		};
 		2E081CB41B25251900781BDE = {
@@ -172,8 +175,9 @@
 				2EFB825F1BC0C3B000406131 /* Models */,
 				2EE4F8381B81733D00A9AAB6 /* App */,
 				2EE015041B49CEBE002B77FE /* Login */,
-				2ED9AEF81B312A0100345A07 /* MakeItRain */,
-				2E05354D1C46029700ED41B7 /* RainDance */,
+				2ED9AEF81B312A0100345A07 /* SendCoins */,
+				2E05354D1C46029700ED41B7 /* RecieveCoins */,
+				2EF3C87C1C4F49750092FE78 /* Server */,
 				2E081CC81B25251900781BDE /* HomeScreenViewController.m */,
 				2E081CC71B25251900781BDE /* HomeScreenViewController.h */,
 				2E081CCA1B25251900781BDE /* Main.storyboard */,
@@ -237,7 +241,7 @@
 			name = Encryption;
 			sourceTree = "<group>";
 		};
-		2ED9AEF81B312A0100345A07 /* MakeItRain */ = {
+		2ED9AEF81B312A0100345A07 /* SendCoins */ = {
 			isa = PBXGroup;
 			children = (
 				2ED9AF051B3130DC00345A07 /* MakeItRainViewController.h */,
@@ -245,7 +249,7 @@
 				2E42C3CF1B8C112B00EBEB73 /* SendCoinsViewController.h */,
 				2E42C3D01B8C112B00EBEB73 /* SendCoinsViewController.m */,
 			);
-			name = MakeItRain;
+			name = SendCoins;
 			sourceTree = "<group>";
 		};
 		2EE015041B49CEBE002B77FE /* Login */ = {
@@ -272,6 +276,15 @@
 				2EF412221BC3771F0030489C /* Utils.m */,
 			);
 			name = App;
+			sourceTree = "<group>";
+		};
+		2EF3C87C1C4F49750092FE78 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				2EF3C87D1C4F4A120092FE78 /* DBManager.h */,
+				2EF3C87E1C4F4A120092FE78 /* DBManager.m */,
+			);
+			name = Server;
 			sourceTree = "<group>";
 		};
 		2EFB825F1BC0C3B000406131 /* Models */ = {
@@ -434,6 +447,7 @@
 				2E081CC31B25251900781BDE /* main.m in Sources */,
 				2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */,
 				2EE4F8361B815AA100A9AAB6 /* KeychainItemWrapper.m in Sources */,
+				2EF3C87F1C4F4A120092FE78 /* DBManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,7 +21,8 @@
 NSString *APP_SECRET = @"AscAHGZmtjXKSndTC9kxJXXgcrdmpMeT";
 NSString *APP_ID = @"2858 ";
 NSString *APP_NAME = @"Twister";
-NSString *serverUrl = @"https://coin-storm.herokuapp.com/";
+//NSString *serverUrl = @"https://coin-storm.herokuapp.com/";
+NSString *serverUrl = @"http://storm-of-coins.herokuapp.com/";
 
 NSString *serverSecret = @"johnson@1-pajka@1-riebling@2-skobov@3";
 NSString *clientSecret = @"skobov@1-riebling@1-pajka@2-johnson@3";

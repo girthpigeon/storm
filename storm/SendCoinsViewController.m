@@ -1022,6 +1022,8 @@ float height;
 
 -(void)sendCoin:(int) coinValue
 {
+    // hook up to ui, send info to DBManager sendCoin
+    
     // if new message create new storm
     // url/api/storms
     

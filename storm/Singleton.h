@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Singleton : NSObject
+@interface Singleton : NSObject <NSURLConnectionDelegate>
 
-+ (Singleton*)sharedInstance;
++ (Singleton*) sharedInstance;
 
 @property (nonatomic, retain) NSString* userId;
 @property (nonatomic, retain) NSString* stormId;
 @property (nonatomic, retain) NSString* serverUrl;
 @property (nonatomic, retain) NSString* clientSecret;
 @property (nonatomic, retain) NSString* serverSecret;
+@property (nonatomic, retain) NSString* password;
+@property (nonatomic, retain) NSString* token;
 
 @end

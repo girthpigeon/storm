@@ -9,6 +9,7 @@
 #import "HomeScreenViewController.h"
 #import "KeychainItemWrapper.h"
 #import "Singleton.h"
+#import "DBManager.h"
 
 @interface HomeScreenViewController ()
 
@@ -50,16 +51,20 @@ bool m_loaded;
     {
         //[self performSegueWithIdentifier:@"VenmoAuthSegue" sender:self];
         Singleton* appData = [Singleton sharedInstance];
-        appData.userId = @"6";
-        appData.stormId = @"2";
+        
+        appData.userId = @"pajka";
+        appData.password = @"admin";
+        
+        [DBManager authenticate];
     }
     else
     {
         Singleton* appData = [Singleton sharedInstance];
         appData.userId = userId;
         appData.stormId = stormId;
+        
+        [DBManager authenticate];
     }
-
 }
 
 -(void)setupButtons
