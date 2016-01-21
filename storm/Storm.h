@@ -16,6 +16,7 @@
 @property (strong, retain) Friend *Recipient;
 @property (strong, retain) NSString *SenderId;
 @property (strong, retain) NSString *Message;
+@property (strong, retain) NSString *StormId;
 
 -(id) init:(Friend *)toUser withSender:(NSString *)fromUser;
 -(void) addCoinToStorm:(Coin *)coin;

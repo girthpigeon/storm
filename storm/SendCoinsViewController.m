@@ -13,6 +13,7 @@
 #import "FriendCell.h"
 #import "Storm.h"
 #import "Coin.h"
+#import "DBManager.h"
 
 @implementation SendCoinsViewController
 
@@ -54,6 +55,7 @@ CGPoint m_walletBackViewLocation;
 
 // current storm
 Storm *m_currentStorm;
+NSString *m_currentMessage;
 
 int m_originalRequestLength;
 
@@ -749,15 +751,16 @@ float height;
 - (void) changeRecipient
 {
     [Utils circlize:m_recipient.ProfPic withImageView:m_recipientImage];
-    [self initializeNewStorm]; // also add to changing the message
+    m_messageTextField.text = @"";
+    m_coinCountLabel.text = @"$0.00";
 }
 
 -(void) initializeNewStorm
 {
-    m_messageTextField.text = @"";
-    m_coinCountLabel.text = @"$0.00";
     Singleton* appData = [Singleton sharedInstance];
     m_currentStorm = [[Storm alloc] init:m_recipient withSender:appData.userId];
+    //m_currentStorm.StormId = [DBManager createStorm:m_recipient.Username withMessage:m_messageTextField.text]; // syncrhonous request
+    m_currentStorm.StormId = [DBManager createStorm:@"reib" withMessage:m_messageTextField.text]; // syncrhonous request
 }
 
 - (void)resetCoinViews
@@ -1022,47 +1025,24 @@ float height;
 
 -(void)sendCoin:(int) coinValue
 {
-    // hook up to ui, send info to DBManager sendCoin
-    
-    // if new message create new storm
-    // url/api/storms
-    
-    //curl -X POST --header "Content-Type: application/json" --header "Accept: application/json" --header "X-Auth-Token: admin:1452661056346:f7624723064d43f68c442e212a940f76" -d "{
-    //\"message\": \"its ya boi Zack\"
-    //}" "http://localhost:8080/api/storms"
-    // [mutableRequest addValue:@"Hless" forHTTPHeaderField:@"X-user-nick"];
-    
-    // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
     
-    NSString *defaultMessage = @"Ryan sucks eggs";
-    //NSString *defaultToUser = @"558746ccd1e77f4a2a9a0d92";
-    NSString *defaultToUser = @"1";
-    //NSString *sandboxUser = @"145434160922624933";
-    NSString *sandboxUser = @"6";
+    // hook up to ui, send info to DBManager sendCoin
+    NSString *message = m_messageTextField.text;
+    NSString *recipient = m_recipient.Username;
+    NSString *senderId = appData.userId;
     
-    NSString *urlString = [NSString stringWithFormat:@"%@Coin/sendCoin?", appData.serverUrl];
-    //NSString *fullUrl = [NSString stringWithFormat:@"%@from=%@&to=%@&value=%d&message=%@&stormKey=%@", urlString, sandboxUser, defaultToUser, coinValue, defaultMessage, appData.stormId];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
-    
-    NSString *postString = [NSString stringWithFormat:@"from=%@&to=%@&value=%d&message=%@&stormKey=%@", sandboxUser, defaultToUser, coinValue, defaultMessage, appData.stormId];
-    
-    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
-    
-    [request setHTTPBody:[postString
-                          dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    if(connection) {
-        NSLog(@"Connection Successful");
-    } else {
-        NSLog(@"Connection could not be made");
+    // if new message create new storm
+    if (![m_currentMessage isEqualToString:message])
+    {
+        [self initializeNewStorm];
     }
     
+    m_currentMessage = message;
+    m_currentStorm.Message = m_currentMessage;
+    
+    // send a coin with coinValue to server
+    [DBManager sendCoin:coinValue withStorm:m_currentStorm];
 }
 
 -(void)resetImage

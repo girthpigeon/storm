@@ -7,11 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Storm.h"
 
 @interface DBManager : NSObject
 
 @property (nonatomic, retain) NSData* m_responseData;
 
 + (void) authenticate;
+
++ (NSString*)createStorm:(NSString*)toUser withMessage:(NSString*)message;
++ (void) sendCoin:(int)coinValue withStorm:(Storm*)storm;
 
 @end

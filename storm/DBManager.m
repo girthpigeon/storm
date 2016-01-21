@@ -64,21 +64,65 @@
     }];
 }
 
-- (void) sendCoin:(int)coinValue toUser:(NSString*)toUser withMessage:(NSString*)message
++ (NSString*) createStorm:(NSString*)toUser withMessage:(NSString*)message
 {
-    //curl -X POST --header "Content-Type: application/json" --header "Accept: application/json" --header "X-Auth-Token: admin:1452661056346:f7624723064d43f68c442e212a940f76" -d "{
-    //\"message\": \"its ya boi Zack\"
-    //}" "http://localhost:8080/api/storms"
-    // [mutableRequest addValue:@"Hless" forHTTPHeaderField:@"X-user-nick"];
+    Singleton* appData = [Singleton sharedInstance];
+    
+    // create post call
+    NSString *postString = [NSString stringWithFormat:@"fromUser=%@&toUser=%@&message=%@", appData.userId, toUser, message];
+    //NSString* urlString = [NSString stringWithFormat:@"%@api/storms?%@", appData.serverUrl, postString];
+    NSString* urlString = [NSString stringWithFormat:@"%@api/storms?", appData.serverUrl];
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    [request setValue:[NSString stringWithFormat:@"%@", appData.token] forHTTPHeaderField:@"X-Auth-Token"];
+    
+    NSURLResponse* response;
+    NSError* error = nil;
+    NSString *stormId = @"";
+    
+    [request setValue:[NSString 
+                   stringWithFormat:@"%lu", (unsigned long)[postString length]]
+                    forHTTPHeaderField:@"Content-length"];
+    
+    [request setHTTPBody:[postString
+                      dataUsingEncoding:NSUTF8StringEncoding]];
+
+    //Capturing server response
+    NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
+         
+    if (response != nil)
+    {
+        NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingAllowFragments error:nil];
+        stormId = [allJSON objectForKey:@"id"];
+    }
+    
+    return stormId;
+}
+
++ (void) sendCoin:(int)coinValue withStorm:(Storm*)storm
+{
+    /*fromUsername": "string",
+  "id": 0,
+  "isCollected": true,
+  "storm": {
+    "fromUser": "string",
+    "id": 0,
+    "isActive": true,
+    "message": "string",
+    "toUser": "string"
+  },
+  "toUsername": "string",
+  "value": 0*/
     
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
     
-    NSString *defaultMessage = message;
-    NSString *defaultToUser = toUser;
-    
-    NSString *urlString = [NSString stringWithFormat:@"%@Coin/sendCoin?", appData.serverUrl];
-    NSString *fullUrl = [NSString stringWithFormat:@"%@from=%@&to=%@&value=%d&message=%@", urlString, appData.userId, defaultToUser, coinValue, defaultMessage];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/coins?", appData.serverUrl];
+    NSString *fullUrl = [NSString stringWithFormat:@"%@fromUsername=%@&fromUser=%@&message=%@&toUser=%@&toUsername=%@&value=%d&id=%@", urlString, appData.userId, appData.userId, storm.Message, storm.Recipient, storm.Recipient, coinValue, storm.StormId];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
@@ -92,39 +136,13 @@
          if (response != nil)
          {
              NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-             //NSDictionary *result = [allJSON objectForKey:@"result"];
+             NSDictionary *coin = [allJSON objectForKey:@"Coin"];
+             NSDictionary *storm = [allJSON objectForKey:@"Storm"];
              
-             NSString *expires = [allJSON objectForKey:@"expires"];
-             NSString *token = [allJSON objectForKey:@"token"];
-             NSLog(@"%@", token);
-             appData.token = token;
+             NSString *coinId = [coin objectForKey:@"id"];
+             NSLog(@"%@", coinId);
          }
      }];
 }
-
-/*
-// This method is used to process the data after connection has made successfully.
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    NSString *responseString = [[NSString alloc] initWithData:m_responseData encoding:NSUTF8StringEncoding];
-    NSLog(@"Response: %@", responseString);
-    
-    if (responseString != nil)
-    {
-        NSError *e = nil;
-        NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error: &e];
-        
-        if ([JSON count] == 2)
-        {
-            NSString *username = [JSON objectForKey:@"username"];
-            NSString *firstName = [JSON objectForKey:@"first_name"];
-            NSString *lastName = [JSON objectForKey:@"last_name"];
-            NSString *profUrl = [JSON objectForKey:@"profile_picture_url"];
-            Friend *pal = [[Friend alloc] initWithFirst:firstName Last:lastName Username:username ProfUrl:profUrl];
-            [m_friendsArray addObject:pal];
-        }
-    }
-}*/
 
 @end

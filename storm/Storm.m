@@ -14,6 +14,7 @@
 @synthesize Recipient;
 @synthesize SenderId;
 @synthesize Message;
+@synthesize StormId;
 
 -(id) init:(Friend *)toUser withSender:(NSString *)fromUser
 {
