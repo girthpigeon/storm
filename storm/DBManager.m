@@ -69,27 +69,26 @@
     Singleton* appData = [Singleton sharedInstance];
     
     // create post call
-    NSString *postString = [NSString stringWithFormat:@"fromUser=%@&toUser=%@&message=%@", appData.userId, toUser, message];
-    //NSString* urlString = [NSString stringWithFormat:@"%@api/storms?%@", appData.serverUrl, postString];
+    NSString *postString = [NSString stringWithFormat:@"{"
+    @"    \"fromUser\": \"%@\","
+    @"    \"toUser\": \"%@\","
+    @"    \"message\": \"%@\" }" ,
+    appData.userId, toUser, message];
+
     NSString* urlString = [NSString stringWithFormat:@"%@api/storms?", appData.serverUrl];
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
-    [request setValue:[NSString stringWithFormat:@"%@", appData.token] forHTTPHeaderField:@"X-Auth-Token"];
     
     NSURLResponse* response;
     NSError* error = nil;
     NSString *stormId = @"";
     
-    [request setValue:[NSString 
-                   stringWithFormat:@"%lu", (unsigned long)[postString length]]
-                    forHTTPHeaderField:@"Content-length"];
-    
-    [request setHTTPBody:[postString
-                      dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setValue:appData.token forHTTPHeaderField:@"X-Auth-Token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
+    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 
     //Capturing server response
     NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
@@ -103,44 +102,45 @@
     return stormId;
 }
 
-+ (void) sendCoin:(int)coinValue withStorm:(Storm*)storm
++ (void) sendCoin:(double)coinValue withStorm:(Storm*)storm
 {
-    /*fromUsername": "string",
-  "id": 0,
-  "isCollected": true,
-  "storm": {
-    "fromUser": "string",
-    "id": 0,
-    "isActive": true,
-    "message": "string",
-    "toUser": "string"
-  },
-  "toUsername": "string",
-  "value": 0*/
-    
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
     
     NSString *urlString = [NSString stringWithFormat:@"%@api/coins?", appData.serverUrl];
-    NSString *fullUrl = [NSString stringWithFormat:@"%@fromUsername=%@&fromUser=%@&message=%@&toUser=%@&toUsername=%@&value=%d&id=%@", urlString, appData.userId, appData.userId, storm.Message, storm.Recipient, storm.Recipient, coinValue, storm.StormId];
+    //NSString *postString = [NSString stringWithFormat:@"fromUsername=%@&fromUser=%@&message=%@&toUser=%@&toUsername=%@&value=%d&id=%@", appData.userId, appData.userId, storm.Message, storm.Recipient, storm.Recipient, coinValue, storm.StormId];
+    
+    NSString *postString = [NSString stringWithFormat:@"{"
+                            @"    \"fromUsername\": \"%@\","
+                            @" \"storm\": {"
+                                @"    \"fromUser\": \"%@\","
+                                @"    \"message\": \"%@\","
+                                @"    \"toUser\": \"%@\","
+                                @"    \"id\": \"%@\" }, "
+                            @"    \"toUsername\": \"%@\","
+                            @"    \"value\": \"%f\" }",
+                            appData.userId, appData.userId, storm.Message, storm.Recipient.Username, storm.StormId, storm.Recipient.Username, coinValue];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
     
+    [request setValue:appData.token forHTTPHeaderField:@"X-Auth-Token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
+    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+    
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
-         
          if (response != nil)
          {
              NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-             NSDictionary *coin = [allJSON objectForKey:@"Coin"];
-             NSDictionary *storm = [allJSON objectForKey:@"Storm"];
+             NSDictionary *coinId = [allJSON objectForKey:@"id"];
              
-             NSString *coinId = [coin objectForKey:@"id"];
-             NSLog(@"%@", coinId);
+             NSLog(@"%@", coinId); // have some toasty ui flash when a coin successfully sends.
+             // send push notification from server side
          }
      }];
 }

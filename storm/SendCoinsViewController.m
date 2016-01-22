@@ -757,10 +757,15 @@ float height;
 
 -(void) initializeNewStorm
 {
+    //temp til friend picker is back
+    Friend *pal = [[Friend alloc] initWithFirst:@"ryan" Last:@"riebling" Username:@"reib" ProfUrl:@"www.google.com"];
+    m_recipient = pal;
+    
     Singleton* appData = [Singleton sharedInstance];
     m_currentStorm = [[Storm alloc] init:m_recipient withSender:appData.userId];
-    //m_currentStorm.StormId = [DBManager createStorm:m_recipient.Username withMessage:m_messageTextField.text]; // syncrhonous request
-    m_currentStorm.StormId = [DBManager createStorm:@"reib" withMessage:m_messageTextField.text]; // syncrhonous request
+    
+    m_currentStorm.StormId = [DBManager createStorm:m_recipient.Username withMessage:m_messageTextField.text]; // syncrhonous request
+    //m_currentStorm.StormId = [DBManager createStorm:@"reib" withMessage:m_messageTextField.text]; // syncrhonous request
 }
 
 - (void)resetCoinViews
@@ -1023,7 +1028,7 @@ float height;
     m_coinCountLabel.text = value;
 }
 
--(void)sendCoin:(int) coinValue
+-(void)sendCoin:(double) coinValue
 {
     Singleton* appData = [Singleton sharedInstance];
     
