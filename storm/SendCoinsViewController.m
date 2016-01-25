@@ -641,12 +641,13 @@ float height;
         
         if (responseString != nil)
         {
-            NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            NSDictionary *result = [allJSON objectForKey:@"result"];
+            NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
-            NSString *nextUrl = [result objectForKey:@"pagination"];
+            NSString *nextUrl = [result objectForKey:@"next"];
+    
+            NSDictionary *venmoResult = [result objectForKey:@"venmoFriendsResponse"];
             
-            NSMutableArray *friends = [result objectForKey:@"data"];
+            NSMutableArray *friends = [venmoResult objectForKey:@"data"];
             for (NSArray *friend in friends)
             {
                 NSString *username = [friend valueForKey:@"username"];

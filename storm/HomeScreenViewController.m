@@ -43,7 +43,7 @@ bool m_loaded;
     KeychainItemWrapper *userKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"username" accessGroup:nil];
     KeychainItemWrapper *passKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"password" accessGroup:nil];
     //[userKey resetKeychainItem];
-    //[stormKey resetKeychainItem];
+    //[passKey resetKeychainItem];
     NSString *username = [userKey objectForKey:(__bridge id)(kSecAttrAccount)];
     NSString *password = [passKey objectForKey:(__bridge id)(kSecAttrAccount)];
     

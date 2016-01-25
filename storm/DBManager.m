@@ -17,25 +17,14 @@
 + (void) authenticate
 {
     Singleton* appData = [Singleton sharedInstance];
-    KeychainItemWrapper *userKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
-    KeychainItemWrapper *passKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"passKey" accessGroup:nil];
+    KeychainItemWrapper *userKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"username" accessGroup:nil];
+    KeychainItemWrapper *passKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"password" accessGroup:nil];
 
     NSString *userId = [userKey objectForKey:(__bridge id)(kSecAttrAccount)];
     NSString *password = [passKey objectForKey:(__bridge id)(kSecAttrAccount)];
     
-    if (userId == nil || [userId isEqualToString:@""])
-    {
-        Singleton* appData = [Singleton sharedInstance];
-        appData.userId = @"Pajka";
-        appData.password = @"$2a$10$SE35N4pT3AbnP0XlQ6oDPOeu8CCYTUusbXseD2mfq3xZNQD6.Vt5y";
-    }
-    else
-    {
-        appData.userId = userId;
-        appData.password = password;
-        appData.userId = @"Pajka";
-        appData.password = @"$2a$10$SE35N4pT3AbnP0XlQ6oDPOeu8CCYTUusbXseD2mfq3xZNQD6.Vt5y";
-    }
+    appData.userId = userId;
+    appData.password = password;
 
     // create post call
     NSString *postString = [NSString stringWithFormat:@"username=%@&password=%@", appData.userId, appData.password];
