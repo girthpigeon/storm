@@ -40,28 +40,22 @@ bool m_loaded;
 {
     [self setupButtons];
     
-    KeychainItemWrapper *userKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
-    KeychainItemWrapper *stormKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"stormKey" accessGroup:nil];
+    KeychainItemWrapper *userKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"username" accessGroup:nil];
+    KeychainItemWrapper *passKey = [[KeychainItemWrapper alloc] initWithIdentifier:@"password" accessGroup:nil];
     //[userKey resetKeychainItem];
-    // [stormKey resetKeychainItem];
-    NSString *userId = [userKey objectForKey:(__bridge id)(kSecAttrAccount)];
-    NSString *stormId = [stormKey objectForKey:(__bridge id)(kSecAttrAccount)];
+    //[stormKey resetKeychainItem];
+    NSString *username = [userKey objectForKey:(__bridge id)(kSecAttrAccount)];
+    NSString *password = [passKey objectForKey:(__bridge id)(kSecAttrAccount)];
     
-    if (userId == nil || [userId isEqualToString:@""])
+    if (username == nil || [username isEqualToString:@""])
     {
-        //[self performSegueWithIdentifier:@"VenmoAuthSegue" sender:self];
-        Singleton* appData = [Singleton sharedInstance];
-        
-        appData.userId = @"pajka";
-        appData.password = @"admin";
-        
-        [DBManager authenticate];
+        [self performSegueWithIdentifier:@"VenmoAuthSegue" sender:self];
     }
     else
     {
         Singleton* appData = [Singleton sharedInstance];
-        appData.userId = userId;
-        appData.stormId = stormId;
+        appData.userId = username;
+        appData.password = password;
         
         [DBManager authenticate];
     }

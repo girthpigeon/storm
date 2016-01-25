@@ -40,10 +40,10 @@ NSString *clientSecret = @"skobov@1-riebling@1-pajka@2-johnson@3";
     NSString *userId = [userKey objectForKey:(__bridge id)(kSecAttrAccount)];
     //userId = @"don't do login shit";// comment this out
     if (userId == nil || [userId isEqualToString:@""])
-    {        
-        //[NSURLProtocol registerClass:[VenmoLoginURLProtocol class]]; // uncomment this when verification works again
-        appData.userId = @"6";
-        appData.stormId = @"2";
+    {
+        [NSURLProtocol registerClass:[VenmoLoginURLProtocol class]]; // uncomment this when verification works again
+        //appData.userId = @"6";
+        //appData.stormId = @"2";
     }
     
     HomeScreenViewController *homeScreenVC = [[HomeScreenViewController alloc] initWithNibName:@"HomeScreenViewController" bundle:nil];

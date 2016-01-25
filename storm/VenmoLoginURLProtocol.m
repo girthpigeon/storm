@@ -15,9 +15,10 @@
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
     static NSUInteger requestCount = 0;
-    NSLog(@"Request #%u: URL = %@", requestCount++, request);
+    NSLog(@"Request #%lu: URL = %@", (unsigned long)requestCount++, request);
     
-    if ([NSURLProtocol propertyForKey:@"VenmoURLProtocolHandledKey" inRequest:request])
+    NSString *requestPath = [[request URL] absoluteString];
+    if ([NSURLProtocol propertyForKey:requestPath inRequest:request])
     {
         return NO;
     }
@@ -38,7 +39,8 @@
 - (void)startLoading
 {
     NSMutableURLRequest *newRequest = [self.request mutableCopy];
-    [NSURLProtocol setProperty:@YES forKey:@"VenmoURLProtocolHandledKey" inRequest:newRequest];
+    NSString *requestPath = [[newRequest URL] absoluteString];
+    [NSURLProtocol setProperty:@YES forKey:requestPath inRequest:newRequest];
     
     self.m_connection = [NSURLConnection connectionWithRequest:newRequest delegate:self];
 }
@@ -63,6 +65,22 @@
     [self.client URLProtocol:self didLoadData:data];
 }
 
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response
+{
+    if (response)
+    {
+        NSMutableURLRequest *redirect = [request mutableCopy];
+        NSString *requestPath = [[request URL] absoluteString];
+        [NSURLProtocol removePropertyForKey:requestPath inRequest:redirect];
+        //[RequestHelper addWebViewHeadersToRequest:redirect];
+        
+        [self.client URLProtocol:self wasRedirectedToRequest:redirect redirectResponse:response];
+        
+        return redirect;
+    }
+    return request;
+}
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [self.client URLProtocolDidFinishLoading:self];
@@ -76,20 +94,24 @@
         NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error: &e];
         
-        if ([JSON count] == 2)
+        if ([JSON count] == 3)
          {
-             NSString *stormKey = [JSON objectForKey:@"stormKey"];
-             NSString *userId = [JSON objectForKey:@"userId"];
+             NSString *userId = [JSON objectForKey:@"username"];
+             NSString *password = [JSON objectForKey:@"password"];
+             NSDictionary *token = [JSON objectForKey:@"token"];
              
-             KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"userId" accessGroup:nil];
+             KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"username" accessGroup:nil];
              [keychain setObject:userId forKey:(__bridge id)(kSecAttrAccount)];
              
-             KeychainItemWrapper *keychain2 = [[KeychainItemWrapper alloc] initWithIdentifier:@"stormKey" accessGroup:nil];
-             [keychain2 setObject:stormKey forKey:(__bridge id)(kSecAttrAccount)];
+             KeychainItemWrapper *keychain2 = [[KeychainItemWrapper alloc] initWithIdentifier:@"password" accessGroup:nil];
+             [keychain2 setObject:password forKey:(__bridge id)(kSecAttrAccount)];
+             
+             NSString *tokenId = [token objectForKey:@"token"];
              
              Singleton* appData = [Singleton sharedInstance];
              appData.userId = userId;
-             appData.stormId = stormKey;
+             appData.stormId = password;
+             appData.token = tokenId;
           
              [[NSNotificationCenter defaultCenter] postNotificationName:@"NSURLConnectionDidFinish" object:nil];
          }

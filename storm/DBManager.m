@@ -26,15 +26,15 @@
     if (userId == nil || [userId isEqualToString:@""])
     {
         Singleton* appData = [Singleton sharedInstance];
-        appData.userId = @"user";
-        appData.password = @"user";
+        appData.userId = @"Pajka";
+        appData.password = @"$2a$10$SE35N4pT3AbnP0XlQ6oDPOeu8CCYTUusbXseD2mfq3xZNQD6.Vt5y";
     }
     else
     {
         appData.userId = userId;
         appData.password = password;
-        appData.userId = @"user";
-        appData.password = @"user";
+        appData.userId = @"Pajka";
+        appData.password = @"$2a$10$SE35N4pT3AbnP0XlQ6oDPOeu8CCYTUusbXseD2mfq3xZNQD6.Vt5y";
     }
 
     // create post call
@@ -108,8 +108,6 @@
     Singleton* appData = [Singleton sharedInstance];
     
     NSString *urlString = [NSString stringWithFormat:@"%@api/coins?", appData.serverUrl];
-    //NSString *postString = [NSString stringWithFormat:@"fromUsername=%@&fromUser=%@&message=%@&toUser=%@&toUsername=%@&value=%d&id=%@", appData.userId, appData.userId, storm.Message, storm.Recipient, storm.Recipient, coinValue, storm.StormId];
-    
     NSString *postString = [NSString stringWithFormat:@"{"
                             @"    \"fromUsername\": \"%@\","
                             @" \"storm\": {"

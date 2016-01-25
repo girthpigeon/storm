@@ -612,12 +612,14 @@ float height;
     if (nextId != nil)
     {
         // If we need to remove the previous beforeId
-        if (m_originalRequestLength != requestUrl.length)
-        {
-            NSRange range = NSMakeRange(0, m_originalRequestLength);
-            requestUrl = [requestUrl substringWithRange:range];
-        }
-        requestUrl = [NSString stringWithFormat:@"%@&beforeId=%@", requestUrl, nextId];
+        //if (m_originalRequestLength != requestUrl.length)
+        //{
+        //    NSRange range = NSMakeRange(0, m_originalRequestLength);
+        //    requestUrl = [requestUrl substringWithRange:range];
+        //}
+        
+        requestUrl = nextId;
+        //requestUrl = [NSString stringWithFormat:@"%@&beforeId=%@", requestUrl, nextId];
     }
     else
     {
@@ -625,6 +627,9 @@ float height;
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    Singleton *appData = [Singleton sharedInstance];
+    [request setValue:appData.token forHTTPHeaderField:@"X-Auth-Token"];
     
     [request setURL:[NSURL URLWithString:requestUrl]];
     [request setHTTPMethod:@"GET"];
@@ -645,9 +650,9 @@ float height;
             for (NSArray *friend in friends)
             {
                 NSString *username = [friend valueForKey:@"username"];
-                NSString *firstName = [friend valueForKey:@"first_name"];
-                NSString *lastName = [friend valueForKey:@"last_name"];
-                NSString *profUrl = [friend valueForKey:@"profile_picture_url"];
+                NSString *firstName = [friend valueForKey:@"firstName"];
+                NSString *lastName = [friend valueForKey:@"lastName"];
+                NSString *profUrl = [friend valueForKey:@"profilePictureUrl"];
                 Friend *pal = [[Friend alloc] initWithFirst:firstName Last:lastName Username:username ProfUrl:profUrl];
                 [m_friendsArray addObject:pal];
                 m_copyOfFriendsArray = [[NSMutableArray alloc] initWithArray:m_friendsArray];
@@ -677,8 +682,8 @@ float height;
     
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
-    NSString *urlString = [NSString stringWithFormat:@"%@User/getMyVenmoFriends?", appData.serverUrl];
-    NSString *postString = [NSString stringWithFormat:@"userId=%@&stormKey=%@", appData.userId, appData.stormId];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/venmo/getFriendsList?", appData.serverUrl];
+    NSString *postString = [NSString stringWithFormat:@"username=%@", appData.userId];
     
     NSString *fullString = [NSString stringWithFormat:@"%@%@",urlString, postString];
     [self fetchMoreFriends:fullString withNextId:nil];
