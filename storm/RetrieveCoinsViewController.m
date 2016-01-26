@@ -13,6 +13,7 @@
 #import "FriendCell.h"
 #import "Storm.h"
 #import "Coin.h"
+#import "DBManager.h"
 
 @interface RetrieveCoinsViewController ()
 
@@ -147,7 +148,6 @@
         [self.m_coinImageViewsArray addObject:coinView];
         
         [self.view insertSubview:coinView belowSubview:self.m_cloudHub];
-        [self.view setNeedsDisplay];
     }
 }
 
@@ -196,8 +196,6 @@
     self.m_beneathCloud = [[UIView alloc] initWithFrame:frame];
     [self.m_beneathCloud setBackgroundColor:[UIColor clearColor]];
     [self.m_beneathCloud addGestureRecognizer:coinGrab];
-    
-    
     
     [self.m_cloudHub setUserInteractionEnabled:YES];
     
@@ -353,7 +351,29 @@
 
 -(void) coinRetrieved:(Coin *)currentCoin
 {
+    // send a coin with coinValue to server
+    Singleton* appData = [Singleton sharedInstance];
     
+    NSString *urlString = [NSString stringWithFormat:@"%@api/coins/%@", appData.serverUrl, currentCoin.CoinId];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"PUT"];
+    [request setValue:appData.token forHTTPHeaderField:@"X-Auth-Token"];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         if (response != nil)
+         {
+             NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+             NSDictionary *coinId = [allJSON objectForKey:@"id"];
+             
+             NSLog(@"%@", coinId); // have some toasty ui flash when a coin successfully sends.
+             // send push notification from server side
+         }
+     }];
 }
 
 
