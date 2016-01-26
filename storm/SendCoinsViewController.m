@@ -611,15 +611,7 @@ float height;
 {
     if (nextId != nil)
     {
-        // If we need to remove the previous beforeId
-        //if (m_originalRequestLength != requestUrl.length)
-        //{
-        //    NSRange range = NSMakeRange(0, m_originalRequestLength);
-        //    requestUrl = [requestUrl substringWithRange:range];
-        //}
-        
         requestUrl = nextId;
-        //requestUrl = [NSString stringWithFormat:@"%@&beforeId=%@", requestUrl, nextId];
     }
     else
     {
@@ -687,6 +679,7 @@ float height;
     NSString *postString = [NSString stringWithFormat:@"username=%@", appData.userId];
     
     NSString *fullString = [NSString stringWithFormat:@"%@%@",urlString, postString];
+    self.firstUsername = @"";
     [self fetchMoreFriends:fullString withNextId:nil];
 }
 
@@ -705,6 +698,17 @@ float height;
         if ([JSON count] == 2)
         {
             NSString *username = [JSON objectForKey:@"username"];
+            
+            if ([self.firstUsername isEqualToString:@""])
+            {
+                self.firstUsername = username;
+            }
+            else
+            {
+                // already received this group of friends. stop calling
+                return;
+            }
+            
             NSString *firstName = [JSON objectForKey:@"first_name"];
             NSString *lastName = [JSON objectForKey:@"last_name"];
             NSString *profUrl = [JSON objectForKey:@"profile_picture_url"];

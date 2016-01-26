@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RetrieveCoinsViewController : UIViewController <UIGestureRecognizerDelegate>
+@interface RetrieveCoinsViewController : UIViewController <UIGestureRecognizerDelegate, NSURLConnectionDelegate>
+
+@property (nonatomic, strong) NSMutableData *m_responseData;
 
 // coin arrays
 @property (strong, retain) NSMutableArray *m_coinsArray;
@@ -20,8 +22,6 @@
 @property (strong, retain) UIImageView* m_currentlyDraggedCoinView;
 
 @property (strong, retain) NSMutableDictionary *m_animatingCloudsMap;
-
-@property (strong, retain) NSMutableData *m_responseData;
 
 // cloudhub
 @property (strong, retain) UIImageView *m_cloudHub;

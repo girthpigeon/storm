@@ -13,8 +13,9 @@
 @synthesize Value;
 @synthesize Recipient;
 @synthesize SenderId;
+@synthesize CoinId;
 
--(id) initWithValue:(double)value ToUser:(Friend *)receiver FromUser:(Friend *)sender
+-(id) initWithValue:(double)value ToUser:(NSString *)receiver FromUser:(NSString *)sender
 {
     self = [super init];
     self.Value = value;

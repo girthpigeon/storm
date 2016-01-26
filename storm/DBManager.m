@@ -132,4 +132,45 @@
      }];
 }
 
++ (void) retrieveCoin:(Coin *)coin
+{/*
+    // send a coin with coinValue to server
+    Singleton* appData = [Singleton sharedInstance];
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@api/coins?", appData.serverUrl];
+    NSString *postString = [NSString stringWithFormat:@"{"
+                            @"    \"fromUsername\": \"%@\","
+                            @" \"storm\": {"
+                            @"    \"fromUser\": \"%@\","
+                            @"    \"message\": \"%@\","
+                            @"    \"toUser\": \"%@\","
+                            @"    \"id\": \"%@\" }, "
+                            @"    \"toUsername\": \"%@\","
+                            @"    \"value\": \"%f\" }",
+                            appData.userId, appData.userId, storm.Message, storm.Recipient.Username, storm.StormId, storm.Recipient.Username, coinValue];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
+    
+    [request setValue:appData.token forHTTPHeaderField:@"X-Auth-Token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
+    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         if (response != nil)
+         {
+             NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+             NSDictionary *coinId = [allJSON objectForKey:@"id"];
+             
+             NSLog(@"%@", coinId); // have some toasty ui flash when a coin successfully sends.
+             // send push notification from server side
+         }
+     }];*/
+}
+
 @end

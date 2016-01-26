@@ -12,10 +12,11 @@
 
 @interface Coin : NSObject
 
-@property (nonatomic) double Value;
-@property (strong, retain) Friend *Recipient;
-@property (strong, retain) Friend *SenderId;
+@property double Value;
+@property (strong, retain) NSString *Recipient;
+@property (strong, retain) NSString *SenderId;
+@property (strong, retain) NSString *CoinId;
 
--(id) initWithValue:(double)value ToUser:(Friend *)pal FromUser:(Friend *)sender;
+-(id) initWithValue:(double)value ToUser:(NSString *)pal FromUser:(NSString *)sender;
 
 @end

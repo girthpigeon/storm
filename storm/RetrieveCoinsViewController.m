@@ -53,71 +53,101 @@
     {
         self.m_coinsArray = [[NSMutableArray alloc] init]; // full of Coin objects
     }
+    [self getPendingCoins];
+}
+
+- (void) getPendingCoins
+{
+    // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
-    for (int i=0; i < 15; i++)
-    {
-        int lowerBound = 0;
-        int upperBound = 3;
-        int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
-        Friend *pal = [[Friend alloc] initWithFirst:@"zack" Last:@"pajka" Username:@"zackpa" ProfUrl:@"whatever.com"];
-        
-        double value = 0.0;
-        if (rndValue == 0)
-        {
-            value = .01;
-        }
-        else if (rndValue == 1)
-        {
-            value = .05;
-        }
-        else if (rndValue == 2)
-        {
-            value = .1;
-        }
-        else if (rndValue == 3)
-        {
-            value = .25;
-        }
-        
-        Coin* coin = [[Coin alloc] initWithValue:value ToUser:pal FromUser:pal];
-        [self.m_coinsArray addObject:coin];
-    }
+    NSString *urlString = [NSString stringWithFormat:@"%@api/coins/getPending?", appData.serverUrl];
+    NSString *postString = [NSString stringWithFormat:@"toUsername=%@", appData.userId];
     
-    [self setupCoinViews];
+    NSString *fullString = [NSString stringWithFormat:@"%@%@",urlString, postString];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    [request setValue:appData.token forHTTPHeaderField:@"X-Auth-Token"];
+    
+    [request setURL:[NSURL URLWithString:fullString]];
+    [request setHTTPMethod:@"GET"];
+    
+    Singleton *appdata = [Singleton sharedInstance];
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSString *responseString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+        NSLog(@"requestReply: %@", responseString);
+        
+        if (responseString != nil)
+        {
+            NSMutableArray *coins = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            
+            for (NSArray *coin in coins)
+            {
+                NSString *coinId = [coin valueForKey:@"id"];
+                NSString *fromUser = [coin valueForKey:@"fromUsername"];
+                NSString *value = [coin valueForKey:@"value"];
+
+                int rounded = round([value doubleValue] * 100);
+                double dubValue = rounded / 100.00;
+                Coin *coin = [[Coin alloc] initWithValue:dubValue ToUser:appData.userId FromUser:fromUser];
+                coin.CoinId = coinId;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.m_coinsArray addObject:coin];
+                    
+                    
+                });
+                
+            }
+            
+            if (self.m_coinImageViewsArray == nil)
+            {
+                self.m_coinImageViewsArray = [[NSMutableArray alloc] init]; // visual representation of all coins in batch
+            }
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setupCoinViews];
+            });
+        }
+        
+    }] resume];
+
 }
 
 - (void) setupCoinViews
 {
-    if (self.m_coinImageViewsArray == nil)
-    {
-        self.m_coinImageViewsArray = [[NSMutableArray alloc] init]; // visual representation of all coins in batch
-    }
     
     for (int i=0; i < self.m_coinsArray.count; i++)
     {
         Coin* coin = [self.m_coinsArray objectAtIndex:i];
         NSString* imageName = @"";
-        if (coin.Value == .01)
+        if (coin.Value ==.01)
         {
             imageName = @"Coin1.png";
         }
-        else if (coin.Value == .05)
+        else if (coin.Value ==.05)
         {
             imageName = @"Couin5.png";
         }
-        else if (coin.Value == .10)
+        else if (coin.Value ==.10)
         {
             imageName = @"Coin10.png";
         }
-        else if (coin.Value == .25)
+        else if (coin.Value ==.25)
         {
             imageName = @"Coin25.png";
         }
+        else
+        {
+            return;
+        }
         UIImageView* coinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-        [self.m_coinImageViewsArray addObject:coinView];
         [self randomizeCoinPlacements:coinView];
+        [self.m_coinImageViewsArray addObject:coinView];
         
         [self.view insertSubview:coinView belowSubview:self.m_cloudHub];
+        [self.view setNeedsDisplay];
     }
 }
 
@@ -233,14 +263,14 @@
     CGFloat dx = 0.0;
     CGFloat dy = 0.0;
     
-    if (self.m_coinImageViewsArray.count < 5)
+    if (self.m_coinImageViewsArray.count == 0)
     {
         [self retrieveNextCoins];
     }
     
     UIImageView *currentCoin = [self.m_coinImageViewsArray objectAtIndex:0];
     Coin *coin = [self.m_coinsArray objectAtIndex:0];
-    NSLog(@"Coin: %f", coin.Value);
+    //NSLog(@"Coin: %@", coin.Value);
     
     if (panner.state == UIGestureRecognizerStateBegan)
     {
@@ -313,7 +343,7 @@
         [pathAnimation setValue:@"coinFling" forKey:@"tag"];
         [currentCoin.layer addAnimation:pathAnimation forKey:@"coinFling"];
         
-        [self coinRetrieved:currentCoin];
+        [self coinRetrieved:coin];
         
         // remove flung coin from current array, add to animated array
         [self.m_currentlyAnimatingCoinsArray addObject:currentCoin];
@@ -321,7 +351,7 @@
     }
 }
 
--(void) coinRetrieved:(UIImageView *)currentCoin
+-(void) coinRetrieved:(Coin *)currentCoin
 {
     
 }

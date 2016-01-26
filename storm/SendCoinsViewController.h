@@ -13,4 +13,6 @@
 @property (strong, retain) IBOutlet UIScrollView *horizontalScrollView;
 @property (weak, nonatomic) IBOutlet UITableView *m_friendsList;
 
+@property (strong, retain) NSString *firstUsername;
+
 @end
