@@ -14,6 +14,7 @@
 @synthesize Recipient;
 @synthesize SenderId;
 @synthesize CoinId;
+@synthesize SenderDisplayName;
 
 -(id) initWithValue:(double)value ToUser:(NSString *)receiver FromUser:(NSString *)sender
 {

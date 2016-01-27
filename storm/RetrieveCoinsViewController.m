@@ -36,6 +36,7 @@
     height = screenRect.size.height;
     
     [self setupHubCloud];
+    [self setupWallet];
     [self retrieveNextCoins];
     
     UIPanGestureRecognizer* verticalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panWasRecognized:)];
@@ -149,6 +150,9 @@
         
         [self.view insertSubview:coinView belowSubview:self.m_cloudHub];
     }
+    
+    // temporary, remove
+    //[self displayToast:[self.m_coinsArray objectAtIndex:0]];
 }
 
 - (void) randomizeCoinPlacements:(UIImageView *)imageView
@@ -169,6 +173,27 @@
     frame.size.height = COIN_HEIGHT;
     
     imageView.frame = frame;
+}
+
+- (void) setupWallet
+{
+    CGRect frame;
+    frame.origin.x = 0;
+    frame.origin.y = 3 * (height / 4);
+    frame.size.width = width;
+    frame.size.height = (height / 4);
+    
+    self.m_walletBackView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletHalfBack.png"]];
+    self.m_walletBackView.frame = frame;
+    
+    self.m_walletFrontView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletHalfFront.png"]];
+    frame.origin.y = frame.origin.y + 25;
+    frame.origin.x = frame.origin.x + 5;
+    
+    self.m_walletFrontView.frame = frame;
+    
+    [self.view addSubview:self.m_walletBackView];
+    [self.view addSubview:self.m_walletFrontView];
 }
 
 - (void) setupHubCloud
@@ -349,7 +374,7 @@
     }
 }
 
--(void) coinRetrieved:(Coin *)currentCoin
+- (void) coinRetrieved:(Coin *)currentCoin
 {
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
@@ -368,12 +393,47 @@
          if (response != nil)
          {
              NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-             NSDictionary *coinId = [allJSON objectForKey:@"id"];
+             NSDictionary *coin = [allJSON objectForKey:@"coin"];
+             NSString *senderProfUrl = [allJSON objectForKey:@"fromUserProfilePictureUrl"];
+             currentCoin.SenderProfUrl = senderProfUrl;
              
-             NSLog(@"%@", coinId); // have some toasty ui flash when a coin successfully sends.
+             //NSLog(@"%@", coinId); // have some toasty ui flash when a coin successfully sends.
              // send push notification from server side
+             
+             // display custom toast
+             [self displayToast:currentCoin];
          }
      }];
+}
+
+- (void) displayToast:(Coin*)coin
+{
+    UIImage *profImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/8/005/075/26e/18bb7e7.jpg"]]];
+    UIImageView *senderProf = [[UIImageView alloc] initWithImage:profImage];
+    senderProf.frame = CGRectMake(10, 3 * (height / 4) - 50, 50, 50);
+    [Utils circlize:profImage withImageView:senderProf];
+    
+    UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 3 * (height / 4) - 50, width - 50, 50)];
+    toastLabel.text = [NSString stringWithFormat:@"%@ sent you $%f", coin.SenderDisplayName, coin.Value];
+    toastLabel.font = [UIFont systemFontOfSize:15];
+    toastLabel.textColor = [UIColor whiteColor];
+    
+    [self.view addSubview:senderProf];
+    [self.view addSubview:toastLabel];
+    
+    [UIView animateWithDuration:2.0
+                          delay:0.0
+                        options:UIViewAnimationCurveLinear
+                     animations:^{
+                         toastLabel.alpha = .0;
+                         toastLabel.center = CGPointMake(toastLabel.center.x, toastLabel.frame.origin.y - 50);
+                         senderProf.alpha = .0;
+                         senderProf.center = CGPointMake(senderProf.center.x, senderProf.frame.origin.y - 50);
+                     }
+                     completion:^(BOOL finished){
+                         [toastLabel removeFromSuperview];
+                         [senderProf removeFromSuperview];
+                     }];
 }
 
 

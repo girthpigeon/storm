@@ -29,6 +29,12 @@
 @property (strong, retain) UIImageView *m_backButton;
 @property (strong, retain) UIImageView *m_recipientImage;
 
+// wallet
+@property (strong, retain) UIImageView *m_walletFrontView;
+@property (strong, retain) UIImageView *m_walletBackView;
+@property CGPoint m_walletFrontViewLocation;
+@property CGPoint m_walletBackViewLocation;
+
 // vertical swipe stuff
 @property CGPoint m_startPosition;
 enum Direction {NONE, TOP};

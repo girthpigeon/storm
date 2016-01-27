@@ -15,7 +15,9 @@
 @property double Value;
 @property (strong, retain) NSString *Recipient;
 @property (strong, retain) NSString *SenderId;
+@property (strong, retain) NSString *SenderDisplayName;
 @property (strong, retain) NSString *CoinId;
+@property (strong, retain) NSString *SenderProfUrl;
 
 -(id) initWithValue:(double)value ToUser:(NSString *)pal FromUser:(NSString *)sender;
 

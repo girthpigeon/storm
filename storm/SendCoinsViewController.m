@@ -629,7 +629,7 @@ float height;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *responseString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSLog(@"requestReply: %@", responseString);
+        //NSLog(@"requestReply: %@", responseString);
         
         if (responseString != nil)
         {
@@ -649,12 +649,13 @@ float height;
                 Friend *pal = [[Friend alloc] initWithFirst:firstName Last:lastName Username:username ProfUrl:profUrl];
                 [m_friendsArray addObject:pal];
                 m_copyOfFriendsArray = [[NSMutableArray alloc] initWithArray:m_friendsArray];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [m_friendsListTable reloadData];
-                });
             }
             
-            if (![nextUrl isEqualToString:@""])
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [m_friendsListTable reloadData];
+            });
+            
+            if (nextUrl != nil && ![nextUrl isEqualToString:@""])
             {
                 NSLog(@"fetchingmorefriends: %@", nextUrl);
                 [self fetchMoreFriends:requestUrl withNextId:nextUrl];
@@ -676,7 +677,7 @@ float height;
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
     NSString *urlString = [NSString stringWithFormat:@"%@api/venmo/getFriendsList?", appData.serverUrl];
-    NSString *postString = [NSString stringWithFormat:@"username=%@", appData.userId];
+    NSString *postString = [NSString stringWithFormat:@"username=%@&limit=%d", appData.userId, 50];
     
     NSString *fullString = [NSString stringWithFormat:@"%@%@",urlString, postString];
     self.firstUsername = @"";
@@ -768,8 +769,8 @@ float height;
 -(void) initializeNewStorm
 {
     //temp til friend picker is back
-    Friend *pal = [[Friend alloc] initWithFirst:@"ryan" Last:@"riebling" Username:@"reib" ProfUrl:@"www.google.com"];
-    m_recipient = pal;
+    //Friend *pal = [[Friend alloc] initWithFirst:@"ryan" Last:@"riebling" Username:@"reib" ProfUrl:@"www.google.com"];
+    //m_recipient = pal;
     
     Singleton* appData = [Singleton sharedInstance];
     m_currentStorm = [[Storm alloc] init:m_recipient withSender:appData.userId];

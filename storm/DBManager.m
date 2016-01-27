@@ -59,8 +59,8 @@
     
     // create post call
     NSString *postString = [NSString stringWithFormat:@"{"
-    @"    \"fromUser\": \"%@\","
-    @"    \"toUser\": \"%@\","
+    @"    \"fromUsername\": \"%@\","
+    @"    \"toUsername\": \"%@\","
     @"    \"message\": \"%@\" }" ,
     appData.userId, toUser, message];
 
