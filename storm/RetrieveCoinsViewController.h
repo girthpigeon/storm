@@ -26,7 +26,7 @@
 // cloudhub
 @property (strong, retain) UIImageView *m_cloudHub;
 @property (strong, retain) UIView *m_beneathCloud;
-@property (strong, retain) UIImageView *m_backButton;
+@property (strong, retain) UIImageView *m_sunBackButton;
 @property (strong, retain) UIImageView *m_recipientImage;
 
 // wallet

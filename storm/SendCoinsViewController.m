@@ -324,9 +324,6 @@ float height;
     
     cloudView.frame = frame;
     
-    //UITapGestureRecognizer *hubTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cloudHubTouched:)];
-    //[hubTouch setDelegate:self];
-    
     [cloudView setUserInteractionEnabled:YES];
     
     // sun back button
@@ -340,7 +337,7 @@ float height;
     m_backButton.frame = sunFrame;
     
     UITapGestureRecognizer *sunTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonTouched:)];
-    [sunTouch setDelegate:self];
+    //[sunTouch setDelegate:self];
     
     [m_backButton setUserInteractionEnabled:YES];
     [self.view addSubview:m_backButton];
@@ -393,18 +390,8 @@ float height;
     }
 }
 
--(void)cloudHubTouched:(UITapGestureRecognizer *)tap
-{
-    // edit message
-}
-
 - (void) backButtonTouched:(UITapGestureRecognizer *) tap
-{
-    //[m_animatingCloudsMap removeAllObjects];
-    //[m_coinImageViewsArray removeAllObjects];
-    //[m_coinsArray removeAllObjects];
-    //[m_currentlyAnimatingCoinsArray removeAllObjects];
-    
+{    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

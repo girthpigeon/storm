@@ -225,22 +225,24 @@
     [self.m_cloudHub setUserInteractionEnabled:YES];
     
     // sun back button
-    self.m_backButton = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sun.png"]];
+    self.m_sunBackButton = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sun.png"]];
     CGRect sunFrame;
     sunFrame.origin.x = 0 - 30;
     sunFrame.origin.y = 0 - 30;
     sunFrame.size.width = width / 3;
     sunFrame.size.height = width / 3;
     
-    self.m_backButton.frame = sunFrame;
+    self.m_sunBackButton.frame = sunFrame;
     
-    UITapGestureRecognizer *sunTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonTouched:)];
+    UITapGestureRecognizer *sunTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sunTouched:)];
     [sunTouch setDelegate:self];
     
-    [self.m_backButton setUserInteractionEnabled:YES];
-    [self.view addSubview:self.m_backButton];
+    [self.m_sunBackButton setUserInteractionEnabled:YES];
+    [self.view addSubview:self.m_sunBackButton];
     [self.view addSubview:self.m_cloudHub];
     [self.view addSubview:self.m_beneathCloud];
+    
+    [self.m_sunBackButton addGestureRecognizer:sunTouch];
     
     // recipient circle
     self.m_recipientImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
@@ -258,13 +260,12 @@
     
     [self.view addSubview:self.m_recipientImage];
     
-    [self.m_backButton addGestureRecognizer:sunTouch];
     [self.m_recipientImage addGestureRecognizer:friendPickerTouched];
 }
 
--(void)backButtonTouched:(UITapGestureRecognizer *)tap
+-(void)sunTouched:(UITapGestureRecognizer *)tap
 {
-    
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void)senderHubTouched:(UITapGestureRecognizer *)tap

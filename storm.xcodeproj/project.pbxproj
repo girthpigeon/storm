@@ -43,7 +43,10 @@
 		2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */; };
 		2EF3C87F1C4F4A120092FE78 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3C87E1C4F4A120092FE78 /* DBManager.m */; settings = {ASSET_TAGS = (); }; };
 		2EF412231BC3771F0030489C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF412221BC3771F0030489C /* Utils.m */; };
+		2EF5529F1C61C1A00084687A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EF5529E1C61C1A00084687A /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
 		2EFB82621BC0C3CE00406131 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFB82611BC0C3CE00406131 /* Friend.m */; };
+		A33866C4011439AF3D2A94D8 /* libPods-storm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F947CEE291AAC6D37DB1D33B /* libPods-storm.a */; };
+		D26A5DCE929A26FF0616CE54 /* libPods-stormTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 444737C961D6528E3433B8E9 /* libPods-stormTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,8 +114,15 @@
 		2EF3C87E1C4F4A120092FE78 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		2EF412211BC3771F0030489C /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		2EF412221BC3771F0030489C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		2EF5529E1C61C1A00084687A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2EFB82601BC0C3CE00406131 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		2EFB82611BC0C3CE00406131 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
+		444737C961D6528E3433B8E9 /* libPods-stormTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-stormTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		47801CEDA45BE010D25635B7 /* Pods-storm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-storm.release.xcconfig"; path = "Pods/Target Support Files/Pods-storm/Pods-storm.release.xcconfig"; sourceTree = "<group>"; };
+		5063D194EB2D956001FDDA02 /* Pods-stormTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stormTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-stormTests/Pods-stormTests.release.xcconfig"; sourceTree = "<group>"; };
+		BAD3E392D0CA1808B08F7F09 /* Pods-stormTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stormTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-stormTests/Pods-stormTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D157CA7D91F0B45D2B36718A /* Pods-storm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-storm.debug.xcconfig"; path = "Pods/Target Support Files/Pods-storm/Pods-storm.debug.xcconfig"; sourceTree = "<group>"; };
+		F947CEE291AAC6D37DB1D33B /* libPods-storm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-storm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +134,7 @@
 				2E5D4C9E1B49F5960001F90A /* Foundation.framework in Frameworks */,
 				2E5D4C9C1B49F58F0001F90A /* UIKit.framework in Frameworks */,
 				2E5D4C9A1B49F5880001F90A /* CoreGraphics.framework in Frameworks */,
+				A33866C4011439AF3D2A94D8 /* libPods-storm.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D26A5DCE929A26FF0616CE54 /* libPods-stormTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +203,7 @@
 		2E081CC01B25251900781BDE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2EF5529E1C61C1A00084687A /* GoogleService-Info.plist */,
 				2E081CC11B25251900781BDE /* Info.plist */,
 				2E081CC21B25251900781BDE /* main.m */,
 			);
@@ -303,6 +316,10 @@
 		4B5D3866D06DB7674628E084 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				D157CA7D91F0B45D2B36718A /* Pods-storm.debug.xcconfig */,
+				47801CEDA45BE010D25635B7 /* Pods-storm.release.xcconfig */,
+				BAD3E392D0CA1808B08F7F09 /* Pods-stormTests.debug.xcconfig */,
+				5063D194EB2D956001FDDA02 /* Pods-stormTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -314,6 +331,8 @@
 				2E5D4C9D1B49F5960001F90A /* Foundation.framework */,
 				2E5D4C9B1B49F58F0001F90A /* UIKit.framework */,
 				2E5D4C991B49F5880001F90A /* CoreGraphics.framework */,
+				F947CEE291AAC6D37DB1D33B /* libPods-storm.a */,
+				444737C961D6528E3433B8E9 /* libPods-stormTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -325,9 +344,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2E081CE01B25251900781BDE /* Build configuration list for PBXNativeTarget "storm" */;
 			buildPhases = (
+				9BAA18C25EA457AAE75668EA /* Check Pods Manifest.lock */,
 				2E081CB91B25251900781BDE /* Sources */,
 				2E081CBA1B25251900781BDE /* Frameworks */,
 				2E081CBB1B25251900781BDE /* Resources */,
+				0ACC990766A38A574C9D1DC4 /* Embed Pods Frameworks */,
+				70D47DACEE40260902CBC4C6 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -342,9 +364,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2E081CE31B25251900781BDE /* Build configuration list for PBXNativeTarget "stormTests" */;
 			buildPhases = (
+				C5DFB63CEF735274A056FCE7 /* Check Pods Manifest.lock */,
 				2E081CD21B25251900781BDE /* Sources */,
 				2E081CD31B25251900781BDE /* Frameworks */,
 				2E081CD41B25251900781BDE /* Resources */,
+				D2E0DAF7244B8CBBBFF9037D /* Embed Pods Frameworks */,
+				68BDCE12024CF537ED52C14D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -405,6 +430,7 @@
 				2E081CCC1B25251900781BDE /* Main.storyboard in Resources */,
 				2E081CD11B25251900781BDE /* LaunchScreen.xib in Resources */,
 				2E081CCE1B25251900781BDE /* Images.xcassets in Resources */,
+				2EF5529F1C61C1A00084687A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +442,99 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0ACC990766A38A574C9D1DC4 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-storm/Pods-storm-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		68BDCE12024CF537ED52C14D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-stormTests/Pods-stormTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		70D47DACEE40260902CBC4C6 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-storm/Pods-storm-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9BAA18C25EA457AAE75668EA /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C5DFB63CEF735274A056FCE7 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D2E0DAF7244B8CBBBFF9037D /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-stormTests/Pods-stormTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2E081CB91B25251900781BDE /* Sources */ = {
@@ -509,6 +628,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -553,6 +673,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -573,6 +694,7 @@
 		};
 		2E081CE11B25251900781BDE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D157CA7D91F0B45D2B36718A /* Pods-storm.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -581,7 +703,7 @@
 				INFOPLIST_FILE = storm/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -593,6 +715,7 @@
 		};
 		2E081CE21B25251900781BDE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 47801CEDA45BE010D25635B7 /* Pods-storm.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -601,7 +724,7 @@
 				INFOPLIST_FILE = storm/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -612,6 +735,7 @@
 		};
 		2E081CE41B25251900781BDE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BAD3E392D0CA1808B08F7F09 /* Pods-stormTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -631,6 +755,7 @@
 		};
 		2E081CE51B25251900781BDE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5063D194EB2D956001FDDA02 /* Pods-stormTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
