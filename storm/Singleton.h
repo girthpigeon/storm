@@ -19,5 +19,6 @@
 @property (nonatomic, retain) NSString* serverSecret;
 @property (nonatomic, retain) NSString* password;
 @property (nonatomic, retain) NSString* token;
+@property (nonatomic, retain) NSString* gcmSenderId;
 
 @end

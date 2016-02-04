@@ -33,7 +33,8 @@ NSString *APP_NAME = @"Twister";
 NSString *serverUrl = @"http://storm-of-coins.herokuapp.com/";
 
 NSString *googlePushKey = @"AIzaSyD5HuTCZYoZYJY4rar8jfajqvBc4JcNaqY";
-NSString *googleUserId = @"593004433290";
+//NSString *googleSenderId = @"593004433290";
+NSString *gcmSenderId = @"784590731314";
 
 NSString *_registrationKey;
 NSString *_messageKey;
@@ -63,7 +64,8 @@ NSString *_messageKey;
     NSError* configureError;
     [[GGLContext sharedInstance] configureWithError:&configureError];
     NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
-    _gcmSenderID = [[[GGLContext sharedInstance] configuration] gcmSenderID];
+    _gcmSenderID = gcmSenderId;
+    appData.gcmSenderId = gcmSenderId;
     
     // Register for remote notifications
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
@@ -89,16 +91,38 @@ NSString *_messageKey;
     // [END start_gcm_service]
     
     __weak typeof(self) weakSelf = self;
+    
     // Handler for registration token request
     _registrationHandler = ^(NSString *registrationToken, NSError *error){
         if (registrationToken != nil) {
             weakSelf.registrationToken = registrationToken;
             NSLog(@"Registration Token: %@", registrationToken);
-            [weakSelf subscribeToTopic];
+            //[weakSelf subscribeToTopic];
             NSDictionary *userInfo = @{@"registrationToken":registrationToken};
             [[NSNotificationCenter defaultCenter] postNotificationName:weakSelf.registrationKey
                                                                 object:nil
                                                               userInfo:userInfo];
+            
+            // register with server
+            NSString *postString = [NSString stringWithFormat:@"username=%@&registrationToken=%@", appData.userId, weakSelf.registrationToken];
+            NSString* urlString = [NSString stringWithFormat:@"%@api/notification/registerDevice?%@", appData.serverUrl, postString];
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+            [request setURL:[NSURL URLWithString:urlString]];
+            [request setHTTPMethod:@"POST"];
+            
+            [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
+            
+            [NSURLConnection sendAsynchronousRequest:request
+                                               queue:[NSOperationQueue mainQueue]
+                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+             {
+                 
+                 if (response != nil)
+                 {
+                     NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                 }
+             }];
+            
         } else {
             NSLog(@"Registration to GCM failed with error: %@", error.localizedDescription);
             NSDictionary *userInfo = @{@"error":error.localizedDescription};
@@ -111,6 +135,7 @@ NSString *_messageKey;
     return YES;
 }
 
+/*
 - (void)subscribeToTopic {
     // If the app has a registration token and is connected to GCM, proceed to subscribe to the
     // topic
@@ -134,7 +159,7 @@ NSString *_messageKey;
                                                    }
                                                }];
     }
-}
+}*/
 
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -153,6 +178,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
                                                         scope:kGGLInstanceIDScopeGCM
                                                       options:_registrationOptions
                                                       handler:_registrationHandler];
+    
     // [END get_gcm_reg_token]
 }
 
@@ -228,7 +254,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
             _connectedToGCM = true;
             NSLog(@"Connected to GCM");
             // [START_EXCLUDE]
-            [self subscribeToTopic];
+            //[self subscribeToTopic];
             // [END_EXCLUDE]
         }
     }];

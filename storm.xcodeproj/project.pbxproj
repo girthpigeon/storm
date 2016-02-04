@@ -43,7 +43,7 @@
 		2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */; };
 		2EF3C87F1C4F4A120092FE78 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3C87E1C4F4A120092FE78 /* DBManager.m */; settings = {ASSET_TAGS = (); }; };
 		2EF412231BC3771F0030489C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF412221BC3771F0030489C /* Utils.m */; };
-		2EF5529F1C61C1A00084687A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EF5529E1C61C1A00084687A /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
+		2EF6EFAB1C630DB60034895E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EF6EFAA1C630DB60034895E /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
 		2EFB82621BC0C3CE00406131 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFB82611BC0C3CE00406131 /* Friend.m */; };
 		A33866C4011439AF3D2A94D8 /* libPods-storm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F947CEE291AAC6D37DB1D33B /* libPods-storm.a */; };
 		D26A5DCE929A26FF0616CE54 /* libPods-stormTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 444737C961D6528E3433B8E9 /* libPods-stormTests.a */; };
@@ -114,7 +114,7 @@
 		2EF3C87E1C4F4A120092FE78 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		2EF412211BC3771F0030489C /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		2EF412221BC3771F0030489C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
-		2EF5529E1C61C1A00084687A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2EF6EFAA1C630DB60034895E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2EFB82601BC0C3CE00406131 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		2EFB82611BC0C3CE00406131 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
 		444737C961D6528E3433B8E9 /* libPods-stormTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-stormTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -203,7 +203,7 @@
 		2E081CC01B25251900781BDE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				2EF5529E1C61C1A00084687A /* GoogleService-Info.plist */,
+				2EF6EFAA1C630DB60034895E /* GoogleService-Info.plist */,
 				2E081CC11B25251900781BDE /* Info.plist */,
 				2E081CC21B25251900781BDE /* main.m */,
 			);
@@ -393,6 +393,11 @@
 					2E081CBC1B25251900781BDE = {
 						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = 6VHRHX2BN3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					2E081CD51B25251900781BDE = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -425,12 +430,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6DC07D1BC9D55B00CEA07D /* FriendCell.xib in Resources */,
+				2EF6EFAB1C630DB60034895E /* GoogleService-Info.plist in Resources */,
 				2ED9AEF71B30F36B00345A07 /* Assets in Resources */,
 				2E6DC0911BCB2CEC00CEA07D /* RNCryptor in Resources */,
 				2E081CCC1B25251900781BDE /* Main.storyboard in Resources */,
 				2E081CD11B25251900781BDE /* LaunchScreen.xib in Resources */,
 				2E081CCE1B25251900781BDE /* Images.xcassets in Resources */,
-				2EF5529F1C61C1A00084687A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
