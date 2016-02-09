@@ -135,6 +135,11 @@ NSString *_messageKey;
     return YES;
 }
 
++(void) registerToken
+{
+    
+}
+
 /*
 - (void)subscribeToTopic {
     // If the app has a registration token and is connected to GCM, proceed to subscribe to the

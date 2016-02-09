@@ -45,8 +45,8 @@
 		2EF412231BC3771F0030489C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF412221BC3771F0030489C /* Utils.m */; };
 		2EF6EFAB1C630DB60034895E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EF6EFAA1C630DB60034895E /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
 		2EFB82621BC0C3CE00406131 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFB82611BC0C3CE00406131 /* Friend.m */; };
-		A33866C4011439AF3D2A94D8 /* libPods-storm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F947CEE291AAC6D37DB1D33B /* libPods-storm.a */; };
-		D26A5DCE929A26FF0616CE54 /* libPods-stormTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 444737C961D6528E3433B8E9 /* libPods-stormTests.a */; };
+		31248C0023BFFA009A24438F /* libPods-stormTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DB0CFA1578BB4AF1AAED15 /* libPods-stormTests.a */; };
+		B945F062DC2244EDE6ADFA5F /* libPods-storm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0CB1919EA0AB757863BDE44 /* libPods-storm.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +60,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00A40DE1372CA451899A0DD9 /* Pods-stormTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stormTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-stormTests/Pods-stormTests.debug.xcconfig"; sourceTree = "<group>"; };
+		14E04EA96EDE9F2881B3BB21 /* Pods-stormTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stormTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-stormTests/Pods-stormTests.release.xcconfig"; sourceTree = "<group>"; };
 		2E0535511C46031B00ED41B7 /* RetrieveCoinsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetrieveCoinsViewController.h; sourceTree = "<group>"; };
 		2E0535521C46031B00ED41B7 /* RetrieveCoinsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RetrieveCoinsViewController.m; sourceTree = "<group>"; };
 		2E081CBD1B25251900781BDE /* storm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = storm.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,12 +119,10 @@
 		2EF6EFAA1C630DB60034895E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2EFB82601BC0C3CE00406131 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		2EFB82611BC0C3CE00406131 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
-		444737C961D6528E3433B8E9 /* libPods-stormTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-stormTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		47801CEDA45BE010D25635B7 /* Pods-storm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-storm.release.xcconfig"; path = "Pods/Target Support Files/Pods-storm/Pods-storm.release.xcconfig"; sourceTree = "<group>"; };
-		5063D194EB2D956001FDDA02 /* Pods-stormTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stormTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-stormTests/Pods-stormTests.release.xcconfig"; sourceTree = "<group>"; };
-		BAD3E392D0CA1808B08F7F09 /* Pods-stormTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stormTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-stormTests/Pods-stormTests.debug.xcconfig"; sourceTree = "<group>"; };
-		D157CA7D91F0B45D2B36718A /* Pods-storm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-storm.debug.xcconfig"; path = "Pods/Target Support Files/Pods-storm/Pods-storm.debug.xcconfig"; sourceTree = "<group>"; };
-		F947CEE291AAC6D37DB1D33B /* libPods-storm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-storm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		53EB7501683752D7595FE78F /* Pods-storm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-storm.debug.xcconfig"; path = "Pods/Target Support Files/Pods-storm/Pods-storm.debug.xcconfig"; sourceTree = "<group>"; };
+		96DB0CFA1578BB4AF1AAED15 /* libPods-stormTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-stormTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0CB1919EA0AB757863BDE44 /* libPods-storm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-storm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDBF126285AD6A445CACDB88 /* Pods-storm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-storm.release.xcconfig"; path = "Pods/Target Support Files/Pods-storm/Pods-storm.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,7 +134,7 @@
 				2E5D4C9E1B49F5960001F90A /* Foundation.framework in Frameworks */,
 				2E5D4C9C1B49F58F0001F90A /* UIKit.framework in Frameworks */,
 				2E5D4C9A1B49F5880001F90A /* CoreGraphics.framework in Frameworks */,
-				A33866C4011439AF3D2A94D8 /* libPods-storm.a in Frameworks */,
+				B945F062DC2244EDE6ADFA5F /* libPods-storm.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,7 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D26A5DCE929A26FF0616CE54 /* libPods-stormTests.a in Frameworks */,
+				31248C0023BFFA009A24438F /* libPods-stormTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,10 +316,10 @@
 		4B5D3866D06DB7674628E084 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D157CA7D91F0B45D2B36718A /* Pods-storm.debug.xcconfig */,
-				47801CEDA45BE010D25635B7 /* Pods-storm.release.xcconfig */,
-				BAD3E392D0CA1808B08F7F09 /* Pods-stormTests.debug.xcconfig */,
-				5063D194EB2D956001FDDA02 /* Pods-stormTests.release.xcconfig */,
+				53EB7501683752D7595FE78F /* Pods-storm.debug.xcconfig */,
+				EDBF126285AD6A445CACDB88 /* Pods-storm.release.xcconfig */,
+				00A40DE1372CA451899A0DD9 /* Pods-stormTests.debug.xcconfig */,
+				14E04EA96EDE9F2881B3BB21 /* Pods-stormTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -331,8 +331,8 @@
 				2E5D4C9D1B49F5960001F90A /* Foundation.framework */,
 				2E5D4C9B1B49F58F0001F90A /* UIKit.framework */,
 				2E5D4C991B49F5880001F90A /* CoreGraphics.framework */,
-				F947CEE291AAC6D37DB1D33B /* libPods-storm.a */,
-				444737C961D6528E3433B8E9 /* libPods-stormTests.a */,
+				C0CB1919EA0AB757863BDE44 /* libPods-storm.a */,
+				96DB0CFA1578BB4AF1AAED15 /* libPods-stormTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -699,7 +699,7 @@
 		};
 		2E081CE11B25251900781BDE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D157CA7D91F0B45D2B36718A /* Pods-storm.debug.xcconfig */;
+			baseConfigurationReference = 53EB7501683752D7595FE78F /* Pods-storm.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -720,7 +720,7 @@
 		};
 		2E081CE21B25251900781BDE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 47801CEDA45BE010D25635B7 /* Pods-storm.release.xcconfig */;
+			baseConfigurationReference = EDBF126285AD6A445CACDB88 /* Pods-storm.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -740,7 +740,7 @@
 		};
 		2E081CE41B25251900781BDE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BAD3E392D0CA1808B08F7F09 /* Pods-stormTests.debug.xcconfig */;
+			baseConfigurationReference = 00A40DE1372CA451899A0DD9 /* Pods-stormTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -760,7 +760,7 @@
 		};
 		2E081CE51B25251900781BDE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5063D194EB2D956001FDDA02 /* Pods-stormTests.release.xcconfig */;
+			baseConfigurationReference = 14E04EA96EDE9F2881B3BB21 /* Pods-stormTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
