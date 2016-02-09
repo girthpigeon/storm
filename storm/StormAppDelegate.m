@@ -11,6 +11,7 @@
 #import "HomeScreenViewController.h"
 #import "Singleton.h"
 #import "KeychainItemWrapper.h"
+#import "DBManager.h"
 
 
 @interface StormAppDelegate ()

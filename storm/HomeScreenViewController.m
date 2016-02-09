@@ -57,7 +57,7 @@ bool m_loaded;
         appData.userId = username;
         appData.password = password;
         
-        [DBManager authenticate];
+        //[DBManager authenticate];
     }
 }
 

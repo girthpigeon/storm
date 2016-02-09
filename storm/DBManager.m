@@ -34,12 +34,14 @@
     [request setHTTPMethod:@"POST"];
     
     [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
-    
-    [NSURLConnection sendAsynchronousRequest:request
+    NSURLResponse* response;
+    NSError* error = nil;
+    NSData* data = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
+    /*[NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
-        
+        */
         if (response != nil)
         {
             NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
@@ -50,7 +52,7 @@
             NSLog(@"%@", token);
             appData.token = token;
         }
-    }];
+    //}];
 }
 
 + (NSString*) createStorm:(NSString*)toUser withMessage:(NSString*)message
