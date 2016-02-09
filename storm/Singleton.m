@@ -13,6 +13,7 @@
 @synthesize stormId;
 @synthesize serverUrl;
 @synthesize gcmSenderId;
+@synthesize currentStorm;
 
 
 #pragma mark - singleton method

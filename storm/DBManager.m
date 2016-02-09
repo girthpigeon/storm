@@ -55,7 +55,7 @@
     //}];
 }
 
-+ (NSString*) createStorm:(NSString*)toUser withMessage:(NSString*)message
++ (void) createStorm:(NSString*)toUser withMessage:(NSString*)message withCoinValue:(int)coinValue toRecipient:(Friend *)recipient
 {
     Singleton* appData = [Singleton sharedInstance];
     
@@ -72,25 +72,31 @@
     [request setURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
     
-    NSURLResponse* response;
-    NSError* error = nil;
-    NSString *stormId = @"";
-    
     [request setValue:appData.token forHTTPHeaderField:@"X-Auth-Token"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
     [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 
     //Capturing server response
-    NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
-         
-    if (response != nil)
-    {
-        NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingAllowFragments error:nil];
-        stormId = [allJSON objectForKey:@"id"];
-    }
+    //NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
     
-    return stormId;
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         
+         if (response != nil)
+         {
+             NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+             NSString* stormId = [allJSON objectForKey:@"id"];
+             Singleton *appData = [Singleton sharedInstance];
+             
+             appData.currentStorm = [[Storm alloc] init:recipient withSender:appData.userId];
+             appData.currentStorm.StormId = stormId;
+             appData.currentStorm.Message = message;
+             [self sendCoin:coinValue withStorm:appData.currentStorm];
+         }
+     }];
 }
 
 + (void) sendCoin:(double)coinValue withStorm:(Storm*)storm

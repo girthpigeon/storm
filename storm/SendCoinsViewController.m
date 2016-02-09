@@ -54,7 +54,6 @@ CGPoint m_walletFrontViewLocation;
 CGPoint m_walletBackViewLocation;
 
 // current storm
-Storm *m_currentStorm;
 NSString *m_currentMessage;
 
 int m_originalRequestLength;
@@ -97,6 +96,9 @@ float height;
     
     UIPanGestureRecognizer* verticalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panWasRecognized:)];
     [self.view addGestureRecognizer:verticalPan];
+    
+    [self pickFriendsTouched:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -664,7 +666,7 @@ float height;
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
     NSString *urlString = [NSString stringWithFormat:@"%@api/venmo/getFriendsList?", appData.serverUrl];
-    NSString *postString = [NSString stringWithFormat:@"username=%@&limit=%d", appData.userId, 50];
+    NSString *postString = [NSString stringWithFormat:@"username=%@&limit=%d", appData.userId, 25];
     
     NSString *fullString = [NSString stringWithFormat:@"%@%@",urlString, postString];
     self.firstUsername = @"";
@@ -753,17 +755,9 @@ float height;
     m_coinCountLabel.text = @"$0.00";
 }
 
--(void) initializeNewStorm
+-(void) initializeNewStorm:(int)coinValue
 {
-    //temp til friend picker is back
-    //Friend *pal = [[Friend alloc] initWithFirst:@"ryan" Last:@"riebling" Username:@"reib" ProfUrl:@"www.google.com"];
-    //m_recipient = pal;
-    
-    Singleton* appData = [Singleton sharedInstance];
-    m_currentStorm = [[Storm alloc] init:m_recipient withSender:appData.userId];
-    
-    m_currentStorm.StormId = [DBManager createStorm:m_recipient.Username withMessage:m_messageTextField.text]; // syncrhonous request
-    //m_currentStorm.StormId = [DBManager createStorm:@"reib" withMessage:m_messageTextField.text]; // syncrhonous request
+    [DBManager createStorm:m_recipient.Username withMessage:m_messageTextField.text withCoinValue:coinValue toRecipient:m_recipient];
 }
 
 - (void)resetCoinViews
@@ -1028,6 +1022,11 @@ float height;
 
 -(void)sendCoin:(double) coinValue
 {
+    if (m_recipient == nil)
+    {
+        return;
+    }
+    
     Singleton* appData = [Singleton sharedInstance];
     
     // hook up to ui, send info to DBManager sendCoin
@@ -1038,14 +1037,14 @@ float height;
     // if new message create new storm
     if (![m_currentMessage isEqualToString:message])
     {
-        [self initializeNewStorm];
+        m_currentMessage = message;
+        [self initializeNewStorm:coinValue];
     }
-    
-    m_currentMessage = message;
-    m_currentStorm.Message = m_currentMessage;
-    
-    // send a coin with coinValue to server
-    [DBManager sendCoin:coinValue withStorm:m_currentStorm];
+    else
+    {        
+        // send a coin with coinValue to server
+        [DBManager sendCoin:coinValue withStorm:appData.currentStorm];
+    }
 }
 
 -(void)resetImage

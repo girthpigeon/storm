@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Storm.h"
 
 @interface Singleton : NSObject <NSURLConnectionDelegate>
 
@@ -20,5 +21,6 @@
 @property (nonatomic, retain) NSString* password;
 @property (nonatomic, retain) NSString* token;
 @property (nonatomic, retain) NSString* gcmSenderId;
+@property (nonatomic, retain) Storm* currentStorm;
 
 @end

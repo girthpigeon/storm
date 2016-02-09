@@ -55,6 +55,8 @@ NSString *_messageKey;
         [NSURLProtocol registerClass:[VenmoLoginURLProtocol class]];
     }
     
+    [DBManager authenticate];
+    
     HomeScreenViewController *homeScreenVC = [[HomeScreenViewController alloc] initWithNibName:@"HomeScreenViewController" bundle:nil];
     UINavigationController *navigationController=[[UINavigationController alloc] initWithRootViewController:homeScreenVC];
     
@@ -109,8 +111,10 @@ NSString *_messageKey;
             NSString* urlString = [NSString stringWithFormat:@"%@api/notification/registerDevice?%@", appData.serverUrl, postString];
             NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
             [request setURL:[NSURL URLWithString:urlString]];
+            
             [request setHTTPMethod:@"POST"];
             
+            [request setValue:appData.token forHTTPHeaderField:@"X-Auth-Token"];
             [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postString length]] forHTTPHeaderField:@"Content-length"];
             
             [NSURLConnection sendAsynchronousRequest:request

@@ -15,7 +15,7 @@
 
 + (void) authenticate;
 
-+ (NSString*)createStorm:(NSString*)toUser withMessage:(NSString*)message;
++ (void)createStorm:(NSString*)toUser withMessage:(NSString*)message withCoinValue:(int)coinValue toRecipient:(Friend*)recipient;
 + (void) sendCoin:(double)coinValue withStorm:(Storm*)storm;
 
 @end
