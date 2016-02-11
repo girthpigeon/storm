@@ -17,6 +17,8 @@
 
 @implementation SendCoinsViewController
 
+@synthesize defaults;
+
 // coin arrays
 NSMutableArray *m_coinsArray;
 NSMutableArray *m_coinValuesArray;
@@ -404,7 +406,7 @@ float height;
         // fetch venmo friends
         if (!m_friendsArray || m_friendsArray.count == 0)
         {
-            [self getFriendsList];
+            [self loadFriendsFromCache];
         }
         else
         {
@@ -596,6 +598,45 @@ float height;
     [self changeFriendPickerStatus:false];
 }
 
+- (void) loadFriendsFromCache
+{
+    if(!defaults)
+    {
+        defaults = [NSUserDefaults standardUserDefaults];
+    }
+    
+    NSData *friendsData = [defaults objectForKey:FRIENDS_KEY];
+    
+    if(friendsData)
+    {
+        m_copyOfFriendsArray = [[NSMutableArray alloc] init];
+        [m_copyOfFriendsArray addObjectsFromArray:[NSKeyedUnarchiver unarchiveObjectWithData:friendsData]];
+        if ([m_copyOfFriendsArray count] > 0)
+        {
+            m_friendsArray = m_copyOfFriendsArray;
+            [m_friendsListTable reloadData];
+        }
+        else
+        {
+            [self getFriendsList];
+        }
+    }
+    else
+    {
+        // fetch it from venmo
+        [self getFriendsList];
+    }
+}
+
+- (void)saveFriendsToUserDefaults
+{
+    NSArray *tempContacts = [[NSArray alloc] initWithArray:m_copyOfFriendsArray];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tempContacts];
+    [defaults setObject:data forKey:FRIENDS_KEY];
+    
+    [defaults synchronize];
+}
+
 -(void)fetchMoreFriends:(NSString *)requestUrl withNextId:(NSString*)nextId
 {
     if (nextId != nil)
@@ -606,6 +647,7 @@ float height;
     {
         m_originalRequestLength = (int)requestUrl.length;
     }
+
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
@@ -618,7 +660,7 @@ float height;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *responseString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        //NSLog(@"requestReply: %@", responseString);
+        NSLog(@"requestReply: %@", responseString);
         
         if (responseString != nil)
         {
@@ -652,6 +694,7 @@ float height;
             else
             {
                 NSLog(@"all done");
+                [self saveFriendsToUserDefaults];
             }
         }
         

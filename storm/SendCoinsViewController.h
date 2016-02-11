@@ -15,4 +15,8 @@
 
 @property (strong, retain) NSString *firstUsername;
 
+@property (strong, nonatomic) NSUserDefaults *defaults;
+
+#define FRIENDS_KEY @"friends"
+
 @end

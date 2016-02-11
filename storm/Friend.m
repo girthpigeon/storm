@@ -27,5 +27,24 @@
     
     return self;
 }
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:FirstName forKey:@"FirstName"];
+    [coder encodeObject:LastName    forKey:@"LastName"];
+    [coder encodeObject:FullName forKey:@"FullName"];
+    [coder encodeObject:Username   forKey:@"Username"];
+    [coder encodeObject:ProfPic   forKey:@"ProfPic"];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [self init];
+    self.FirstName = [coder decodeObjectForKey:@"FirstName"];
+    self.LastName    = [coder decodeObjectForKey:@"LastName"];
+    self.FullName = [coder decodeObjectForKey:@"FullName"];
+    self.Username    = [coder decodeObjectForKey:@"Username"];
+    self.ProfPic = [coder decodeObjectForKey:@"ProfPic"];
+
+    return self;
+}
     
 @end

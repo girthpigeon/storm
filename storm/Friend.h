@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface Friend : NSObject
+@interface Friend : NSObject <NSCoding>
 
 @property (strong, retain) NSString* FirstName;
 @property (strong, retain) NSString* LastName;
