@@ -18,6 +18,7 @@
 @implementation SendCoinsViewController
 
 @synthesize defaults;
+@synthesize m_animatingCloudsMap;
 
 // coin arrays
 NSMutableArray *m_coinsArray;
@@ -25,8 +26,6 @@ NSMutableArray *m_coinValuesArray;
 NSMutableArray *m_coinViewsArray;
 NSMutableArray *m_coinImageViewsArray;
 NSMutableArray *m_currentlyAnimatingCoinsArray;
-
-NSMutableDictionary *m_animatingCloudsMap;
 
 // friend search
 UITextField *m_friendSearchBox;
@@ -339,13 +338,23 @@ float height;
     sunFrame.size.height = width / 3;
     
     m_backButton.frame = sunFrame;
-    
-    UITapGestureRecognizer *sunTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonTouched:)];
-    //[sunTouch setDelegate:self];
+
     
     [m_backButton setUserInteractionEnabled:YES];
     [self.view addSubview:m_backButton];
     [self.view addSubview:cloudView];
+    
+    frame.origin.x = 10;
+    frame.origin.y = (height / 20);
+    frame.size.width = 60;
+    frame.size.height = 25;
+    
+    self.m_backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.m_backButton addTarget:self action:@selector(backButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
+    self.m_backButton.frame = frame;
+    [self.m_backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.m_backButton setTitle:@"< Back" forState:UIControlStateNormal];
+    [self.view addSubview:self.m_backButton];
     
     // num coins sent label
     m_coinCountLabel = [[UILabel alloc]initWithFrame:CGRectMake((width / 2) - (width / 6), (height / 25) * 2, width / 2, (height / 20) * 2)];
@@ -382,7 +391,7 @@ float height;
     
     [self.view addSubview:m_recipientImage];
     
-    [m_backButton addGestureRecognizer:sunTouch];
+    //[m_backButton addGestureRecognizer:sunTouch];
     [m_recipientImage addGestureRecognizer:friendPickerTouched];
 }
 
@@ -394,7 +403,7 @@ float height;
     }
 }
 
-- (void) backButtonTouched:(UITapGestureRecognizer *) tap
+- (void) backButtonTouched:(UIButton *) button
 {    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

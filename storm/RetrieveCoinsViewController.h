@@ -35,6 +35,9 @@
 @property CGPoint m_walletFrontViewLocation;
 @property CGPoint m_walletBackViewLocation;
 
+// send button
+@property (strong, retain) UIButton *m_sendCoinsButton;
+
 // vertical swipe stuff
 @property CGPoint m_startPosition;
 enum Direction {NONE, TOP};

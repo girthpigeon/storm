@@ -23,7 +23,9 @@
 
 @synthesize width;
 @synthesize height;
-;
+@synthesize m_animatingCloudsMap;
+@synthesize m_sendCoinsButton;
+
 #define COIN_WIDTH 100
 #define COIN_HEIGHT 100
 
@@ -37,6 +39,7 @@
     
     [self setupHubCloud];
     [self setupWallet];
+    [self createAnimatingClouds];
     [self retrieveNextCoins];
     
     UIPanGestureRecognizer* verticalPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panWasRecognized:)];
@@ -46,6 +49,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) goToSendCoins:(UIButton *)button
+{
+    [self performSegueWithIdentifier:@"ReceiveToSendSegue" sender:self];
 }
 
 - (void) retrieveNextCoins
@@ -74,8 +82,6 @@
     [request setURL:[NSURL URLWithString:fullString]];
     [request setHTTPMethod:@"GET"];
     
-    Singleton *appdata = [Singleton sharedInstance];
-    
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *responseString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
@@ -97,7 +103,6 @@
                 coin.CoinId = coinId;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.m_coinsArray addObject:coin];
-                    
                     
                 });
                 
@@ -150,9 +155,6 @@
         
         [self.view insertSubview:coinView belowSubview:self.m_cloudHub];
     }
-    
-    // temporary, remove
-    //[self displayToast:[self.m_coinsArray objectAtIndex:0]];
 }
 
 - (void) randomizeCoinPlacements:(UIImageView *)imageView
@@ -194,6 +196,18 @@
     
     [self.view addSubview:self.m_walletBackView];
     [self.view addSubview:self.m_walletFrontView];
+    
+    frame.origin.x = 3 * (width / 4);
+    frame.origin.y = 17 * (height / 20);
+    frame.size.width = 75;
+    frame.size.height = 75;
+    
+    self.m_sendCoinsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.m_sendCoinsButton addTarget:self action:@selector(goToSendCoins:) forControlEvents:UIControlEventTouchUpInside];
+    self.m_sendCoinsButton.frame = frame;
+    [self.m_sendCoinsButton setImage:[UIImage imageNamed:@"AddFriendButton.png"] forState:UIControlStateNormal];
+    [self.view addSubview:self.m_sendCoinsButton];
+    
 }
 
 - (void) setupHubCloud
@@ -234,18 +248,14 @@
     
     self.m_sunBackButton.frame = sunFrame;
     
-    UITapGestureRecognizer *sunTouch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sunTouched:)];
-    [sunTouch setDelegate:self];
-    
     [self.m_sunBackButton setUserInteractionEnabled:YES];
     [self.view addSubview:self.m_sunBackButton];
     [self.view addSubview:self.m_cloudHub];
     [self.view addSubview:self.m_beneathCloud];
     
-    [self.m_sunBackButton addGestureRecognizer:sunTouch];
-    
+    // uncomment when we have storm history
     // recipient circle
-    self.m_recipientImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
+    /*self.m_recipientImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
     
     frame.origin.x = width /2 + width / 5;
     frame.origin.y = (height / 20) * 3;
@@ -260,7 +270,105 @@
     
     [self.view addSubview:self.m_recipientImage];
     
-    [self.m_recipientImage addGestureRecognizer:friendPickerTouched];
+    [self.m_recipientImage addGestureRecognizer:friendPickerTouched];*/
+}
+
+- (void) createAnimatingClouds
+{
+    int numClouds = 3;
+    
+    int lowerBound = 1;
+    int upperBound = 5;
+    int rndNumClouds = lowerBound + arc4random() % (upperBound - lowerBound);
+    
+    for (int i=0; i < rndNumClouds; i++)
+    {
+        m_animatingCloudsMap = [[NSMutableDictionary alloc] initWithCapacity:numClouds];
+        NSString *tag = [NSString stringWithFormat:@"%d?", i];
+        [self createCloud:tag fromEdge:false];
+    }
+}
+
+-(void) createCloud:(NSString*) tag fromEdge:(BOOL) onEdge
+{
+    // setup animating clouds
+    UIImageView *cloudView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MainCloud.png"]];
+    CGRect frame;
+    
+    int lowerBound = 0;
+    int upperBound = width;
+    int rndX = lowerBound + arc4random() % (upperBound - lowerBound);
+    
+    lowerBound = height / 4;
+    upperBound = 2 * (height / 3);
+    int rndY = lowerBound + arc4random() % (upperBound - lowerBound);
+    
+    lowerBound = width / 5;
+    upperBound = width / 2;
+    int rndWidth = lowerBound + arc4random() % (upperBound - lowerBound);
+    
+    lowerBound = height / 10;
+    upperBound = height / 6;
+    int rndHeight = lowerBound + arc4random() % (upperBound - lowerBound);
+    
+    if (onEdge)
+    {
+        rndX = 0 - rndWidth;
+    }
+    
+    frame.origin.x = rndX;
+    frame.origin.y = rndY;
+    frame.size.width = rndWidth;
+    frame.size.height = rndHeight;
+    
+    cloudView.frame = frame;
+    cloudView.alpha = .4;
+    
+    [self.view addSubview:cloudView];
+    [self animateCloud:cloudView withTag:tag];
+    [self.view sendSubviewToBack:cloudView];
+}
+
+- (void) animateCloud:(UIImageView*) cloudView withTag:(NSString*) tag
+{
+    // animation
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    
+    // Move the "cursor" to the start
+    [path moveToPoint:cloudView.center];
+    
+    CGFloat projectedX = width + cloudView.frame.size.width;
+    CGFloat projectedY = cloudView.frame.origin.y;
+    
+    // set animation endpoint
+    CGPoint finishPoint = CGPointMake(projectedX, projectedY);
+    
+    int lowerBound = 5.0;
+    int upperBound = 15.0;
+    int rndDuration = lowerBound + arc4random() % (upperBound - lowerBound);
+    
+    CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    
+    // Draw a curve towards the end, using control points
+    [path addCurveToPoint:finishPoint controlPoint1:finishPoint controlPoint2:finishPoint];
+    
+    // Use this path as the animation's path (casted to CGPath)
+    pathAnimation.path = path.CGPath;
+    
+    // The other animations properties
+    pathAnimation.fillMode              = kCAFillModeForwards;
+    pathAnimation.removedOnCompletion   = NO;
+    pathAnimation.duration              = rndDuration;
+    pathAnimation.timingFunction        = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    
+    // Apply it
+    [pathAnimation setDelegate:self];
+    [pathAnimation setValue:@"cloud" forKey:@"tag"];
+    [pathAnimation setValue:tag forKey:@"cloudId"];
+    [cloudView.layer addAnimation:pathAnimation forKey:@"cloudMove"];
+    
+    // add to animating clouds map
+    [m_animatingCloudsMap setObject:cloudView forKey:tag];
 }
 
 -(void)sunTouched:(UITapGestureRecognizer *)tap

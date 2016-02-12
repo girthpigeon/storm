@@ -17,6 +17,10 @@
 
 @property (strong, nonatomic) NSUserDefaults *defaults;
 
+@property (strong, retain) NSMutableDictionary *m_animatingCloudsMap;
+
+@property (strong, retain) UIButton *m_backButton;
+
 #define FRIENDS_KEY @"friends"
 
 @end

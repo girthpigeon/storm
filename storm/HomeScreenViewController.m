@@ -106,7 +106,7 @@ bool m_loaded;
     
     UIButton *settingsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     settingsButton.frame = frame;
-    [settingsButton setTitle:@"Settings" forState:UIControlStateNormal];
+    [settingsButton setTitle:@"Log in with Venmo" forState:UIControlStateNormal];
     settingsButton.backgroundColor = [UIColor clearColor];
     [settingsButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal ];
     [settingsButton setBackgroundImage:buttonImageNormal forState:UIControlStateNormal];
