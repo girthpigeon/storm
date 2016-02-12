@@ -55,7 +55,7 @@
     //}];
 }
 
-+ (void) createStorm:(NSString*)toUser withMessage:(NSString*)message withCoinValue:(int)coinValue toRecipient:(Friend *)recipient
++ (void) createStorm:(NSString*)toUser withMessage:(NSString*)message withCoinValue:(double)coinValue toRecipient:(Friend *)recipient
 {
     Singleton* appData = [Singleton sharedInstance];
     
@@ -101,6 +101,12 @@
 
 + (void) sendCoin:(double)coinValue withStorm:(Storm*)storm
 {
+    NSNumberFormatter *doubleValueWithMaxTwoDecimalPlaces = [[NSNumberFormatter alloc] init];
+    [doubleValueWithMaxTwoDecimalPlaces setNumberStyle:NSNumberFormatterDecimalStyle];
+    [doubleValueWithMaxTwoDecimalPlaces setMaximumFractionDigits:2];
+    NSNumber *myValue = [NSNumber numberWithDouble:coinValue];
+    NSLog(@"%@",[doubleValueWithMaxTwoDecimalPlaces stringFromNumber:myValue]);
+    
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
     
@@ -113,8 +119,8 @@
                                 @"    \"toUser\": \"%@\","
                                 @"    \"id\": \"%@\" }, "
                             @"    \"toUsername\": \"%@\","
-                            @"    \"value\": \"%f\" }",
-                            appData.userId, appData.userId, storm.Message, storm.Recipient.Username, storm.StormId, storm.Recipient.Username, coinValue];
+                            @"    \"value\": \"%@\" }",
+                            appData.userId, appData.userId, storm.Message, storm.Recipient.Username, storm.StormId, storm.Recipient.Username, [doubleValueWithMaxTwoDecimalPlaces stringFromNumber:myValue]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];

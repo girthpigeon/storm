@@ -353,7 +353,7 @@ float height;
     [self.m_backButton addTarget:self action:@selector(backButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
     self.m_backButton.frame = frame;
     [self.m_backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.m_backButton setTitle:@"< Back" forState:UIControlStateNormal];
+    [self.m_backButton setTitle:@"Back" forState:UIControlStateNormal];
     [self.view addSubview:self.m_backButton];
     
     // num coins sent label
@@ -368,7 +368,7 @@ float height;
     
     // message edittextbox
     m_messageTextField = [[UITextField alloc]initWithFrame:CGRectMake((width / 6), (height / 30) * 4, (width / 20) * 11, (height / 20) * 3)];
-    m_messageTextField.text = @"for being a little baby bitch";
+    m_messageTextField.text = @"Here have a penny";
     [m_messageTextField setFont:[UIFont boldSystemFontOfSize:12]];
     [m_messageTextField setBackgroundColor:[UIColor clearColor]];
 
@@ -807,7 +807,7 @@ float height;
     m_coinCountLabel.text = @"$0.00";
 }
 
--(void) initializeNewStorm:(int)coinValue
+-(void) initializeNewStorm:(double)coinValue
 {
     [DBManager createStorm:m_recipient.Username withMessage:m_messageTextField.text withCoinValue:coinValue toRecipient:m_recipient];
 }
@@ -1038,8 +1038,11 @@ float height;
 {
     double coinValue = [[m_coinValuesArray objectAtIndex:m_currentCoinIndex] doubleValue];
     NSString* newAmt = [self convertCoinValueToMoneyAmount:m_coinCountLabel.text plus:coinValue];
-    [self changeCoinCountLabel:newAmt];
-    [self sendCoin:coinValue];
+    if (coinValue != 0 && m_recipient != nil)
+    {
+        [self changeCoinCountLabel:newAmt];
+        [self sendCoin:coinValue];
+    }
     [self resetImage];
 }
 
@@ -1074,7 +1077,7 @@ float height;
 
 -(void)sendCoin:(double) coinValue
 {
-    if (m_recipient == nil)
+    if (m_recipient == nil || coinValue == 0)
     {
         return;
     }

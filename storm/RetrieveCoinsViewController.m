@@ -96,10 +96,13 @@
                 NSString *coinId = [coin valueForKey:@"id"];
                 NSString *fromUser = [coin valueForKey:@"fromUsername"];
                 NSString *value = [coin valueForKey:@"value"];
+                
+                NSNumberFormatter *doubleValueWithMaxTwoDecimalPlaces = [[NSNumberFormatter alloc] init];
+                [doubleValueWithMaxTwoDecimalPlaces setNumberStyle:NSNumberFormatterDecimalStyle];
+                [doubleValueWithMaxTwoDecimalPlaces setMaximumFractionDigits:2];
+                NSNumber *dubValue = [doubleValueWithMaxTwoDecimalPlaces numberFromString:value];
 
-                int rounded = round([value doubleValue] * 100);
-                double dubValue = rounded / 100.00;
-                Coin *coin = [[Coin alloc] initWithValue:dubValue ToUser:appData.userId FromUser:fromUser];
+                Coin *coin = [[Coin alloc] initWithValue:[dubValue doubleValue] ToUser:appData.userId FromUser:fromUser];
                 coin.CoinId = coinId;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.m_coinsArray addObject:coin];
