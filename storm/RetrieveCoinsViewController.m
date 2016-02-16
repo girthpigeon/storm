@@ -108,7 +108,7 @@
                     [self.m_coinsArray addObject:coin];
                     
                 });
-                
+
             }
             
             if (self.m_coinImageViewsArray == nil)
@@ -526,7 +526,7 @@
     [Utils circlize:profImage withImageView:senderProf];
     
     UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 3 * (height / 4) - 50, width - 50, 50)];
-    toastLabel.text = [NSString stringWithFormat:@"%@ sent you $%f", coin.SenderDisplayName, coin.Value];
+    toastLabel.text = [NSString stringWithFormat:@"%@ sent you $%f", coin.SenderId, coin.Value];
     toastLabel.font = [UIFont systemFontOfSize:15];
     toastLabel.textColor = [UIColor whiteColor];
     

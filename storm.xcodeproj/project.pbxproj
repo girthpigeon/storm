@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E0535531C46031B00ED41B7 /* RetrieveCoinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0535521C46031B00ED41B7 /* RetrieveCoinsViewController.m */; settings = {ASSET_TAGS = (); }; };
+		2E0535531C46031B00ED41B7 /* RetrieveCoinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0535521C46031B00ED41B7 /* RetrieveCoinsViewController.m */; };
 		2E081CC31B25251900781BDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E081CC21B25251900781BDE /* main.m */; };
 		2E081CC61B25251900781BDE /* StormAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E081CC51B25251900781BDE /* StormAppDelegate.m */; };
 		2E081CC91B25251900781BDE /* HomeScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E081CC81B25251900781BDE /* HomeScreenViewController.m */; };
@@ -19,9 +19,9 @@
 		2E5D4C9A1B49F5880001F90A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5D4C991B49F5880001F90A /* CoreGraphics.framework */; };
 		2E5D4C9C1B49F58F0001F90A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5D4C9B1B49F58F0001F90A /* UIKit.framework */; };
 		2E5D4C9E1B49F5960001F90A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5D4C9D1B49F5960001F90A /* Foundation.framework */; };
-		2E6DC07B1BC9C84900CEA07D /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC07A1BC9C84900CEA07D /* FriendCell.m */; settings = {ASSET_TAGS = (); }; };
-		2E6DC07D1BC9D55B00CEA07D /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6DC07C1BC9D55B00CEA07D /* FriendCell.xib */; settings = {ASSET_TAGS = (); }; };
-		2E6DC0911BCB2CEC00CEA07D /* RNCryptor in Resources */ = {isa = PBXBuildFile; fileRef = 2E6DC0901BCB2CEC00CEA07D /* RNCryptor */; settings = {ASSET_TAGS = (); }; };
+		2E6DC07B1BC9C84900CEA07D /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC07A1BC9C84900CEA07D /* FriendCell.m */; };
+		2E6DC07D1BC9D55B00CEA07D /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6DC07C1BC9D55B00CEA07D /* FriendCell.xib */; };
+		2E6DC0911BCB2CEC00CEA07D /* RNCryptor in Resources */ = {isa = PBXBuildFile; fileRef = 2E6DC0901BCB2CEC00CEA07D /* RNCryptor */; };
 		2E6DC0D51BCB31CB00CEA07D /* RNCryptor-Prefix.pch in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0CB1BCB31CB00CEA07D /* RNCryptor-Prefix.pch */; };
 		2E6DC0D61BCB31CB00CEA07D /* RNCryptor.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0CC1BCB31CB00CEA07D /* RNCryptor.h */; };
 		2E6DC0D71BCB31CB00CEA07D /* RNCryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0CD1BCB31CB00CEA07D /* RNCryptor.m */; };
@@ -32,8 +32,8 @@
 		2E6DC0DC1BCB31CB00CEA07D /* RNDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D21BCB31CB00CEA07D /* RNDecryptor.m */; };
 		2E6DC0DD1BCB31CB00CEA07D /* RNEncryptor.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D31BCB31CB00CEA07D /* RNEncryptor.h */; };
 		2E6DC0DE1BCB31CC00CEA07D /* RNEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6DC0D41BCB31CB00CEA07D /* RNEncryptor.m */; };
-		2E99CFD51C17E6B9001C0923 /* Coin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E99CFD41C17E6B9001C0923 /* Coin.m */; settings = {ASSET_TAGS = (); }; };
-		2E99CFD81C17E914001C0923 /* Storm.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E99CFD71C17E914001C0923 /* Storm.m */; settings = {ASSET_TAGS = (); }; };
+		2E99CFD51C17E6B9001C0923 /* Coin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E99CFD41C17E6B9001C0923 /* Coin.m */; };
+		2E99CFD81C17E914001C0923 /* Storm.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E99CFD71C17E914001C0923 /* Storm.m */; };
 		2ED9AEF71B30F36B00345A07 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 2ED9AEF51B2E6B7400345A07 /* Assets */; };
 		2ED9AF071B3130DC00345A07 /* MakeItRainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED9AF061B3130DC00345A07 /* MakeItRainViewController.m */; };
 		2EE015091B49CF29002B77FE /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE015081B49CF29002B77FE /* LoginViewController.m */; };
@@ -41,9 +41,9 @@
 		2EE4F8361B815AA100A9AAB6 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F8351B815AA100A9AAB6 /* KeychainItemWrapper.m */; };
 		2EE4F83B1B81736A00A9AAB6 /* Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4F83A1B81736A00A9AAB6 /* Singleton.m */; };
 		2EE838951B54C10700636CBA /* VenmoLoginURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE838941B54C10700636CBA /* VenmoLoginURLProtocol.m */; };
-		2EF3C87F1C4F4A120092FE78 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3C87E1C4F4A120092FE78 /* DBManager.m */; settings = {ASSET_TAGS = (); }; };
+		2EF3C87F1C4F4A120092FE78 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3C87E1C4F4A120092FE78 /* DBManager.m */; };
 		2EF412231BC3771F0030489C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF412221BC3771F0030489C /* Utils.m */; };
-		2EF6EFAB1C630DB60034895E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EF6EFAA1C630DB60034895E /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
+		2EF6EFAB1C630DB60034895E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EF6EFAA1C630DB60034895E /* GoogleService-Info.plist */; };
 		2EFB82621BC0C3CE00406131 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFB82611BC0C3CE00406131 /* Friend.m */; };
 		31248C0023BFFA009A24438F /* libPods-stormTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DB0CFA1578BB4AF1AAED15 /* libPods-stormTests.a */; };
 		B945F062DC2244EDE6ADFA5F /* libPods-storm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0CB1919EA0AB757863BDE44 /* libPods-storm.a */; };
@@ -152,8 +152,8 @@
 		2E05354D1C46029700ED41B7 /* RecieveCoins */ = {
 			isa = PBXGroup;
 			children = (
-				2E0535511C46031B00ED41B7 /* RetrieveCoinsViewController.h */,
 				2E0535521C46031B00ED41B7 /* RetrieveCoinsViewController.m */,
+				2E0535511C46031B00ED41B7 /* RetrieveCoinsViewController.h */,
 			);
 			name = RecieveCoins;
 			sourceTree = "<group>";

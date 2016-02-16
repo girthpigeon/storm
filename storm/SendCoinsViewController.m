@@ -1086,8 +1086,6 @@ float height;
     
     // hook up to ui, send info to DBManager sendCoin
     NSString *message = m_messageTextField.text;
-    NSString *recipient = m_recipient.Username;
-    NSString *senderId = appData.userId;
     
     // if new message create new storm
     if (![m_currentMessage isEqualToString:message])
