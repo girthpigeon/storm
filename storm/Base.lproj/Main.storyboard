@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jzQ-LC-08d">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jzQ-LC-08d">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -248,6 +248,24 @@
             </objects>
             <point key="canvasLocation" x="2175" y="519"/>
         </scene>
+        <!--Storm History View Controller-->
+        <scene sceneID="59y-m6-1Gi">
+            <objects>
+                <viewController id="a2A-A4-lcN" customClass="StormHistoryViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kxD-S5-gdb"/>
+                        <viewControllerLayoutGuide type="bottom" id="bpe-Ys-WBS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TEI-az-0eG">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A8w-8o-xnP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2168" y="1249"/>
+        </scene>
         <!--Retrieve Coins View Controller-->
         <scene sceneID="i7z-u0-utW">
             <objects>
@@ -263,6 +281,7 @@
                     </view>
                     <connections>
                         <segue destination="fI1-gB-Vyd" kind="show" identifier="ReceiveToSendSegue" id="NVf-Qx-96L"/>
+                        <segue destination="a2A-A4-lcN" kind="show" identifier="ReceiveToStormHistorySegue" id="5i4-Yn-Bn3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BVS-0S-Ueh" userLabel="First Responder" sceneMemberID="firstResponder"/>

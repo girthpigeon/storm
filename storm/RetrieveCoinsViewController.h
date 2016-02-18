@@ -38,6 +38,9 @@
 // send button
 @property (strong, retain) UIButton *m_sendCoinsButton;
 
+// story history button
+@property (strong, retain) UIButton *m_stormHistoryButton;
+
 // vertical swipe stuff
 @property CGPoint m_startPosition;
 enum Direction {NONE, TOP};

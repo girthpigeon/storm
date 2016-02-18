@@ -56,6 +56,11 @@
     [self performSegueWithIdentifier:@"ReceiveToSendSegue" sender:self];
 }
 
+- (void) goToStormHistory:(UIButton *) button
+{
+     [self performSegueWithIdentifier:@"ReceiveToStormHistorySegue" sender:self];
+}
+
 - (void) retrieveNextCoins
 {
     // retrieve next n coins (sorted by value amt and expiration)
@@ -122,7 +127,6 @@
         }
         
     }] resume];
-
 }
 
 - (void) setupCoinViews
@@ -205,12 +209,24 @@
     frame.size.width = 75;
     frame.size.height = 75;
     
+    // setup send coin button
     self.m_sendCoinsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.m_sendCoinsButton addTarget:self action:@selector(goToSendCoins:) forControlEvents:UIControlEventTouchUpInside];
     self.m_sendCoinsButton.frame = frame;
     [self.m_sendCoinsButton setImage:[UIImage imageNamed:@"AddFriendButton.png"] forState:UIControlStateNormal];
     [self.view addSubview:self.m_sendCoinsButton];
     
+    frame.origin.x = width / 4 - 75;
+    frame.size.height = 75;
+    frame.size.width = 75;
+    
+    // setup storm history button
+    self.m_stormHistoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.m_stormHistoryButton addTarget:self action:@selector(goToStormHistory:) forControlEvents:UIControlEventTouchUpInside];
+    [self.m_stormHistoryButton setImage:[UIImage imageNamed:@"LauncherIcon.png"] forState:UIControlStateNormal];
+
+    self.m_stormHistoryButton.frame = frame;
+    [self.view addSubview:self.m_stormHistoryButton];
 }
 
 - (void) setupHubCloud
@@ -255,25 +271,6 @@
     [self.view addSubview:self.m_sunBackButton];
     [self.view addSubview:self.m_cloudHub];
     [self.view addSubview:self.m_beneathCloud];
-    
-    // uncomment when we have storm history
-    // recipient circle
-    /*self.m_recipientImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProfilePictureHolder.png"]];
-    
-    frame.origin.x = width /2 + width / 5;
-    frame.origin.y = (height / 20) * 3;
-    frame.size.width = 75;
-    frame.size.height = 75;
-    self.m_recipientImage.frame = frame;
-    
-    UITapGestureRecognizer *friendPickerTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(senderHubTouched:)];
-    [friendPickerTouched setDelegate:self];
-    
-    [self.m_recipientImage setUserInteractionEnabled:YES];
-    
-    [self.view addSubview:self.m_recipientImage];
-    
-    [self.m_recipientImage addGestureRecognizer:friendPickerTouched];*/
 }
 
 - (void) createAnimatingClouds
@@ -505,12 +502,8 @@
          if (response != nil)
          {
              NSDictionary *allJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-             NSDictionary *coin = [allJSON objectForKey:@"coin"];
              NSString *senderProfUrl = [allJSON objectForKey:@"fromUserProfilePictureUrl"];
              currentCoin.SenderProfUrl = senderProfUrl;
-             
-             //NSLog(@"%@", coinId); // have some toasty ui flash when a coin successfully sends.
-             // send push notification from server side
              
              // display custom toast
              [self displayToast:currentCoin];
@@ -520,13 +513,18 @@
 
 - (void) displayToast:(Coin*)coin
 {
-    UIImage *profImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/8/005/075/26e/18bb7e7.jpg"]]];
+    UIImage *profImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:coin.SenderProfUrl]]];
     UIImageView *senderProf = [[UIImageView alloc] initWithImage:profImage];
     senderProf.frame = CGRectMake(10, 3 * (height / 4) - 50, 50, 50);
     [Utils circlize:profImage withImageView:senderProf];
     
+    NSNumberFormatter *doubleValueWithMaxTwoDecimalPlaces = [[NSNumberFormatter alloc] init];
+    [doubleValueWithMaxTwoDecimalPlaces setNumberStyle:NSNumberFormatterDecimalStyle];
+    [doubleValueWithMaxTwoDecimalPlaces setMaximumFractionDigits:2];
+    NSNumber *dubValue = [doubleValueWithMaxTwoDecimalPlaces numberFromString:[NSString stringWithFormat:@"%f", coin.Value]];
+    
     UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 3 * (height / 4) - 50, width - 50, 50)];
-    toastLabel.text = [NSString stringWithFormat:@"%@ sent you $%f", coin.SenderId, coin.Value];
+    toastLabel.text = [NSString stringWithFormat:@"%@ sent you $%@", coin.SenderId, [dubValue stringValue]];
     toastLabel.font = [UIFont systemFontOfSize:15];
     toastLabel.textColor = [UIColor whiteColor];
     

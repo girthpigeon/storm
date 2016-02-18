@@ -18,8 +18,15 @@
 @property (strong, retain) NSString *Message;
 @property (strong, retain) NSString *StormId;
 
--(id) init:(Friend *)toUser withSender:(NSString *)fromUser;
--(void) addCoinToStorm:(Coin *)coin;
+// special items only certain storms have
+@property (strong, retain) NSString *SenderFullName;
+@property (strong, retain) UIImage *SenderProf;
+@property (strong, retain) NSString *MoneyRedeemed;
+
+- (id) init:(Friend *)toUser withSender:(NSString *)fromUser;
+- (id) initHistoryStorm:(NSString *)fromFullName withStormId:(NSString *)stormId withMessage:(NSString *)message withProf:(NSString *)profPic;
+- (void) addCoinToStorm:(Coin *)coin;
+- (void) setMoneyRedeemed:(NSString *)moneyRedeemed withMoneySent:(NSString *) moneySent;
 
 
 @end

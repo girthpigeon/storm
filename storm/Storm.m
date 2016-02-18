@@ -15,8 +15,11 @@
 @synthesize SenderId;
 @synthesize Message;
 @synthesize StormId;
+@synthesize SenderFullName;
+@synthesize SenderProf;
+@synthesize MoneyRedeemed;
 
--(id) init:(Friend *)toUser withSender:(NSString *)fromUser
+- (id) init:(Friend *)toUser withSender:(NSString *)fromUser
 {
     self = [super init];
     self.CoinsArray = [[NSMutableArray alloc] init];
@@ -26,9 +29,25 @@
     return self;
 }
 
+// only to be used for storm history view
+-(id) initHistoryStorm:(NSString *)fromFullName withStormId:(NSString *)stormId withMessage:(NSString *)message withProf:(NSString *)profPic
+{
+    self = [super init];
+    self.SenderFullName = fromFullName;
+    self.StormId = stormId;
+    self.Message = message;
+    self.SenderProf = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:profPic]]];
+    return self;
+}
+
 -(void) addCoinToStorm:(Coin *)coin
 {
     [self.CoinsArray addObject:coin];
+}
+
+- (void) setCollectionStatus:(NSString *)moneyCollected withMoneySent:(NSString *)moneySent
+{
+    self.MoneyRedeemed = [NSString stringWithFormat:@"$%@/%@", moneyCollected, moneySent];
 }
 
 @end
