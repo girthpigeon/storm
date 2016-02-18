@@ -49,4 +49,6 @@ enum Direction {NONE, TOP};
 @property float width;
 @property float height;
 
+@property bool m_fetchingCoinsFlag;
+
 @end

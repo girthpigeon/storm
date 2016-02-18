@@ -68,11 +68,18 @@
     {
         self.m_coinsArray = [[NSMutableArray alloc] init]; // full of Coin objects
     }
-    [self getPendingCoins];
+    
+    if (!self.m_fetchingCoinsFlag)
+    {
+        [self getPendingCoins];
+    }
 }
 
 - (void) getPendingCoins
 {
+    // prevent duplicate calls
+    self.m_fetchingCoinsFlag = true;
+    
     // send a coin with coinValue to server
     Singleton* appData = [Singleton sharedInstance];
     NSString *urlString = [NSString stringWithFormat:@"%@api/coins/getPending?", appData.serverUrl];
@@ -92,6 +99,7 @@
         NSString *responseString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
         NSLog(@"requestReply: %@", responseString);
         
+        self.m_fetchingCoinsFlag = false;
         if (responseString != nil)
         {
             NSMutableArray *coins = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
@@ -134,34 +142,40 @@
     
     for (int i=0; i < self.m_coinsArray.count; i++)
     {
-        Coin* coin = [self.m_coinsArray objectAtIndex:i];
-        NSString* imageName = @"";
-        if (coin.Value ==.01)
-        {
-            imageName = @"Coin1.png";
-        }
-        else if (coin.Value ==.05)
-        {
-            imageName = @"Couin5.png";
-        }
-        else if (coin.Value ==.10)
-        {
-            imageName = @"Coin10.png";
-        }
-        else if (coin.Value ==.25)
-        {
-            imageName = @"Coin25.png";
-        }
-        else
-        {
-            return;
-        }
-        UIImageView* coinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-        [self randomizeCoinPlacements:coinView];
-        [self.m_coinImageViewsArray addObject:coinView];
-        
-        [self.view insertSubview:coinView belowSubview:self.m_cloudHub];
+        [self addCoinView:i];
     }
+}
+
+- (void) addCoinView:(int)index
+{
+    Coin* coin = [self.m_coinsArray objectAtIndex:index];
+    NSString* imageName = @"";
+    if (coin.Value ==.01)
+    {
+        imageName = @"Coin1.png";
+    }
+    else if (coin.Value ==.05)
+    {
+        imageName = @"Couin5.png";
+    }
+    else if (coin.Value ==.10)
+    {
+        imageName = @"Coin10.png";
+    }
+    else if (coin.Value ==.25)
+    {
+        imageName = @"Coin25.png";
+    }
+    else
+    {
+        return;
+    }
+    UIImageView* coinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+    [self randomizeCoinPlacements:coinView];
+    [self.m_coinImageViewsArray addObject:coinView];
+    
+    [self.view insertSubview:coinView belowSubview:self.m_cloudHub];
+
 }
 
 - (void) randomizeCoinPlacements:(UIImageView *)imageView
@@ -395,7 +409,7 @@
     CGFloat dx = 0.0;
     CGFloat dy = 0.0;
     
-    if (self.m_coinImageViewsArray.count == 0)
+    if (self.m_coinImageViewsArray.count == 1)
     {
         [self retrieveNextCoins];
     }
@@ -438,15 +452,17 @@
         // Move the "cursor" to the start
         [path moveToPoint:currentCoin.center];
         
-        if(currentCoin.center.y < height * .40) // successful coin fling, coin flies up
+        BOOL successful = false;
+        if(currentCoin.center.y < height * .40) // unsuccessful coin fling, coin flies up
         {
             projectedX = currentCoin.center.x + dx*2;
             projectedY = 0 - COIN_HEIGHT;
         }
-        else // unsuccessful fling, coin falls
+        else // successful fling, coin falls
         {
             projectedX = currentCoin.center.x + dx*2;
             projectedY = height + COIN_HEIGHT;
+            successful = true;
         }
         
         // set animation endpoint
@@ -475,11 +491,21 @@
         [pathAnimation setValue:@"coinFling" forKey:@"tag"];
         [currentCoin.layer addAnimation:pathAnimation forKey:@"coinFling"];
         
-        [self coinRetrieved:coin];
+        if (successful)
+        {
+            [self coinRetrieved:coin];
+        }
         
         // remove flung coin from current array, add to animated array
         [self.m_currentlyAnimatingCoinsArray addObject:currentCoin];
         [self.m_coinImageViewsArray removeObjectAtIndex:0];
+        [self.m_coinsArray removeObjectAtIndex:0];
+        
+        /*if (!successful)
+        {
+            [self.m_coinsArray addObject:currentCoin];
+            [self addCoinView:(int)self.m_coinsArray.count - 1];
+        }*/
     }
 }
 
